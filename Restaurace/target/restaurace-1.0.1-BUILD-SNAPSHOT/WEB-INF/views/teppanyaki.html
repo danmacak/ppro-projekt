@@ -1,0 +1,91 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="cs"
+      xml:lang="cs"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Restaurace</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <div th:include="../templates/styles :: styles"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script th:src="@{/resources/js/json2.js}"></script>
+</head>
+
+<script th:src="@{/resources/js/contentActions.js}"></script>
+
+<body>
+<header th:include="../templates/header :: header"></header>
+
+<div id="container">
+    <div th:include="../templates/menu :: menu"></div>
+    <div id="main_content" >
+        <div id="menu_left">
+            <h2 th:text="#{ui.teppanyaki.ingredientCategory}"></h2>
+            <table th:unless="${session.ingredientTypes} == null"  th:each="ingredient : ${session.ingredientTypes}">
+                <tr>
+                    <td>
+                        <a th:href="@{'/teppanyaki/' + ${ingredient.url}}">
+                            <img th:src="@{'/resources/images/menu_left/' + ${ingredient.description} + '.jpg'}"/>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="content_middle">
+            <h2 th:text="#{ui.teppanyaki.ingredients}"></h2>
+            <div th:unless="${ingredients} == null">
+                <table th:class="ingredient" th:each="ingredient : ${ingredients}">
+                    <form class="addIngredientForm" method="get">
+                        <tr>
+                            <td><b th:text="${ingredient.name}"></b></td>
+                            <td>
+                                <!--<input type="hidden" name="category" th:value="${ingredient.type.url}"/>-->
+                                <input type="hidden" name="id" th:value="${ingredient.id}"/>
+                                <input class="send" type="submit" th:value="#{ui.teppanyaki.add}"/>
+                                <input type="text" name="grams" th:value="${ingredient.grams}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td th:text="${ingredient.kcal} + ' ' + #{ui.dishmenu.kcal}"></td>
+                            <td th:text="#{ui.dishmenu.sugar} + ' ' + ${ingredient.saccharideGrams}"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{ui.dishmenu.fat} + ' ' + ${ingredient.fatGrams}"></td>
+                            <td th:text="#{ui.dishmenu.protein} + ' ' + ${ingredient.proteinGrams}"></td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+        </div>
+        <div id="content_right">
+            <h2 th:text="#{ui.teppanyaki.customDish}"></h2>
+            <span th:text="#{ui.teppanyaki.listOfIngredients}"></span>
+            <form th:action="@{/addTeppanyakiToCart}" th:unless="${session.teppanyakiDish} == null">
+                <table id="tepIngredients" th:unless="${session.teppanyakiDish} == null" th:object="${session.teppanyakiDish}" >
+                    <tr th:unless="*{ingredientsLocalized.size()} == 0">
+                        <td th:text="#{ui.teppanyaki.amount}" ></td>
+                        <td>
+                            <input id="teppanyakiAmount" type="text" name="amount" th:value="*{amount}"/>
+                        </td>
+                    </tr>
+                    <tr th:each="ingredient : *{ingredientsLocalized}">
+                        <td th:text="${ingredient.value.name} + ': ' + ${ingredient.value.grams} + ' ' + #{ui.teppanyaki.ingredientGrams}">
+                        </td>
+                        <td>
+                            <a th:href="@{/removeIngredient(id=${ingredient.value.id}, category=${ingredient.value.type.url})}">
+                                <img src="/restaurace/resources/images/red-cross.png" />
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <input th:unless="${session.teppanyakiDish.ingredientsLocalized.size()} == 0" type="submit" th:value="#{ui.dishmenu.add}"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:include="../templates/footer :: footer"></footer>
+
+</body>
+</html>

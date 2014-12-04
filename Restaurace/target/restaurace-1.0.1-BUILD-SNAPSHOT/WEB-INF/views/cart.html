@@ -1,0 +1,86 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="cs"
+      xml:lang="cs"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Restaurace</title>
+    <link rel="shortcut icon" href="/restaurace/restaurace-icon.ico" type="image/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <div th:include="../templates/styles :: styles"></div>
+</head>
+
+<body>
+<header th:include="../templates/header :: header"></header>
+
+<div id="container">
+    <div th:include="../templates/menu :: menu"></div>
+    <div id="main_content">
+        <div th:fragment="cartItems">
+            <h1 th:text="#{ui.cart.cart}"></h1>
+            <table th:unless="${session.cart} == null or ${session.cart.orderedDishes.isEmpty()}"
+                   th:each="dish : ${session.cart.orderedDishes}"
+                   th:class="${dish.value.dishCategory.name}" >
+                <tbody>
+                    <tr>
+                        <td class="first"><b th:text="${dish.value.name}"></b></td>
+                        <td class="second"><b th:text="${dish.value.description}"></b></td>
+                        <td class="third"><b th:text="#{ui.cart.price} + ' ' + ${dish.value.price} + ' Kč'"></b></td>
+                        <td class="fourth" th:text="#{ui.cart.amount} + ' ' + ${dish.value.amount}"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td th:text="${dish.value.kcal} + ' ' + #{ui.dishmenu.kcal}"></td>
+                        <td th:text="${dish.value.fatGrams} + ' ' + #{ui.dishmenu.fat}"></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a th:href="@{/removeItem(id=${dish.value.name})}" >
+                                <img src="/restaurace/resources/images/red-cross.png" />
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text="${dish.value.proteinGrams} + ' ' + #{ui.dishmenu.protein}"></td>
+                        <td th:text="${dish.value.saccharideGrams} + ' ' + #{ui.dishmenu.sugar}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table th:unless="${session.cart} == null or ${session.cart.orderedTeppanyakiDishes.isEmpty()}"
+                   th:each="dish : ${session.cart.orderedTeppanyakiDishes}"
+                    class="dish">
+                <tbody>
+                    <tr>
+                        <td class="first"><b th:text="${dish.value.name}"></b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <table th:object="${session.cart}">
+                <tbody>
+                    <tr>
+                        <td th:text="#{ui.cart.totalPriceWithoutTax}"></td>
+                        <td th:text="*{getTotalPriceWithoutTax()} + ' Kč'"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{ui.cart.TaxCasual}"></td>
+                        <td th:text="*{regularTax} + ' Kč'"></td>
+                    </tr>
+                    <tr>
+                        <td><b th:text="#{ui.cart.totalPriceWithTax}"></b></td>
+                        <td><b th:text="*{totalPrice} + ' Kč'"></b></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="abutton" th:href="@{/orderCart}" th:text="#{ui.cart.doOrder}"/>
+            <a class="abutton" th:href="@{/emptyCart}" th:text="#{ui.cart.emptyCart}"/>
+        </div>
+    </div>
+</div>
+
+<footer th:include="../templates/footer :: footer"></footer>
+
+</body>
+</html>

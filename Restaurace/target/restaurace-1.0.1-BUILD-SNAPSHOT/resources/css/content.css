@@ -1,0 +1,166 @@
+@CHARSET "UTF-8";
+
+html {
+	font: 16px Candara;
+
+}
+
+table.drink {
+	width: 65%;
+	margin-top: 10px;
+	background: linear-gradient(#FFA78E, #FF8766);
+	border-radius: 3px;
+    border: 1px solid #C68B15;
+}
+
+table.dish {
+	width: 85%;
+	margin-top: 10px;
+	background: linear-gradient(#D7FF75, #A2E200);
+	border-radius: 3px;
+	border: 1px solid #8CC400;
+}
+
+table.dish input[type="text"], table.drink input[type="text"] {
+	width: 20px;
+}
+
+table.dish .first {
+	width: 200px;
+}
+
+table.dish .second {
+	width: 500px;
+}
+
+table.dish .third {
+	width: 80px;
+}
+
+table.dish .fourth {
+	width: 30px;
+}
+
+table.ingredient {
+	margin: 5px 5px 5px 5px;
+	width: 47%;
+	float: left;
+	margin-top: 10px;
+	background: linear-gradient(#D7FF75, #A2E200);
+	border-radius: 3px;
+	border: 1px solid #8CC400;
+}
+
+table.ingredient input[type="text"] {
+	width: 20px;
+}
+
+th, td {
+	padding: 4px 10px 4px 10px;
+}
+
+td {
+}
+
+th {
+	text-align: left;
+}
+
+#main_menu ul{
+	margin: 0;
+	list-style: none;
+	padding: 0;
+}
+
+#main_menu ul li {
+	float: left;
+	min-width: 7em;
+	text-align: center;
+	background: #353535;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+#main_menu ul li a {
+	display: block;
+	text-decoration: none;
+	color: white;
+
+}
+
+#main_menu ul li a:hover {
+	background-color: black;
+}
+
+#main_menu ul li ul {
+	display: none;
+}
+
+#main_menu ul li:hover ul{
+	display: block;
+}
+
+#main_menu ul li ul li a {
+	background-color: #FF802B;
+}
+
+#main_menu ul li ul li a:hover {
+	background-color: #EA5827;
+}
+
+#main_content a {
+	text-decoration: none;
+    color: black;
+	padding: 4px 12px 8px 12px;
+}
+
+#main_content a.abutton {
+	background-color: #E2BE51;
+	border-radius: 2px;
+	border: 1px solid;
+}
+
+#main_content a.abutton:hover {
+	color: white;
+	background-color: black;
+	border: 1px solid black;
+}
+
+h1, h2 {
+	margin-top: 0px;
+	font-size: 20px;
+}
+
+#header_login a {
+	text-decoration: none;
+	color: white;
+	font-size: 13px;
+	float: left;
+}
+
+#header_login a:hover {
+	color: grey;
+}
+
+#user_menu_header a {
+	display: block;
+}
+
+#main_content label {
+	display: block;
+}
+
+#menu_left table {
+	margin-left: 0px;
+}
+
+#menu_left h2 {
+	padding-left: 23px
+}
+
+#menu_left a img{
+	border: 1px solid #195400;
+	box-shadow: 3px 3px 5px #4C4C3D;
+	border-radius: 3px;
+}
+

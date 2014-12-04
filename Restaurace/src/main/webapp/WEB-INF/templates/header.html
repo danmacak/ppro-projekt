@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<html lang="cs"
+      xml:lang="cs"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</head>
+
+<div th:fragment="header">
+    <div id="header_image"></div>
+    <div id="header_login">
+        <div sec:authorize="isAnonymous()">
+            <form method="post" action="/j_spring_security_check" th:action="@{/j_spring_security_check}" >
+                <label>
+                    <span th:text="#{ui.header.username} + ' : ' ">Username :  </span>
+                    <input type="text" name='j_username'/>
+                </label>
+                <label>
+                    <span th:text="#{ui.header.password} + ' : ' ">Password :  </span>
+                    <input type="password" name='j_password'/>
+                </label>
+                <input type="submit" value="Přihlásit se" th:value="#{ui.header.login}"/>
+            </form>
+            <a href="/" th:href="@{/registration}" th:text="#{ui.header.registration}">Registration</a>
+        </div>
+        <div id="user_menu_header" sec:authorize="hasRole('ROLE_USER')" >
+            <a href="/" th:href="@{/user/userdetails}" th:text="#{ui.header.useraccount}" >Uzivatel</a>
+            <a href="/" th:href="@{/j_spring_security_logout}" th:text="#{ui.header.logout}" >Logout</a>
+            <a href="/" th:href="@{/user/orders}" th:text="#{ui.header.orders}" >Orders</a>
+            <a href="/" th:href="@{/user/bookings}" th:text="#{ui.header.bookings}" >Bookings</a>
+        </div>
+        <a href="?lang=cs"><img src="/restaurace/resources/images/czech_flag.jpg"/></a>
+        <a href="?lang=en"><img src="/restaurace/resources/images/us_flag.jpg"/></a>
+        <div>
+            <table>
+                <tbody>
+                <tr>
+                    <td th:text="#{ui.header.cartPrice} + ': '"></td>
+                    <td th:text="(${session.cart} != null? ${session.cart.totalPrice} : '0')" id="cartPrice"></td>
+                    <td th:text="' Kč'"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{ui.header.amountOfItems} + ': '"></td>
+                    <td th:text="(${session.cart} != null? ${session.cart.numberOfDishes} : '0')" id="totalItems"></td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="#" th:href="@{/showCart}" th:text="#{ui.header.toCart}"></a>
+        </div>
+    </div>
+</div>
+
+</html>

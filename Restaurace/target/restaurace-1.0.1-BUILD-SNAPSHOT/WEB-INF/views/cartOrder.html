@@ -1,0 +1,86 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="cs"
+      xml:lang="cs"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <title>Restaurace</title>
+    <link rel="shortcut icon" href="/restaurace/restaurace-icon.ico" type="image/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <div th:include="../templates/styles :: styles"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script th:src="@{/resources/js/contentActions.js}"></script>
+</head>
+
+<body>
+<header th:include="../templates/header :: header"></header>
+
+<div id="container">
+    <div th:include="../templates/menu :: menu"></div>
+    <div id="main_content">
+        <h1 th:text="#{ui.cart.paymentDetails}"></h1>
+        <div sec:authorize="isAnonymous()">
+            You've got to fucking log in.
+            <form method="post" action="/j_spring_security_check" th:action="@{/j_spring_security_check}" >
+                <label>
+                    <span th:text="#{ui.header.username} + ' : ' ">Username :  </span>
+                    <input type="text" name='j_username'/>
+                </label>
+                <label>
+                    <span th:text="#{ui.header.password} + ' : ' ">Password :  </span>
+                    <input type="password" name='j_password'/>
+                </label>
+                <input type="submit" value="Přihlásit se" th:value="#{ui.header.login}"/>
+            </form>
+        </div>
+        <div th:unless="${deliveries} == null">
+            <form action="#" th:action="@{/checkout}" method="post">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th th:text="#{ui.cartOrder.deliveryName}"></th>
+                            <th th:text="#{ui.cartOrder.deliveryCompany}"></th>
+                            <th th:text="#{ui.cartOrder.payment}"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="deliveries" th:each="delivery : ${deliveries}">
+                            <td><input class="deliveryRadio" type="radio" name="active"/></td>
+                            <td th:text="${delivery.name}"></td>
+                            <td th:text="${delivery.companyName}"></td>
+                            <td class="deliveryPrice" th:text="${delivery.price} + ' Kč'"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div th:unless="${session.cart} == null" th:include="cart :: cartItems"></div>
+        <div>
+            <table th:unless="${session.cart} == null" th:object="${session.cart}">
+                <tbody>
+                    <tr>
+                        <td th:text="#{ui.cart.dishTotalPrice}"></td>
+                        <td id="dishTotalPrice" th:text="*{totalPrice} + ' Kč'"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{ui.cart.deliveryPrice}"></td>
+                        <td id="deliveryPrice"></td>
+                    </tr>
+                    <tr>
+                        <td><b th:text="#{ui.cart.totalPrice}"></b></td>
+                        <td><b id="totalPrice"></b></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a th:class="abutton" th:href="@{/checkout}" th:text="#{ui.cart.doOrder}"/>
+        </div>
+    </div>
+</div>
+
+<footer th:include="../templates/footer :: footer"></footer>
+
+</body>
+</html>
