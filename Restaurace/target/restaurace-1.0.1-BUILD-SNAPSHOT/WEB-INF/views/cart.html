@@ -19,8 +19,8 @@
     <div id="main_content">
         <div th:fragment="cartItems">
             <h1 th:text="#{ui.cart.cart}"></h1>
-            <table th:unless="${session.cart} == null or ${session.cart.orderedDishes.isEmpty()}"
-                   th:each="dish : ${session.cart.orderedDishes}"
+            <table th:unless="${session.cart} == null or ${ordinalDishes.isEmpty()}"
+                   th:each="dish : ${ordinalDishes}"
                    th:class="${dish.value.dishCategory.name}" >
                 <tbody>
                     <tr>

@@ -1,17 +1,16 @@
 package cz.uhk.restaurace.web;
 
 import cz.uhk.restaurace.model.*;
-import cz.uhk.restaurace.service.CustomerOrderService;
-import cz.uhk.restaurace.service.DeliveryService;
-import cz.uhk.restaurace.service.DishGeneralService;
-import cz.uhk.restaurace.service.UserService;
+import cz.uhk.restaurace.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +24,10 @@ public class CustomerOrderController {
     private CustomerOrderService customerOrderService;
 
     @Autowired
-    private DishGeneralService dishService;
+    private DishGeneralService dishGeneralService;
+
+    @Autowired
+    private DishLocalizedService dishLocalizedService;
 
     @Autowired
     private UserService userService;
@@ -98,7 +100,7 @@ public class CustomerOrderController {
     public @ResponseBody DishGeneral addToCart(HttpSession session, @RequestParam Integer id,
                                         @RequestParam String amount){
         CustomerOrder cart = createCartIfNull(session);
-        DishGeneral dish = dishService.getDishById(id);
+        DishGeneral dish = dishGeneralService.getDishById(id);
         dish.setAmount(Integer.parseInt(amount));
         //Prevent saving dishes with same id again in a map, instead increment amount of dishes already stored
         DishGeneral duplicity = cart.getOrderedDishes().get(dish.getName());
@@ -109,10 +111,16 @@ public class CustomerOrderController {
         }
         return dish;
     }
-
+    //TODO
     @RequestMapping(value = "/showCart")
-    public String showCart(HttpSession session){
-        createCartIfNull(session);
+    public String showCart(HttpSession session, Model model){
+        CustomerOrder cart = createCartIfNull(session);
+        List<Integer> ids = new ArrayList<Integer>();
+        for(Map.Entry<String, DishGeneral> entry : cart.getOrderedDishes().entrySet()){
+            ids.add(entry.getValue().getId());
+        }
+        Map<String, DishLocalized> localizedDishes = dishLocalizedService.getDishesLocalizedInCart(ids);
+        model.addAttribute("ordinalDishes", localizedDishes);
         return "cart";
     }
 

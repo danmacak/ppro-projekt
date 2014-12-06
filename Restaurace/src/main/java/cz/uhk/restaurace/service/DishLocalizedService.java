@@ -1,7 +1,9 @@
 package cz.uhk.restaurace.service;
 
 import java.util.List;
+import java.util.Map;
 
+import cz.uhk.restaurace.model.DishGeneral;
 import cz.uhk.restaurace.model.DishLocalized;
 
 public interface DishLocalizedService {
@@ -12,5 +14,5 @@ public interface DishLocalizedService {
 	public DishLocalized getDishLocalizedById(int id);
 	public void removeDishLocalized(int id);
 	public void setLanguage(String language);
-
+	public Map<String, DishLocalized> getDishesLocalizedInCart(List<Integer> ids);
 }

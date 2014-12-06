@@ -1,6 +1,9 @@
 package cz.uhk.restaurace.dao.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cz.uhk.restaurace.dao.DishGeneralDao;
 
@@ -69,9 +72,14 @@ public class DishGeneralDaoImpl implements DishGeneralDao {
 		if (a != null) {
 			session.delete(a);
 		}
-		
 	}
 
-	
-	
+	@Override
+	public List<DishGeneral> getDishesInCart(List<Integer> ids) {
+		List<DishGeneral> ordinalDishes = new ArrayList<DishGeneral>();
+		for(Integer id : ids){
+			ordinalDishes.add(getDishGeneralById(id));
+		}
+		return ordinalDishes;
+	}
 }

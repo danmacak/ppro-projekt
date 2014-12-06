@@ -1,6 +1,7 @@
 package cz.uhk.restaurace.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import cz.uhk.restaurace.model.DishGeneral;
 
@@ -11,5 +12,5 @@ public interface DishGeneralDao {
 	public List<DishGeneral> listDrinksGeneral();
 	public DishGeneral getDishGeneralById(int id);
 	public void removeDishGeneral(int id);
-
+	public List<DishGeneral> getDishesInCart(List<Integer> ids);
 }
