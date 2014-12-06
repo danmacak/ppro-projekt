@@ -6,16 +6,28 @@ $(document).ready(function(){
         event.preventDefault();
     });
 
+    //add ingredient to custom dish
     $(".addIngredientForm").submit(function(event){
         var ingredient = $(this).serializeObject();
         addIngredient(ingredient);
         event.preventDefault();
     });
 
+    //remove ingredient from custom dish
+    /*$("#actualIngredients .remove").click(function(){
+        var id = this.name;
+        removeIngredient(id);
+    });
+
+    function removeIngredient(data){
+        $.getJSON("/restaurace/removeIngredient",{id: data}, function(){
+            $("#tepIngredients").load(document.URL +  ' #tepIngredients');
+        });
+    }*/
+
     function addIngredient(data){
-        $.getJSON("/restaurace/addIngredient", data, function(ingredient){
-            $("#tepIngredients").append("<tr><td>" + ingredient.name + ': ' + ingredient.grams + ' gramů' + "</td>"
-                                          +  "<td><img src='/restaurace/resources/images/red-cross.png' /></td></tr>");
+        $.getJSON("/restaurace/addIngredient", data, function(){
+            $("#tepIngredients").load(document.URL +  ' #tepIngredients');
         });
     }
 
@@ -50,5 +62,19 @@ $(document).ready(function(){
                 + parseFloat($("#dishTotalPrice").text())).toFixed(2)  + ' Kč');
         }
     });
+
+    function getUrlParameter(sParam)
+    {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++)
+        {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam)
+            {
+                return sParameterName[1];
+            }
+        }
+    }
 
 });

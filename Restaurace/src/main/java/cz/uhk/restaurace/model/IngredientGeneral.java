@@ -9,7 +9,7 @@ import java.util.Collection;
 import javax.persistence.*;
 import javax.persistence.Entity;
 
-@Entity
+@Entity(name = "")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class IngredientGeneral {
 

@@ -1,8 +1,6 @@
 package cz.uhk.restaurace.web;
 
-import cz.uhk.restaurace.model.CustomerOrder;
-import cz.uhk.restaurace.model.Dish;
-import cz.uhk.restaurace.model.User;
+import cz.uhk.restaurace.model.*;
 import cz.uhk.restaurace.service.CustomerOrderService;
 import cz.uhk.restaurace.service.DeliveryService;
 import cz.uhk.restaurace.service.DishService;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.util.HashMap;
@@ -60,27 +61,11 @@ public class DishController {
 		return "teppanyaki";
 	}
 
-	/*@RequestMapping(value = "/addIngredient", method = RequestMethod.GET)
-	public String addIngredientToDish(HttpSession session,
-			@RequestParam("id") String id, @RequestParam("grams") String grams,
-			@RequestParam("category") String category) {
-		DishLocalized dish = (DishLocalized) session
-				.getAttribute("teppanyakiDish");
-		if (dish != null) {
-			IngredientLocalized ingredient = ingredientLocalizedService
-					.getIngredientLocalizedById(Integer.parseInt(id));
-			ingredient.setGrams(Integer.parseInt(grams));
-			dish.getIngredientsLocalized()
-					.put(Integer.parseInt(id), ingredient);
-		}
-		return "redirect:/teppanyaki/" + category;
-	}*/
-
 	//TODO doimplementovat, checknout potencialni duplicity v mape
 	@RequestMapping(value = "/addIngredient", method = RequestMethod.GET,  produces = "application/json")
 	@ResponseBody
-	public IngredientLocalized addIngredient(HttpSession session, @RequestParam int id,
-							 @RequestParam String grams){
+	public IngredientLocalized addIngredient(HttpSession session, @RequestParam Integer id,
+							 @RequestParam(required = false) String grams){
 		DishLocalized dish = (DishLocalized) session.getAttribute("teppanyakiDish");
 		IngredientLocalized ingredient = null;
 		if (dish != null) {
@@ -91,13 +76,20 @@ public class DishController {
 		return ingredient;
 	}
 
+	/*@RequestMapping(value = "/removeIngredient", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer removeIngredient(HttpSession session, @RequestParam("id") Integer id) {
+		DishLocalized dish = (DishLocalized) session.getAttribute("teppanyakiDish");
+		dish.getIngredientsLocalized().remove(id);
+		return id;
+	}*/
+
 	@RequestMapping(value = "/removeIngredient", method = RequestMethod.GET)
-	public String removeIngredient(HttpSession session,
-			@RequestParam("id") String id,
-			@RequestParam("category") String category) {
+	public String removeIngredient(HttpSession session, @RequestParam("category") String category,
+								   @RequestParam("id") Integer id) {
 		DishLocalized dish = (DishLocalized) session
 				.getAttribute("teppanyakiDish");
-		dish.getIngredientsLocalized().remove(Integer.parseInt(id));
+		dish.getIngredientsLocalized().remove(id);
 		return "redirect:/teppanyaki/" + category;
 	}
 

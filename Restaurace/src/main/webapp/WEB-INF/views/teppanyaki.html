@@ -63,23 +63,33 @@
             <span th:text="#{ui.teppanyaki.listOfIngredients}"></span>
             <form th:action="@{/addTeppanyakiToCart}" th:unless="${session.teppanyakiDish} == null">
                 <table id="tepIngredients" th:unless="${session.teppanyakiDish} == null" th:object="${session.teppanyakiDish}" >
-                    <tr th:unless="*{ingredientsLocalized.size()} == 0">
-                        <td th:text="#{ui.teppanyaki.amount}" ></td>
-                        <td>
-                            <input id="teppanyakiAmount" type="text" name="amount" th:value="*{amount}"/>
-                        </td>
-                    </tr>
-                    <tr th:each="ingredient : *{ingredientsLocalized}">
-                        <td th:text="${ingredient.value.name} + ': ' + ${ingredient.value.grams} + ' ' + #{ui.teppanyaki.ingredientGrams}">
-                        </td>
-                        <td>
-                            <a th:href="@{/removeIngredient(id=${ingredient.value.id}, category=${ingredient.value.type.url})}">
-                                <img src="/restaurace/resources/images/red-cross.png" />
-                            </a>
-                        </td>
-                    </tr>
+                    <thead>
+                        <tr th:unless="*{ingredientsLocalized.size()} == 0">
+                            <th th:text="#{ui.teppanyaki.amount}" ></th>
+                            <th>
+                                <input id="teppanyakiAmount" type="text" name="amount" th:value="*{amount}"/>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="actualIngredients">
+                        <tr th:each="ingredient : *{ingredientsLocalized}">
+                            <td class="description"
+                                th:text="${ingredient.value.name} + ': ' + ${ingredient.value.grams} + ' ' + #{ui.teppanyaki.ingredientGrams}">
+                            </td>
+                            <td>
+                                <a class="remove" th:href="@{/removeIngredient(id=${ingredient.value.id}, category=${ingredient.value.type.url})}">
+                                    <img class="remove" src="/restaurace/resources/images/red-cross.png" th:name="${ingredient.value.id}"/>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input th:unless="${session.teppanyakiDish.ingredientsLocalized.size()} == 0" type="submit" th:value="#{ui.dishmenu.add}"/>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
-                <input th:unless="${session.teppanyakiDish.ingredientsLocalized.size()} == 0" type="submit" th:value="#{ui.dishmenu.add}"/>
+
             </form>
         </div>
     </div>

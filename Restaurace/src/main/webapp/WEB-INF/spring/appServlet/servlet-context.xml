@@ -93,7 +93,7 @@
 	
 	<interceptors>
 		<beans:bean
-				class="cz.uhk.restaurace.web.LocaleChangeInterceptorDB">
+				class="cz.uhk.restaurace.web.i18n.LocaleChangeInterceptorDB">
 			<beans:property name="paramName" value="lang" />
 		</beans:bean>
 	</interceptors>
