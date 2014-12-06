@@ -9,13 +9,14 @@ import java.util.Collection;
 import javax.persistence.*;
 import javax.persistence.Entity;
 
-@Entity(name = "")
+@Entity(name = "ingredient_general")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class IngredientGeneral {
 
 	@Id
 	@GeneratedValue
 	private int id;
+	private String name;
 	private int kcal;
 	private int fatGrams;
 	private int saccharideGrams;
@@ -25,7 +26,7 @@ public class IngredientGeneral {
 	private IngredientType type;
 	@ManyToMany(mappedBy="ingredients")
 	@JsonIgnore
-	private Collection<Dish> dishes;
+	private Collection<DishGeneral> dishes;
 	@OneToMany
 	@JoinColumn(name="id")
 	private Collection<IngredientLoc> localizations;
@@ -48,7 +49,8 @@ public class IngredientGeneral {
 		VEGETABLE("Zelenina", "vegetable"),
 		MEAT("Maso", "meat"),
 		FRUIT("Ovoce", "fruit"),
-		SPICE("Koreni", "spice");
+		SPICE("Koreni", "spice"),
+		TEPPANYAKI("Teppanyaki", "teppanyaki");
 
 		private String description;
 		private String url;
@@ -115,11 +117,11 @@ public class IngredientGeneral {
 		this.type = type;
 	}
 
-	public Collection<Dish> getDishes() {
+	public Collection<DishGeneral> getDishes() {
 		return dishes;
 	}
 
-	public void setDishes(Collection<Dish> dishes) {
+	public void setDishes(Collection<DishGeneral> dishes) {
 		this.dishes = dishes;
 	}
 
@@ -137,5 +139,13 @@ public class IngredientGeneral {
 
 	public void setPricePerHundredGrams(BigDecimal pricePerHundredGrams) {
 		this.pricePerHundredGrams = pricePerHundredGrams;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

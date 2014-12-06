@@ -18,7 +18,7 @@ public class DishGeneral {
 	@Id
 	@GeneratedValue
 	private int id;
-
+	private String name;
 	private transient int amount = 1;
 	@Column(precision = 15, scale = 2)
 	private BigDecimal price;
@@ -32,8 +32,10 @@ public class DishGeneral {
 	@JsonIgnore
 	private Map<Integer, IngredientGeneral> ingredients;
 	@ManyToMany(cascade={CascadeType.ALL})
+	@JsonIgnore
 	private Collection<CustomerOrder> customerOrders;
 	@OneToMany
+	@JsonIgnore
 	@JoinColumn(name="id")
 	private Collection<DishLoc> localizations;
 
@@ -129,5 +131,13 @@ public class DishGeneral {
 	}
 	public int getId() {
 		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -50,8 +50,10 @@ public class DishLocalizedServiceImpl implements DishLocalizedService {
 		List<DishLocalized> res = new ArrayList<DishLocalized>();
 		List<DishGeneral> dl = dishGeneralDao.listDishesGeneral();
 		for (int i = 0; i < dl.size(); i++) {
-			if(dishLocDao.getDishLocById(dl.get(i).getId(), language) != null){
-			res.add(new DishLocalized(dl.get(i), dishLocDao.getDishLocById(dl.get(i).getId(), language)));	}
+			DishLoc dishLoc = dishLocDao.getDishLocById(dl.get(i).getId(), language);
+			if(dishLoc != null){
+				res.add(new DishLocalized(dl.get(i), dishLoc));
+			}
 		}
 		return res;
 	}

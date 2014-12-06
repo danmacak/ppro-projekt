@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cz.uhk.restaurace.model.Dish;
+import cz.uhk.restaurace.model.DishGeneral;
 import cz.uhk.restaurace.service.CustomerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	@Override
 	public CustomerOrder createCart(){
 		CustomerOrder cart = new CustomerOrder();
-		Map<String, Dish> orderedDishes = new HashMap<String, Dish>();
+		Map<String, DishGeneral> orderedDishes = new HashMap<String, DishGeneral>();
 		cart.setOrderedDishes(orderedDishes);
 		return cart;
 	}

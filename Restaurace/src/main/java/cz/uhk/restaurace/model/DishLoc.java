@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class DishLoc implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	private int id;
 	@Id

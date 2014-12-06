@@ -49,7 +49,7 @@ public class DishLocDaoImpl implements DishLocDao {
 		Criterion criterion = Restrictions.conjunction().add(Restrictions.eq("id", id)).
 				add(Restrictions.eq("language", language));
 		List<DishLoc> dll = criteria.add(criterion).list();
-		if (dll.size() == 1) {	return (DishLoc) dll.get(0);
+		if (dll.size() == 1) {	return dll.get(0);
 			
 		} else {
 			return null;
@@ -66,7 +66,7 @@ public class DishLocDaoImpl implements DishLocDao {
 		Criterion criterion = Restrictions.conjunction().add(Restrictions.eq("id", id)).
 				add(Restrictions.eq("language", language));
 		List<DishLoc> dll = criteria.add(criterion).list();
-		if (dll.size() == 1) {	session.delete((DishLoc) dll.get(0));
+		if (dll.size() == 1) {	session.delete( dll.get(0));
 			
 		}
 

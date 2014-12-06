@@ -16,8 +16,7 @@ public class IngredientLocalized {
 	private int proteinGrams;
 	private transient int grams = 0;
 	private IngredientType type;
-	@JsonIgnore
-	private Collection<Dish> dishes;
+	private Collection<DishGeneral> dishes;
 	private String language;
 	private String name;
 	private BigDecimal pricePerHundredGrams;
@@ -95,11 +94,11 @@ public class IngredientLocalized {
 		this.type = type;
 	}
 
-	public Collection<Dish> getDishes() {
+	public Collection<DishGeneral> getDishes() {
 		return dishes;
 	}
 
-	public void setDishes(Collection<Dish> dishes) {
+	public void setDishes(Collection<DishGeneral> dishes) {
 		this.dishes = dishes;
 	}
 

@@ -39,9 +39,7 @@
 		<beans:property name="annotatedClasses">
 			<beans:list>
 				<beans:value>cz.uhk.restaurace.model.Address</beans:value>
-				<beans:value>cz.uhk.restaurace.model.Ingredient</beans:value>
 				<beans:value>cz.uhk.restaurace.model.CustomerOrder</beans:value>
-				<beans:value>cz.uhk.restaurace.model.Dish</beans:value>
 				<beans:value>cz.uhk.restaurace.model.Booking</beans:value>
 				<beans:value>cz.uhk.restaurace.model.Role</beans:value>
 				<beans:value>cz.uhk.restaurace.model.Shift</beans:value>

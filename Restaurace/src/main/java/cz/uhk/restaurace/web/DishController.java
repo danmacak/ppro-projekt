@@ -4,17 +4,15 @@ import cz.uhk.restaurace.model.*;
 import cz.uhk.restaurace.service.DishLocalizedService;
 import cz.uhk.restaurace.service.IngredientLocalizedService;
 
+import cz.uhk.restaurace.service.IngredientGeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dann on 15.11.2014.
@@ -28,6 +26,9 @@ public class DishController {
 
 	@Autowired
 	private IngredientLocalizedService ingredientLocalizedService;
+
+	@Autowired
+	private IngredientGeneralService ingredientGeneralService;
 
 	private String language = "cs";
 
@@ -64,14 +65,14 @@ public class DishController {
 	//TODO doimplementovat, checknout potencialni duplicity v mape
 	@RequestMapping(value = "/addIngredient", method = RequestMethod.GET,  produces = "application/json")
 	@ResponseBody
-	public IngredientLocalized addIngredient(HttpSession session, @RequestParam Integer id,
+	public IngredientGeneral addIngredient(HttpSession session, @RequestParam Integer id,
 							 @RequestParam(required = false) String grams){
-		DishLocalized dish = (DishLocalized) session.getAttribute("teppanyakiDish");
-		IngredientLocalized ingredient = null;
+		DishGeneral dish = (DishGeneral) session.getAttribute("teppanyakiDish");
+		IngredientGeneral ingredient = null;
 		if (dish != null) {
-			ingredient = ingredientLocalizedService.getIngredientLocalizedById(id);
+			ingredient = ingredientGeneralService.getIngredientById(id);
 			ingredient.setGrams(Integer.parseInt(grams));
-			dish.getIngredientsLocalized().put(id, ingredient);
+			dish.getIngredients().put(id, ingredient);
 		}
 		return ingredient;
 	}
@@ -91,23 +92,6 @@ public class DishController {
 				.getAttribute("teppanyakiDish");
 		dish.getIngredientsLocalized().remove(id);
 		return "redirect:/teppanyaki/" + category;
-	}
-
-	@RequestMapping(value = "/teppanyaki", method = RequestMethod.GET)
-	public String showTeppanyakiHighLevel(HttpSession session) {
-		if (session.getAttribute("ingredientTypes") == null) {
-			IngredientGeneral.IngredientType[] ingredientTypes = IngredientGeneral.IngredientType
-					.values();
-			session.setAttribute("ingredientTypes", ingredientTypes);
-		}
-		if (session.getAttribute("teppanyakiDish") == null) {
-			DishLocalized dish = new DishLocalized();
-			Map<Integer, IngredientLocalized> ingredients = new HashMap<Integer, IngredientLocalized>();
-			dish.setIngredientsLocalized(ingredients);
-			dish.setDishCategory(DishGeneral.DishCategory.TEPPANYAKI);
-			session.setAttribute("teppanyakiDish", dish);
-		}
-		return "teppanyaki";
 	}
 
 	@RequestMapping(value = "/drinks", method = RequestMethod.GET)

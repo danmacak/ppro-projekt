@@ -3,19 +3,16 @@ package cz.uhk.restaurace.web;
 import cz.uhk.restaurace.model.*;
 import cz.uhk.restaurace.service.CustomerOrderService;
 import cz.uhk.restaurace.service.DeliveryService;
-import cz.uhk.restaurace.service.DishService;
+import cz.uhk.restaurace.service.DishGeneralService;
 import cz.uhk.restaurace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dann on 11.11.2014.
@@ -28,7 +25,7 @@ public class CustomerOrderController {
     private CustomerOrderService customerOrderService;
 
     @Autowired
-    private DishService dishService;
+    private DishGeneralService dishService;
 
     @Autowired
     private UserService userService;
@@ -61,9 +58,25 @@ public class CustomerOrderController {
         return "cart";
     }
 
+    @RequestMapping(value = "/teppanyaki", method = RequestMethod.GET)
+    public String showTeppanyakiHighLevel(HttpSession session) {
+        if (session.getAttribute("ingredientTypes") == null) {
+            IngredientGeneral.IngredientType[] ingredientTypes = IngredientGeneral.IngredientType
+                    .values();
+            session.setAttribute("ingredientTypes", ingredientTypes);
+        }
+        if (session.getAttribute("teppanyakiDish") == null) {
+            DishGeneral dish = new DishGeneral();
+            Map<Integer, IngredientGeneral> ingredients = new HashMap<Integer, IngredientGeneral>();
+            dish.setIngredients(ingredients);
+            dish.setDishCategory(DishGeneral.DishCategory.TEPPANYAKI);
+            session.setAttribute("teppanyakiDish", dish);
+        }
+        return "teppanyaki";
+    }
     @RequestMapping(value = "/addTeppanyakiToCart", method = RequestMethod.GET)
     public String addTeppanyakiToCart(HttpSession session){
-        Dish dish = (Dish) session.getAttribute("teppanyakiDish");
+        DishGeneral dish = (DishGeneral) session.getAttribute("teppanyakiDish");
         CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
         if (cart == null){
             cart = new CustomerOrder();
@@ -82,13 +95,13 @@ public class CustomerOrderController {
 
     //TODO dodelat test
     @RequestMapping(value="/addToCart", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody Dish addToCart(HttpSession session, @RequestParam String name,
+    public @ResponseBody DishGeneral addToCart(HttpSession session, @RequestParam Integer id,
                                         @RequestParam String amount){
         CustomerOrder cart = createCartIfNull(session);
-        Dish dish = dishService.getDishById(name);
+        DishGeneral dish = dishService.getDishById(id);
         dish.setAmount(Integer.parseInt(amount));
         //Prevent saving dishes with same id again in a map, instead increment amount of dishes already stored
-        Dish duplicity = cart.getOrderedDishes().get(dish.getName());
+        DishGeneral duplicity = cart.getOrderedDishes().get(dish.getName());
         if(duplicity == null) {
             cart.getOrderedDishes().put(dish.getName(), dish);
         }else{

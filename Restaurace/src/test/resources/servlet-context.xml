@@ -55,7 +55,7 @@
         <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </beans:bean>
     
-    <beans:bean id="pokrmService" class="cz.uhk.restaurace.service.impl.DishServiceImpl">
+    <beans:bean id="pokrmService" class="cz.uhk.restaurace.service.impl.DishGeneralGeneralServiceImpl">
     	<beans:property name="pokrmDao" ref="pokrmDao"/>
     </beans:bean>
 	

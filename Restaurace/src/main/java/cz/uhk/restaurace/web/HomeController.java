@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import cz.uhk.restaurace.model.CustomerOrder;
-import cz.uhk.restaurace.model.Dish;
 import cz.uhk.restaurace.service.CustomerOrderService;
 
 import org.slf4j.Logger;

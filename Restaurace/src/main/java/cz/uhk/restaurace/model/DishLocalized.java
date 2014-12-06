@@ -7,7 +7,6 @@ import java.util.Map;
 public class DishLocalized{
 
 	private int id;
-
 	private int amount = 1;
 	private BigDecimal price;
 	private int fatGrams;
@@ -26,6 +25,7 @@ public class DishLocalized{
 		// TODO Auto-generated constructor stub
 	}
 	public DishLocalized(DishGeneral dish, DishLoc dishLoc){
+		id = dish.getId();
 		amount = dish.getAmount();
 		price = dish.getPrice();
 		fatGrams = dish.getFatGrams();
