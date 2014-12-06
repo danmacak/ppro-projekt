@@ -105,7 +105,7 @@ public class CustomerOrderController {
         //Prevent saving dishes with same id again in a map, instead increment amount of dishes already stored
         DishGeneral duplicity = cart.getOrderedDishes().get(dish.getName());
         if(duplicity == null) {
-            cart.getOrderedDishes().put(dish.getName(), dish);
+            cart.getOrderedDishes().put(dish.getId(), dish);
         }else{
             duplicity.setAmount(duplicity.getAmount() + dish.getAmount());
         }
@@ -116,7 +116,7 @@ public class CustomerOrderController {
     public String showCart(HttpSession session, Model model){
         CustomerOrder cart = createCartIfNull(session);
         List<Integer> ids = new ArrayList<Integer>();
-        for(Map.Entry<String, DishGeneral> entry : cart.getOrderedDishes().entrySet()){
+        for(Map.Entry<Integer, DishGeneral> entry : cart.getOrderedDishes().entrySet()){
             ids.add(entry.getValue().getId());
         }
         Map<String, DishLocalized> localizedDishes = dishLocalizedService.getDishesLocalizedInCart(ids);
@@ -125,10 +125,10 @@ public class CustomerOrderController {
     }
 
     @RequestMapping(value = "/removeItem")
-    public String removeItem(HttpSession session, @RequestParam("id") String id){
+    public String removeItem(HttpSession session, @RequestParam("id") Integer id){
         CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
         cart.getOrderedDishes().remove(id);
-        return "cart";
+        return "redirect:/showCart";
     }
 
     private CustomerOrder createCartIfNull(HttpSession session){

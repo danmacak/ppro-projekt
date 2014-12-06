@@ -54,7 +54,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	@Override
 	public CustomerOrder createCart(){
 		CustomerOrder cart = new CustomerOrder();
-		Map<String, DishGeneral> orderedDishes = new HashMap<String, DishGeneral>();
+		Map<Integer, DishGeneral> orderedDishes = new HashMap<Integer, DishGeneral>();
 		cart.setOrderedDishes(orderedDishes);
 		return cart;
 	}

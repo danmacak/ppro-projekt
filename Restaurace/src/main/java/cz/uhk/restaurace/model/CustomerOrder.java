@@ -30,7 +30,7 @@ public class CustomerOrder {
 	private User customer;
 	@ManyToMany(mappedBy = "customerOrders", fetch = FetchType.EAGER)
 	@JsonIgnore
-	private Map<String, DishGeneral> orderedDishes = new HashMap<String, DishGeneral>();
+	private Map<Integer, DishGeneral> orderedDishes = new HashMap<Integer, DishGeneral>();
 	@ManyToMany(mappedBy = "customerOrders")
 	@JsonIgnore
 	private Map<String, DishGeneral> orderedTeppanyakiDishes = new HashMap<String, DishGeneral>();
@@ -61,10 +61,10 @@ public class CustomerOrder {
 	public void setCustomer(User customer) {
 		this.customer = customer;
 	}
-	public Map<String, DishGeneral> getOrderedDishes() {
+	public Map<Integer, DishGeneral> getOrderedDishes() {
 		return orderedDishes;
 	}
-	public void setOrderedDishes(Map<String, DishGeneral> orderedDishes) {
+	public void setOrderedDishes(Map<Integer, DishGeneral> orderedDishes) {
 		this.orderedDishes = orderedDishes;
 	}
 	public void setNumberOfDishes(int numberOfDishes) {
@@ -105,7 +105,7 @@ public class CustomerOrder {
 
 	public BigDecimal getTotalPrice() {
 		BigDecimal total = new BigDecimal("0.00");
-		for (Map.Entry<String, DishGeneral> entry : this.getOrderedDishes().entrySet()){
+		for (Map.Entry<Integer, DishGeneral> entry : this.getOrderedDishes().entrySet()){
 			total = total.add(new BigDecimal(entry.getValue().getAmount()).multiply(entry.getValue().getPrice()));
 		}
 		return total.setScale(2, RoundingMode.CEILING);
@@ -117,7 +117,7 @@ public class CustomerOrder {
 
 	public int getNumberOfDishes() {
 		int amount = 0;
-		for (Map.Entry<String, DishGeneral> entry : this.getOrderedDishes().entrySet()){
+		for (Map.Entry<Integer, DishGeneral> entry : this.getOrderedDishes().entrySet()){
 			amount += entry.getValue().getAmount();
 		}
 		return amount;
