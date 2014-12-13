@@ -29,16 +29,28 @@ $(document).ready(function(){
     });
 
 
-    //TODO dodelat rucni aktualizaci kosiku v headeru
+    //TODO dodelat rucni aktualizaci kosiku v headeru a prepoctu cen
     /*
      * calls controller method with mapping "/restaurace/removeItem",
      * gets output, if valid JSON, executes function, which reaload some page fragments
      */
     function removeCartDishItem(data){
-        $.getJSON("/restaurace/removeItem", data, function(){
+        $.getJSON("/restaurace/removeItem", data, function(dish){
             $("#cartItems").load(document.URL + ' #cartItems');
-            $("#cartProperties").load(document.URL + ' #cartProperties');
-        })
+
+            //Change header calculations
+            $("#cartPrice").text(parseFloat(($("#cartPrice").text()) - (dish.price * dish.amount)).toFixed(2));
+            $("#totalItems").text(parseInt($("#totalItems").text()) - dish.amount);
+
+            //TODO prepsat bez loadu
+            //Change cart calculations
+            S$("#cartCalculations").load(document.URL + ' #cartCalculations');
+
+            //Change orderCart calculations
+            var orderCartDishPrice = parseFloat($("#dishTotalPrice").text()) - (dish.price * dish.amount);
+            $("#dishTotalPrice").text(orderCartDishPrice.toFixed(2));
+            $("#totalPrice").text((orderCartDishPrice + parseFloat($("#deliveryPrice").text())).toFixed(2));
+        });
     }
 
     /*
@@ -71,7 +83,7 @@ $(document).ready(function(){
     /*
      * counting various delivery prices on page LOAD
      */
-    $(document).ready(function(){
+    $("#cartCalculation").ready(function(){
         var $deliveryRadio = $(".deliveryRadio:first");
         $deliveryRadio.prop("checked", true);
         if($($deliveryRadio).is(":checked")){

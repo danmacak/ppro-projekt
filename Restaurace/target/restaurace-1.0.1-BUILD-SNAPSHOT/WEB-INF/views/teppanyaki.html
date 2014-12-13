@@ -17,6 +17,9 @@
 <div id="container">
     <div th:include="../templates/menu :: menu"></div>
     <div id="main_content" >
+
+        <!-- INGREDIENT TYPES -->
+
         <div id="menu_left">
             <h2 th:text="#{ui.teppanyaki.ingredientCategory}"></h2>
             <table th:unless="${ingredientTypes} == null"  th:each="ingredient : ${ingredientTypes}">
@@ -29,6 +32,9 @@
                 </tr>
             </table>
         </div>
+
+        <!-- ACTUAL INGREDIENTS -->
+
         <div id="content_middle">
             <h2 th:text="#{ui.teppanyaki.ingredients}"></h2>
             <div th:unless="${ingredients} == null">
@@ -40,7 +46,6 @@
                                 </b>
                             </td>
                             <td>
-                                <!--<input type="hidden" name="category" th:value="${ingredient.type.url}"/>-->
                                 <input type="hidden" name="id" th:value="${ingredient.id}"/>
                                 <input class="send" type="submit" th:value="#{ui.teppanyaki.add}"/>
                                 <input type="text" name="grams" th:value="${ingredient.grams}"/>
@@ -58,6 +63,9 @@
                 </table>
             </div>
         </div>
+
+        <!-- CUSTOM DISH -->
+
         <div id="content_right">
             <h2 th:text="#{ui.teppanyaki.customDish}"></h2>
             <span th:text="#{ui.teppanyaki.listOfIngredients}"></span>
@@ -74,6 +82,7 @@
                     <tbody id="actualIngredients">
                         <tr th:each="ingredient : *{ingredients}">
                             <td class="description"
+                                th:unless="${ingredient.value.ingredientLocalized} == null"
                                 th:text="${ingredient.value.ingredientLocalized.name} + ': ' + ${ingredient.value.grams} + ' ' + #{ui.teppanyaki.ingredientGrams}">
                             </td>
                             <td>

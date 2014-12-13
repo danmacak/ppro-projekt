@@ -18,6 +18,7 @@ public class DishGeneral {
 	@Id
 	@GeneratedValue
 	private int id;
+	private transient String name;
 	private transient int amount = 1;
 	@Column(precision = 15, scale = 2)
 	private BigDecimal price;
@@ -109,23 +110,25 @@ public class DishGeneral {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-
 	public Map<Integer, IngredientGeneral> getIngredients() {
 		return ingredients;
 	}
-
 	public void setIngredients(Map<Integer, IngredientGeneral> ingredients) {
 		this.ingredients = ingredients;
 	}
 	public int getId() {
 		return id;
 	}
-
 	public DishLoc getDishLoc() {
 		return dishLoc;
 	}
-
 	public void setDishLoc(DishLoc dishLoc) {
 		this.dishLoc = dishLoc;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 }

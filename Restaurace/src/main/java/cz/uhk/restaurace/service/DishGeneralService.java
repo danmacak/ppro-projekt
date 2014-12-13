@@ -15,4 +15,5 @@ public interface DishGeneralService {
 	public DishGeneral getDishById(Integer id);
 	public void removeDish(Integer id);
 	public Map<Integer, DishGeneral> getLocalizedDishesInCart(Map<Integer, DishGeneral> dishes, String language);
+	public Map<String, DishGeneral> getLocalizedTeppanyakiDishes(Map<String, DishGeneral> dishes, String language);
 }

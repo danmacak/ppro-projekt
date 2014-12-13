@@ -20,6 +20,9 @@
         <div th:include="../templates/menu :: menu"></div>
         <div id="main_content">
             <h1 th:text="#{ui.cart.paymentDetails}"></h1>
+
+            <!-- AUTHENTICATION PROMPT -->
+
             <div sec:authorize="isAnonymous()">
                 You've got to fucking log in.
                 <form method="post" action="/j_spring_security_check" th:action="@{/j_spring_security_check}" >
@@ -34,6 +37,9 @@
                     <input type="submit" value="Přihlásit se" th:value="#{ui.header.login}"/>
                 </form>
             </div>
+
+            <!-- AVAILABLE DELIVERIES -->
+
             <div th:unless="${deliveries} == null">
                 <form action="#" th:action="@{/checkout}" method="post">
                     <table>
@@ -56,9 +62,12 @@
                     </table>
                 </form>
             </div>
+
+            <!-- CART ITEMS -->
+
             <div id="cartItems" th:unless="${session.cart} == null" th:include="cart :: cartItems"></div>
             <div>
-                <table th:unless="${session.cart} == null" th:object="${session.cart}">
+                <table id="orderCartCalculation" th:unless="${session.cart} == null" th:object="${session.cart}">
                     <tbody>
                         <tr>
                             <td th:text="#{ui.cart.dishTotalPrice}"></td>

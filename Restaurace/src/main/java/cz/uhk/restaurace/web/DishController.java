@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,7 +52,7 @@ public class DishController {
 			dish.setDishCategory(DishGeneral.DishCategory.TEPPANYAKI);
 			session.setAttribute("teppanyakiDish", dish);
 		}
-		ingredientGeneralService.actualizeLocFieldOnIngredients(dish.getIngredients(), this.language);
+		ingredientGeneralService.actualizeLocFieldsOnIngredients(dish.getIngredients(), this.language);
 		model.addAttribute("ingredientTypes", ingredientGeneralService.getIngredientTypes());
 		return "teppanyaki";
 	}
@@ -69,7 +67,7 @@ public class DishController {
 				category = type;
 			}
 		}
-		ingredientGeneralService.actualizeLocFieldOnIngredients(dish.getIngredients(), this.language);
+		ingredientGeneralService.actualizeLocFieldsOnIngredients(dish.getIngredients(), this.language);
 		model.addAttribute("ingredients", ingredientGeneralService.getIngredientsByCategory(category, this.language));
 		model.addAttribute("ingredientTypes", ingredientGeneralService.getIngredientTypes());
 		return "teppanyaki";

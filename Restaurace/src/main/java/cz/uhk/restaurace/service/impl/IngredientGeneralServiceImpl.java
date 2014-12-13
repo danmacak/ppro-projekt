@@ -91,7 +91,7 @@ public class IngredientGeneralServiceImpl implements IngredientGeneralService {
 
 	@Override
 	@Transactional
-	public void actualizeLocFieldOnIngredients(Map<Integer, IngredientGeneral> ingredients, String language) {
+	public void actualizeLocFieldsOnIngredients(Map<Integer, IngredientGeneral> ingredients, String language) {
 		for(Map.Entry<Integer, IngredientGeneral> ingredient : ingredients.entrySet()){
 			IngredientGeneral ingr = ingredient.getValue();
 			ingr.setIngredientLocalized(getIngredientLocalized(ingr.getId(), language));

@@ -76,10 +76,11 @@ public class CustomerOrderController {
         numOfTeppanyakis++;
         cart.setNumOfTeppanyakis(numOfTeppanyakis);
         //TODO doresit jmeno teppanyaki jidla
-        String dishName = "teppanyaki" + numOfTeppanyakis;
+        String dishName = "Teppanyaki " + numOfTeppanyakis;
+        dish.setName(dishName);
         cart.getOrderedTeppanyakiDishes().put(dishName, dish);
         session.removeAttribute("teppanyakiDish");
-        return "cart";
+        return "redirect:/showCart";
     }
 
     //TODO dodelat test
@@ -104,6 +105,9 @@ public class CustomerOrderController {
         CustomerOrder cart = createCartIfNull(session);
         Map<Integer, DishGeneral> dishes = dishGeneralService.getLocalizedDishesInCart(cart.getOrderedDishes(), this.language);
         model.addAttribute("orderedDishes", dishes);
+        Map<String, DishGeneral> teppanyakiDishes = cart.getOrderedTeppanyakiDishes();
+        model.addAttribute("teppanyakiDishes",
+                dishGeneralService.getLocalizedTeppanyakiDishes(teppanyakiDishes, this.language));
         return "cart";
     }
 
@@ -114,13 +118,13 @@ public class CustomerOrderController {
         return "redirect:/showCart";
     }*/
 
-    //TODO v budoucnu by to chtelo vracet Dish nebo CustomerOrder
     @RequestMapping(value = "/removeItem")
     @ResponseBody
-    public Integer removeItem(HttpSession session, @RequestParam("id") Integer id){
+    public DishGeneral removeItem(HttpSession session, @RequestParam("id") Integer id){
         CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
+        DishGeneral dish = cart.getOrderedDishes().get(id);
         cart.getOrderedDishes().remove(id);
-        return id;
+        return dish;
     }
 
     private CustomerOrder createCartIfNull(HttpSession session){

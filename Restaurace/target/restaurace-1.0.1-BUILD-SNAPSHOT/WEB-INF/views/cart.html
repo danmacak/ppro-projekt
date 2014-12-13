@@ -18,6 +18,9 @@
 <div id="container">
     <div th:include="../templates/menu :: menu"></div>
     <div id="main_content">
+
+        <!-- ORDERED DISHES -->
+
         <div id="cartItems" th:fragment="cartItems">
             <h1 th:text="#{ui.cart.cart}"></h1>
             <table th:unless="${session.cart} == null or ${orderedDishes.isEmpty()}"
@@ -51,30 +54,39 @@
                     </tr>
                 </tbody>
             </table>
-            <table th:unless="${session.cart} == null or ${session.cart.orderedTeppanyakiDishes.isEmpty()}"
-                   th:each="dish : ${session.cart.orderedTeppanyakiDishes}"
+
+            <!-- ORDERED TEPPANYAKI DISHES -->
+
+            <table th:unless="${session.cart} == null or ${teppanyakiDishes.isEmpty()}"
+                   th:each="dish : ${teppanyakiDishes}"
                     class="dish">
                 <tbody>
                     <tr>
                         <td class="first"><b th:text="${dish.value.name}"></b></td>
                     </tr>
+                    <tr>
+                        <td th:each="ingr : ${dish.value.ingredients}" th:text="${ingr.value.ingredientLocalized.name}"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
+
+        <!-- CART CALCULATIONS -->
+
         <div>
-            <table th:object="${session.cart}">
+            <table id="cartCalculations" th:object="${session.cart}">
                 <tbody>
                     <tr>
                         <td th:text="#{ui.cart.totalPriceWithoutTax}"></td>
-                        <td th:text="*{getTotalPriceWithoutTax()} + ' Kč'"></td>
+                        <td id="totalPriceTaxFree" th:text="*{getTotalPriceWithoutTax()} + ' Kč'"></td>
                     </tr>
                     <tr>
                         <td th:text="#{ui.cart.TaxCasual}"></td>
-                        <td th:text="*{regularTax} + ' Kč'"></td>
+                        <td id="totalTax" th:text="*{regularTax} + ' Kč'"></td>
                     </tr>
                     <tr>
                         <td><b th:text="#{ui.cart.totalPriceWithTax}"></b></td>
-                        <td><b th:text="*{totalPrice} + ' Kč'"></b></td>
+                        <td><b id="totalPrice" th:text="*{totalPrice} + ' Kč'"></b></td>
                     </tr>
                 </tbody>
             </table>

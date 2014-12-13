@@ -5,8 +5,10 @@ import java.util.Map;
 
 import cz.uhk.restaurace.dao.DishGeneralDao;
 import cz.uhk.restaurace.dao.DishLocDao;
+import cz.uhk.restaurace.dao.IngredientLocDao;
 import cz.uhk.restaurace.model.DishGeneral;
 import cz.uhk.restaurace.model.DishLoc;
+import cz.uhk.restaurace.model.IngredientGeneral;
 import cz.uhk.restaurace.service.DishGeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class DishGeneralServiceImpl implements DishGeneralService {
 
 	@Autowired
 	private DishLocDao dishLocDao;
+
+	@Autowired
+	private IngredientLocDao ingredientLocDao;
 
 	@Override
 	@Transactional
@@ -74,6 +79,18 @@ public class DishGeneralServiceImpl implements DishGeneralService {
 	public Map<Integer, DishGeneral> getLocalizedDishesInCart(Map<Integer, DishGeneral> dishes, String language) {
 		for(Map.Entry<Integer, DishGeneral> dish : dishes.entrySet()){
 			dish.getValue().setDishLoc(dishLocDao.getDishLocById(dish.getValue().getId(), language));
+		}
+		return dishes;
+	}
+
+	@Override
+	@Transactional
+	public Map<String, DishGeneral> getLocalizedTeppanyakiDishes(Map<String, DishGeneral> dishes, String language) {
+		for(Map.Entry<String, DishGeneral> dish : dishes.entrySet()){
+			for(Map.Entry<Integer, IngredientGeneral> ingr : dish.getValue().getIngredients().entrySet()){
+				ingr.getValue().setIngredientLocalized(
+						ingredientLocDao.getIngredientLocById(ingr.getValue().getId(), language));
+			}
 		}
 		return dishes;
 	}

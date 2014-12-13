@@ -15,7 +15,7 @@ public class CustomerOrder {
 
 	@Id
 	@GeneratedValue
-	private int id;	
+	private int id;
 	private Date date;
 	@Column(precision = 15, scale = 2)
 	private BigDecimal totalPrice = new BigDecimal("0.00");
