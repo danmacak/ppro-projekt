@@ -8,9 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,13 +24,16 @@ public class CustomerOrderController {
     private DishGeneralService dishGeneralService;
 
     @Autowired
-    private DishLocalizedService dishLocalizedService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
     private DeliveryService deliveryService;
+
+    private String language = "cs";
+
+    public void setLanguage(String language, HttpSession session) {
+        this.language = language;
+    }
 
     @RequestMapping(value = "/user/orders")
     public String getOrders(Model model, HttpSession session){
@@ -48,8 +48,10 @@ public class CustomerOrderController {
 
     @RequestMapping(value = "/orderCart")
     public String orderCart(HttpSession session, Model model){
-        createCartIfNull(session);
-        model.addAttribute("deliveries", deliveryService.listBooking());
+        CustomerOrder cart = createCartIfNull(session);
+        Map<Integer, DishGeneral> dishes = dishGeneralService.getLocalizedDishesInCart(cart.getOrderedDishes(), this.language);
+        model.addAttribute("orderedDishes", dishes);
+        model.addAttribute("deliveries", deliveryService.listDelivery());
         return "cartOrder";
     }
 
@@ -60,22 +62,7 @@ public class CustomerOrderController {
         return "cart";
     }
 
-    @RequestMapping(value = "/teppanyaki", method = RequestMethod.GET)
-    public String showTeppanyakiHighLevel(HttpSession session) {
-        if (session.getAttribute("ingredientTypes") == null) {
-            IngredientGeneral.IngredientType[] ingredientTypes = IngredientGeneral.IngredientType
-                    .values();
-            session.setAttribute("ingredientTypes", ingredientTypes);
-        }
-        if (session.getAttribute("teppanyakiDish") == null) {
-            DishGeneral dish = new DishGeneral();
-            Map<Integer, IngredientGeneral> ingredients = new HashMap<Integer, IngredientGeneral>();
-            dish.setIngredients(ingredients);
-            dish.setDishCategory(DishGeneral.DishCategory.TEPPANYAKI);
-            session.setAttribute("teppanyakiDish", dish);
-        }
-        return "teppanyaki";
-    }
+
     @RequestMapping(value = "/addTeppanyakiToCart", method = RequestMethod.GET)
     public String addTeppanyakiToCart(HttpSession session){
         DishGeneral dish = (DishGeneral) session.getAttribute("teppanyakiDish");
@@ -88,8 +75,8 @@ public class CustomerOrderController {
         int numOfTeppanyakis = cart.getNumOfTeppanyakis();
         numOfTeppanyakis++;
         cart.setNumOfTeppanyakis(numOfTeppanyakis);
+        //TODO doresit jmeno teppanyaki jidla
         String dishName = "teppanyaki" + numOfTeppanyakis;
-        dish.setName(dishName);
         cart.getOrderedTeppanyakiDishes().put(dishName, dish);
         session.removeAttribute("teppanyakiDish");
         return "cart";
@@ -103,7 +90,7 @@ public class CustomerOrderController {
         DishGeneral dish = dishGeneralService.getDishById(id);
         dish.setAmount(Integer.parseInt(amount));
         //Prevent saving dishes with same id again in a map, instead increment amount of dishes already stored
-        DishGeneral duplicity = cart.getOrderedDishes().get(dish.getName());
+        DishGeneral duplicity = cart.getOrderedDishes().get(dish.getId());
         if(duplicity == null) {
             cart.getOrderedDishes().put(dish.getId(), dish);
         }else{
@@ -111,24 +98,29 @@ public class CustomerOrderController {
         }
         return dish;
     }
-    //TODO
+
     @RequestMapping(value = "/showCart")
     public String showCart(HttpSession session, Model model){
         CustomerOrder cart = createCartIfNull(session);
-        List<Integer> ids = new ArrayList<Integer>();
-        for(Map.Entry<Integer, DishGeneral> entry : cart.getOrderedDishes().entrySet()){
-            ids.add(entry.getValue().getId());
-        }
-        Map<String, DishLocalized> localizedDishes = dishLocalizedService.getDishesLocalizedInCart(ids);
-        model.addAttribute("ordinalDishes", localizedDishes);
+        Map<Integer, DishGeneral> dishes = dishGeneralService.getLocalizedDishesInCart(cart.getOrderedDishes(), this.language);
+        model.addAttribute("orderedDishes", dishes);
         return "cart";
     }
 
-    @RequestMapping(value = "/removeItem")
+    /*@RequestMapping(value = "/removeItem")
     public String removeItem(HttpSession session, @RequestParam("id") Integer id){
         CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
         cart.getOrderedDishes().remove(id);
         return "redirect:/showCart";
+    }*/
+
+    //TODO v budoucnu by to chtelo vracet Dish nebo CustomerOrder
+    @RequestMapping(value = "/removeItem")
+    @ResponseBody
+    public Integer removeItem(HttpSession session, @RequestParam("id") Integer id){
+        CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
+        cart.getOrderedDishes().remove(id);
+        return id;
     }
 
     private CustomerOrder createCartIfNull(HttpSession session){

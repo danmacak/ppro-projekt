@@ -8,11 +8,8 @@
     <title>Restaurace</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <div th:include="../templates/styles :: styles"></div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script th:src="@{/resources/js/json2.js}"></script>
+    <div th:include="../templates/jsincludes :: js"></div>
 </head>
-
-<script th:src="@{/resources/js/contentActions.js}"></script>
 
 <body>
 <header th:include="../templates/header :: header"></header>
@@ -22,7 +19,7 @@
     <div id="main_content" >
         <div id="menu_left">
             <h2 th:text="#{ui.teppanyaki.ingredientCategory}"></h2>
-            <table th:unless="${session.ingredientTypes} == null"  th:each="ingredient : ${session.ingredientTypes}">
+            <table th:unless="${ingredientTypes} == null"  th:each="ingredient : ${ingredientTypes}">
                 <tr>
                     <td>
                         <a th:href="@{'/teppanyaki/' + ${ingredient.url}}">
@@ -38,7 +35,10 @@
                 <table th:class="ingredient" th:each="ingredient : ${ingredients}">
                     <form class="addIngredientForm" method="get">
                         <tr>
-                            <td><b th:text="${ingredient.name}"></b></td>
+                            <td><b th:unless="${ingredient.ingredientLocalized} == null"
+                                   th:text="${ingredient.ingredientLocalized.name}">
+                                </b>
+                            </td>
                             <td>
                                 <!--<input type="hidden" name="category" th:value="${ingredient.type.url}"/>-->
                                 <input type="hidden" name="id" th:value="${ingredient.id}"/>
@@ -74,7 +74,7 @@
                     <tbody id="actualIngredients">
                         <tr th:each="ingredient : *{ingredients}">
                             <td class="description"
-                                th:text="${ingredient.value.name} + ': ' + ${ingredient.value.grams} + ' ' + #{ui.teppanyaki.ingredientGrams}">
+                                th:text="${ingredient.value.ingredientLocalized.name} + ': ' + ${ingredient.value.grams} + ' ' + #{ui.teppanyaki.ingredientGrams}">
                             </td>
                             <td>
                                 <a class="remove" th:href="@{/removeIngredient(id=${ingredient.value.id}, category=${ingredient.value.type.url})}">

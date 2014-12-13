@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="/restaurace/restaurace-icon.ico" type="image/x-icon"/>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <div th:include="../templates/styles :: styles"></div>
+    <div th:include="../templates/jsincludes :: js"></div>
 </head>
 
 <body>
@@ -17,15 +18,15 @@
 <div id="container">
     <div th:include="../templates/menu :: menu"></div>
     <div id="main_content">
-        <div th:fragment="cartItems">
+        <div id="cartItems" th:fragment="cartItems">
             <h1 th:text="#{ui.cart.cart}"></h1>
-            <table th:unless="${session.cart} == null or ${ordinalDishes.isEmpty()}"
-                   th:each="dish : ${ordinalDishes}"
+            <table th:unless="${session.cart} == null or ${orderedDishes.isEmpty()}"
+                   th:each="dish : ${orderedDishes}"
                    th:class="${dish.value.dishCategory.name}" >
                 <tbody>
                     <tr>
-                        <td class="first"><b th:text="${dish.value.name}"></b></td>
-                        <td class="second"><b th:text="${dish.value.description}"></b></td>
+                        <td class="first"><b th:text="${dish.value.dishLoc.name}"></b></td>
+                        <td class="second"><b th:text="${dish.value.dishLoc.description}"></b></td>
                         <td class="third"><b th:text="#{ui.cart.price} + ' ' + ${dish.value.price} + ' Kč'"></b></td>
                         <td class="fourth" th:text="#{ui.cart.amount} + ' ' + ${dish.value.amount}"></td>
                         <td></td>
@@ -36,9 +37,12 @@
                         <td></td>
                         <td></td>
                         <td>
-                            <a th:href="@{/removeItem(id=${dish.value.id})}" >
-                                <img src="/restaurace/resources/images/red-cross.png" />
-                            </a>
+                            <form class="removeCartItem">
+                                <input name="id" type="hidden" th:value="${dish.value.id}"/>
+                                <!--<a th:href="@{/removeItem(id=${dish.value.id})}" ></a>-->
+                                    <!--<img src="/restaurace/resources/images/red-cross.png" />-->
+                                <input type="image" src="/restaurace/resources/images/red-cross.png"/>
+                            </form>
                         </td>
                     </tr>
                     <tr>

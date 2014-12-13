@@ -8,11 +8,8 @@
     <title>Restaurace</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <div th:include="../templates/styles :: styles"></div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script th:src="@{/resources/js/json2.js}"></script>
+    <div th:include="../templates/jsincludes :: js"></div>
 </head>
-
-<script th:src="@{/resources/js/contentActions.js}"></script>
 
 <body>
 <header th:include="../templates/header :: header"></header>
@@ -22,12 +19,12 @@
     <div id="main_content">
         <div th:if="${dishesToShow} == true">
             <h2 th:text="#{ui.dishmenu.dishname}"></h2>
-            <table th:class="dish" th:each="dish : ${dishes}">
+            <table th:class="dish" th:each="dish : ${dishes}" >
                 <tbody >
                 <form method="get" class="buyForm">
                     <tr>
-                        <td class="first"><b th:text="${dish.name}"></b></td>
-                        <td class="second"><b th:text="${dish.description}"></b></td>
+                        <td class="first"><b th:text="${dish.dishLoc.name}"></b></td>
+                        <td class="second"><b th:text="${dish.dishLoc.description}"></b></td>
                         <td class="third"><b th:text="${dish.price} + ' Kč'"></b></td>
                         <td class="fourth"><input type="text" name="amount" th:value="${dish.amount}" /></td>
                         <input type="hidden" name="id" th:value="${dish.id}" />
@@ -52,8 +49,8 @@
                 <form method="get" class="buyForm">
                     <tbody >
                     <tr>
-                        <td><b th:text="${drink.name}"></b></td>
-                        <td th:text="${drink.description}"></td>
+                        <td><b th:text="${drink.dishLoc.name}"></b></td>
+                        <td th:text="${drink.dishLoc.description}"></td>
                         <td><b th:text="${drink.price} + ' Kč'"></b></td>
                         <td><input type="text" name="amount" th:value="${drink.amount}"/></td>
                         <input type="hidden" name="id" th:value="${drink.id}"/>

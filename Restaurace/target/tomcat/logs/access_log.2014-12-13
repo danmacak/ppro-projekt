@@ -1,0 +1,16 @@
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:06 +0100] "GET /restaurace/teppanyaki HTTP/1.1" 200 5767 http-bio-8080-exec-1 1888
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:06 +0100] "GET /restaurace/resources/css/structure.css HTTP/1.1" 200 1408 http-bio-8080-exec-2 48
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:06 +0100] "GET /restaurace/resources/js/contentActions.js HTTP/1.1" 200 4275 http-bio-8080-exec-3 17
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:07 +0100] "GET /restaurace/teppanyaki/vegetable HTTP/1.1" 200 7021 http-bio-8080-exec-4 214
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:08 +0100] "GET /restaurace/addIngredient?id=1&grams=0 HTTP/1.1" 200 202 http-bio-8080-exec-6 113
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:08 +0100] "GET /restaurace/teppanyaki/vegetable HTTP/1.1" 200 7860 http-bio-8080-exec-7 34
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:10 +0100] "GET /restaurace/teppanyaki/vegetable?lang=en HTTP/1.1" 200 7812 http-bio-8080-exec-8 76
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:12 +0100] "GET /restaurace/teppanyaki/vegetable?lang=cs HTTP/1.1" 200 7860 http-bio-8080-exec-9 36
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:16 +0100] "GET /restaurace/teppanyaki/vegetable?lang=en HTTP/1.1" 200 7812 http-bio-8080-exec-10 78
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:17 +0100] "GET /restaurace/teppanyaki/vegetable?lang=cs HTTP/1.1" 200 7860 http-bio-8080-exec-10 85
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:18 +0100] "GET /restaurace/teppanyaki HTTP/1.1" 200 6606 http-bio-8080-exec-10 19
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:20 +0100] "GET /restaurace/teppanyaki?lang=en HTTP/1.1" 200 6551 http-bio-8080-exec-10 34
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:21 +0100] "GET /restaurace/teppanyaki?lang=cs HTTP/1.1" 200 6606 http-bio-8080-exec-10 25
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:22 +0100] "GET /restaurace/teppanyaki/vegetable HTTP/1.1" 200 7860 http-bio-8080-exec-10 89
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:24 +0100] "GET /restaurace/teppanyaki/vegetable?lang=en HTTP/1.1" 200 7812 http-bio-8080-exec-10 69
+0:0:0:0:0:0:0:1 - - [13/Dec/2014:10:44:25 +0100] "GET /restaurace/teppanyaki/vegetable?lang=cs HTTP/1.1" 200 7860 http-bio-8080-exec-10 71

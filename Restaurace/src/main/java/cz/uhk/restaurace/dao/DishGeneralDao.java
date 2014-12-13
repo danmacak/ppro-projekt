@@ -12,5 +12,4 @@ public interface DishGeneralDao {
 	public List<DishGeneral> listDrinksGeneral();
 	public DishGeneral getDishGeneralById(int id);
 	public void removeDishGeneral(int id);
-	public List<DishGeneral> getDishesInCart(List<Integer> ids);
 }

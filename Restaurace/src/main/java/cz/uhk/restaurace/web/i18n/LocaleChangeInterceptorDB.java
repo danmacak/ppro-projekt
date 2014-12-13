@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cz.uhk.restaurace.web.CustomerOrderController;
 import cz.uhk.restaurace.web.DishController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.LocaleEditor;
@@ -18,8 +19,9 @@ public class LocaleChangeInterceptorDB extends HandlerInterceptorAdapter {
 	
 	@Autowired
 	private DishController dishController;
-	
 
+	@Autowired
+	private CustomerOrderController customerOrderController;
 
 	public static final String DEFAULT_PARAM_NAME = "locale";
 
@@ -27,7 +29,6 @@ public class LocaleChangeInterceptorDB extends HandlerInterceptorAdapter {
 
 	public void setParamName(String paramName) {
 		this.paramName = paramName;
-
 	}
 
 	public boolean preHandle(HttpServletRequest request,
@@ -39,6 +40,7 @@ public class LocaleChangeInterceptorDB extends HandlerInterceptorAdapter {
 		if (newLocale != null) {
 			
 			dishController.setLanguage(newLocale, request.getSession());
+			customerOrderController.setLanguage(newLocale, request.getSession());
 			LocaleResolver localeResolver = RequestContextUtils
 					.getLocaleResolver(request);
 
@@ -46,7 +48,6 @@ public class LocaleChangeInterceptorDB extends HandlerInterceptorAdapter {
 
 				throw new IllegalStateException(
 						"No LocaleResolver found: not in a DispatcherServlet request?");
-
 			}
 
 			LocaleEditor localeEditor = new LocaleEditor();
@@ -55,7 +56,6 @@ public class LocaleChangeInterceptorDB extends HandlerInterceptorAdapter {
 
 			localeResolver.setLocale(request, response,
 					(Locale) localeEditor.getValue());
-
 		}
 
 		// Proceed in any case.

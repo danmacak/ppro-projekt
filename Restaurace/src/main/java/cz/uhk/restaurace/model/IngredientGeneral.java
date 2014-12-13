@@ -16,7 +16,6 @@ public class IngredientGeneral {
 	@Id
 	@GeneratedValue
 	private int id;
-	private String name;
 	private int kcal;
 	private int fatGrams;
 	private int saccharideGrams;
@@ -27,11 +26,9 @@ public class IngredientGeneral {
 	@ManyToMany(mappedBy="ingredients")
 	@JsonIgnore
 	private Collection<DishGeneral> dishes;
-	@OneToMany
-	@JoinColumn(name="id")
-	private Collection<IngredientLoc> localizations;
 	@Column(name="price")
 	private BigDecimal pricePerHundredGrams;
+	private transient IngredientLoc ingredientLocalized;
 	
 	public IngredientGeneral() {}
 
@@ -141,11 +138,11 @@ public class IngredientGeneral {
 		this.pricePerHundredGrams = pricePerHundredGrams;
 	}
 
-	public String getName() {
-		return name;
+	public IngredientLoc getIngredientLocalized() {
+		return ingredientLocalized;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setIngredientLocalized(IngredientLoc ingredientLocalized) {
+		this.ingredientLocalized = ingredientLocalized;
 	}
 }

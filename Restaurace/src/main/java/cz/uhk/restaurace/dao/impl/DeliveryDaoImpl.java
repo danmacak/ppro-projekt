@@ -20,27 +20,27 @@ public class DeliveryDaoImpl implements DeliveryDao{
     private SessionFactory sessionFactory;
 
     @Override
-    public void addBooking(Delivery delivery) {
+    public void addDelivery(Delivery delivery) {
         sessionFactory.getCurrentSession().persist(delivery);
     }
 
     @Override
-    public void updateBooking(Delivery delivery) {
+    public void updateDelivery(Delivery delivery) {
         sessionFactory.getCurrentSession().update(delivery);
     }
 
     @Override
-    public List<Delivery> listBooking() {
+    public List<Delivery> listDelivery() {
         return sessionFactory.getCurrentSession().createQuery("FROM Delivery").list();
     }
 
     @Override
-    public Delivery getBookingById(int id) {
+    public Delivery getDeliveryById(int id) {
         return (Delivery)sessionFactory.getCurrentSession().get(Delivery.class, id);
     }
 
     @Override
-    public void removeBooking(int id) {
+    public void removeDelivery(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(session.get(Delivery.class, id));
     }

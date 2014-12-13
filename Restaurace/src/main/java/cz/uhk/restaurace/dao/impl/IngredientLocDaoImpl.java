@@ -38,9 +38,9 @@ public class IngredientLocDaoImpl implements IngredientLocDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<IngredientLoc> listIngredientLoc() {
+	public List<IngredientLoc> listIngredientLoc(String lang) {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<IngredientLoc> ingredientLocList = session.createQuery("from IngredientLoc").list();
+		List<IngredientLoc> ingredientLocList = session.createQuery("from IngredientLoc where language='"+lang+"' order by id").list();
 		return ingredientLocList;
 	}
 

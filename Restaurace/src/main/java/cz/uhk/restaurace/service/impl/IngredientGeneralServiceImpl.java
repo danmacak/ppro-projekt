@@ -1,9 +1,13 @@
 package cz.uhk.restaurace.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cz.uhk.restaurace.dao.IngredientGeneralDao;
+import cz.uhk.restaurace.dao.IngredientLocDao;
 import cz.uhk.restaurace.model.IngredientGeneral;
+import cz.uhk.restaurace.model.IngredientLoc;
 import cz.uhk.restaurace.service.IngredientGeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,9 @@ public class IngredientGeneralServiceImpl implements IngredientGeneralService {
 
 	@Autowired
 	private IngredientGeneralDao ingredientGeneralDao;
+
+	@Autowired
+	private IngredientLocDao ingredientLocDao;
 
 	@Override
 	@Transactional
@@ -47,7 +54,47 @@ public class IngredientGeneralServiceImpl implements IngredientGeneralService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<IngredientGeneral> getIngredientsByCategory(IngredientGeneral.IngredientType type) {
-		return ingredientGeneralDao.getIngredientsGeneralByCategory(type);
+	public List<IngredientGeneral> getIngredientsByCategory(IngredientGeneral.IngredientType type, String language) {
+		List<IngredientGeneral> ingredients = ingredientGeneralDao.getIngredientsGeneralByCategory(type);
+		for(IngredientGeneral ingr : ingredients){
+			ingr.setIngredientLocalized(ingredientLocDao.getIngredientLocById(ingr.getId(), language));
+		}
+		return ingredients;
+	}
+
+	@Override
+	@Transactional
+	public Map<Integer, IngredientGeneral> getIngredientsLocalized(Map<Integer, IngredientGeneral> ingredients, String language) {
+		for(Map.Entry<Integer, IngredientGeneral> ingr : ingredients.entrySet()){
+			ingr.getValue().setIngredientLocalized(ingredientLocDao.getIngredientLocById(ingr.getValue().getId(), language));
+		}
+		return ingredients;
+	}
+
+	@Override
+	@Transactional
+	public IngredientLoc getIngredientLocalized(Integer id, String language) {
+		return ingredientLocDao.getIngredientLocById(id, language);
+	}
+
+	@Override
+	public List<IngredientGeneral.IngredientType> getIngredientTypes() {
+		List<IngredientGeneral.IngredientType> ingredientTypes = new ArrayList<IngredientGeneral.IngredientType>();
+		for(IngredientGeneral.IngredientType category : IngredientGeneral.IngredientType
+				.values()){
+			if(!category.equals(IngredientGeneral.IngredientType.TEPPANYAKI)){
+				ingredientTypes.add(category);
+			}
+		}
+		return ingredientTypes;
+	}
+
+	@Override
+	@Transactional
+	public void actualizeLocFieldOnIngredients(Map<Integer, IngredientGeneral> ingredients, String language) {
+		for(Map.Entry<Integer, IngredientGeneral> ingredient : ingredients.entrySet()){
+			IngredientGeneral ingr = ingredient.getValue();
+			ingr.setIngredientLocalized(getIngredientLocalized(ingr.getId(), language));
+		}
 	}
 }

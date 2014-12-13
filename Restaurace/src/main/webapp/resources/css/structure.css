@@ -16,6 +16,9 @@ header {
 	margin: 50 0 0 0 ;
 	height: 180px;
 	width: 100%;
+	position: fixed;
+	margin-top: -180px;
+	z-index: 1000;
 }
 
 #header_image {
@@ -40,6 +43,7 @@ header {
 	background-color: #ffffb7;
 	min-height: 600px;
 	height: auto;
+	margin-top: 180px;
 }
 
 #main_content {
@@ -53,8 +57,9 @@ header {
 #main_menu {
 	height: auto;
 	min-height: 22px;
-	width: 100%;
+	width:1000px;
 	background-color: black;
+	position: fixed;
 }
 
 #menu_left {

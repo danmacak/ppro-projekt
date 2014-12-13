@@ -10,9 +10,9 @@ import java.util.List;
 
 
 public interface DeliveryDao {
-    public void addBooking(Delivery delivery);
-    public void updateBooking(Delivery delivery);
-    public List<Delivery> listBooking();
-    public Delivery getBookingById(int id);
-    public void removeBooking(int id);
+    public void addDelivery(Delivery delivery);
+    public void updateDelivery(Delivery delivery);
+    public List<Delivery> listDelivery();
+    public Delivery getDeliveryById(int id);
+    public void removeDelivery(int id);
 }

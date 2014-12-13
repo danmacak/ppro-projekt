@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import cz.uhk.restaurace.model.DishGeneral;
+import cz.uhk.restaurace.model.DishLoc;
 import cz.uhk.restaurace.model.Role;
 
 @Repository
@@ -47,15 +48,25 @@ public class DishGeneralDaoImpl implements DishGeneralDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DishGeneral> listDishesGeneral() {
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
-		return criteria.add(Restrictions.not(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK))).list();
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		List<DishGeneral> dishGeneralList = session.createQuery("from DishGeneral where not(dishCategory = 'DRINK')  order by id").list();
+		return dishGeneralList;
+		
+//		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
+//		return criteria.add(Restrictions.not(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK))).list();
+		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DishGeneral> listDrinksGeneral() {
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
-		return criteria.add(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK)).list();
+		Session session = this.sessionFactory.getCurrentSession();
+		List<DishGeneral> dishGeneralList = session.createQuery("from DishGeneral where dishCategory = 'DRINK'  order by id").list();
+		return dishGeneralList;
+		
+//		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
+//		return criteria.add(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK)).list();
 	}
 
 	@Override
@@ -72,14 +83,5 @@ public class DishGeneralDaoImpl implements DishGeneralDao {
 		if (a != null) {
 			session.delete(a);
 		}
-	}
-
-	@Override
-	public List<DishGeneral> getDishesInCart(List<Integer> ids) {
-		List<DishGeneral> ordinalDishes = new ArrayList<DishGeneral>();
-		for(Integer id : ids){
-			ordinalDishes.add(getDishGeneralById(id));
-		}
-		return ordinalDishes;
 	}
 }

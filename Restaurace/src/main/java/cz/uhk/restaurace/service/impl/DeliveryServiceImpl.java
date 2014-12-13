@@ -1,7 +1,6 @@
 package cz.uhk.restaurace.service.impl;
 
 import cz.uhk.restaurace.dao.DeliveryDao;
-import cz.uhk.restaurace.dao.impl.DeliveryDaoImpl;
 import cz.uhk.restaurace.model.Delivery;
 import cz.uhk.restaurace.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,31 +21,31 @@ public class DeliveryServiceImpl implements DeliveryService{
 
     @Transactional
     @Override
-    public void addBooking(Delivery delivery) {
-        deliveryDao.addBooking(delivery);
+    public void addDelivery(Delivery delivery) {
+        deliveryDao.addDelivery(delivery);
     }
 
     @Transactional
     @Override
-    public void updateBooking(Delivery delivery) {
-        deliveryDao.updateBooking(delivery);
+    public void updateDelivery(Delivery delivery) {
+        deliveryDao.updateDelivery(delivery);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Delivery> listBooking() {
-        return deliveryDao.listBooking();
+    public List<Delivery> listDelivery() {
+        return deliveryDao.listDelivery();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Delivery getBookingById(int id) {
-        return deliveryDao.getBookingById(id);
+    public Delivery getDeliveryById(int id) {
+        return deliveryDao.getDeliveryById(id);
     }
 
     @Transactional
     @Override
-    public void removeBooking(int id) {
-        deliveryDao.removeBooking(id);
+    public void removeDelivery(int id) {
+        deliveryDao.removeDelivery(id);
     }
 }

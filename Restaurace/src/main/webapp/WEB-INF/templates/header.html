@@ -37,7 +37,7 @@
         <a href="?lang=en"><img src="/restaurace/resources/images/us_flag.jpg"/></a>
         <div>
             <table>
-                <tbody>
+                <tbody id="cartProperties">
                 <tr>
                     <td th:text="#{ui.header.cartPrice} + ': '"></td>
                     <td th:text="(${session.cart} != null? ${session.cart.totalPrice} : '0')" id="cartPrice"></td>
