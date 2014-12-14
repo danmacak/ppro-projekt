@@ -36,15 +36,18 @@ $(document).ready(function(){
      */
     function removeCartDishItem(data){
         $.getJSON("/restaurace/removeItem", data, function(dish){
+            var dishesPrice = dish.price * dish.amount;
+
+            //actualize list of ordered dishes
             $("#cartItems").load(document.URL + ' #cartItems');
 
             //Change header calculations
-            $("#cartPrice").text(parseFloat(($("#cartPrice").text()) - (dish.price * dish.amount)).toFixed(2));
+            $("#cartPrice").text(parseFloat(($("#cartPrice").text()) - dishesPrice).toFixed(2));
             $("#totalItems").text(parseInt($("#totalItems").text()) - dish.amount);
 
-            //TODO prepsat bez loadu
+            //TODO mozno prepsat bez loadu do budoucna kvuli optimalizaci
             //Change cart calculations
-            S$("#cartCalculations").load(document.URL + ' #cartCalculations');
+            $("#cartCalculations").load(document.URL + ' #cartCalculations');
 
             //Change orderCart calculations
             var orderCartDishPrice = parseFloat($("#dishTotalPrice").text()) - (dish.price * dish.amount);

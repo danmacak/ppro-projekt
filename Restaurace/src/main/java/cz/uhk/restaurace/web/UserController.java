@@ -1,8 +1,12 @@
 package cz.uhk.restaurace.web;
 
+import cz.uhk.restaurace.model.Booking;
+import cz.uhk.restaurace.model.CustomerOrder;
 import cz.uhk.restaurace.model.Role;
 import cz.uhk.restaurace.model.User;
 import cz.uhk.restaurace.service.AddressService;
+import cz.uhk.restaurace.service.BookingService;
+import cz.uhk.restaurace.service.CustomerOrderService;
 import cz.uhk.restaurace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Created by dann on 11.11.2014.
@@ -34,6 +36,26 @@ public class UserController {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private CustomerOrderService orderService;
+
+    @Autowired
+    private BookingService bookingService;
+
+    @RequestMapping(value = "/user/orders")
+    public String getOrders(Model model, Principal principal){
+        List<CustomerOrder> orders = orderService.getUserOrdersByUsername(principal.getName());
+        model.addAttribute("customerOrders", orders);
+        return "user/orders";
+    }
+
+    @RequestMapping(value = "/user/bookings")
+    public String getBookings(Model model, Principal principal){
+        List<Booking> bookings = bookingService.getBookingsByUsername(principal.getName());
+        model.addAttribute("bookings", bookings);
+        return "user/bookings";
+    }
+
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationForm(User user){
         return "registration";
@@ -47,7 +69,7 @@ public class UserController {
         if (bindingResult.hasErrors()){
             return "registration";
         }
-        Collection<Role> role = new ArrayList<Role>(Arrays.asList(new Role(Role.RoleType.ROLE_USER)));
+        Set<Role> role = (Set)Arrays.asList(new Role(Role.RoleType.ROLE_USER));
         user.setRoles(role);
         userService.addUser(user);
         return "redirect:/regsuccessful";

@@ -1,6 +1,9 @@
 package cz.uhk.restaurace.dao;
 
 import java.util.List;
+import java.util.Set;
+
+import cz.uhk.restaurace.model.Role;
 import cz.uhk.restaurace.model.User;
 
 public interface UserDao {
@@ -9,4 +12,5 @@ public interface UserDao {
 	public List<User> listUser();
 	public User getUserById(String username);
 	public void removeUser(int id);
+	public List<User> getUsersByRole(Role.RoleType role);
 }

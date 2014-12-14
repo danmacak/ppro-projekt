@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -29,30 +30,30 @@ public class User{
 	private String email;
 	private String telephone;
 	private boolean enabled;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Address address;
-	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="customer")
 	private Collection<CustomerOrder> customerOrders;
-	@ManyToMany(cascade={CascadeType.ALL}, fetch = FetchType.EAGER)
+	@ManyToMany(cascade={CascadeType.ALL})
 	private Collection<Shift> shifts;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles",
 				joinColumns=@JoinColumn(name="user"),
 				inverseJoinColumns = @JoinColumn(name = "role"))
-	private Collection<Role> roles;
-	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER)
+	private Set<Role> roles;
+	@OneToMany(mappedBy="customer")
 	private Collection<Booking> bookings;
 
 	public User() {
 	}
 
-	public User(String username, String password, Collection<Role> roles) {
+	public User(String username, String password, Set<Role> roles) {
 		this.username = username;
 		this.password = password;
 		this.roles = roles;
 	}
 
-	public User(String username, String password, Collection<Role> roles,
+	public User(String username, String password, Set<Role> roles,
 				String surname, String firstname, String email) {
 		this(username, password, roles);
 		this.surname = surname;
@@ -140,11 +141,11 @@ public class User{
 		this.shifts = shifts;
 	}
 
-	public Collection<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Collection<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 

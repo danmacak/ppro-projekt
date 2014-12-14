@@ -35,11 +35,6 @@ public class CustomerOrderController {
         this.language = language;
     }
 
-    @RequestMapping(value = "/user/orders")
-    public String getOrders(Model model, HttpSession session){
-        return "user/orders";
-    }
-
     @RequestMapping(value = "/checkout")
     public String checkout(Model model, HttpSession session){
 
@@ -59,6 +54,7 @@ public class CustomerOrderController {
     public String emptyCart(HttpSession session){
         CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
         cart.getOrderedDishes().clear();
+        cart.getOrderedTeppanyakiDishes().clear();
         return "cart";
     }
 

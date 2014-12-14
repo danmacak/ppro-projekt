@@ -48,25 +48,16 @@ public class DishGeneralDaoImpl implements DishGeneralDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DishGeneral> listDishesGeneral() {
-		
-		Session session = this.sessionFactory.getCurrentSession();
-		List<DishGeneral> dishGeneralList = session.createQuery("from DishGeneral where not(dishCategory = 'DRINK')  order by id").list();
-		return dishGeneralList;
-		
-//		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
-//		return criteria.add(Restrictions.not(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK))).list();
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
+		return criteria.add(Restrictions.not(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK))).list();
 		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DishGeneral> listDrinksGeneral() {
-		Session session = this.sessionFactory.getCurrentSession();
-		List<DishGeneral> dishGeneralList = session.createQuery("from DishGeneral where dishCategory = 'DRINK'  order by id").list();
-		return dishGeneralList;
-		
-//		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
-//		return criteria.add(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK)).list();
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
+		return criteria.add(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK)).list();
 	}
 
 	@Override

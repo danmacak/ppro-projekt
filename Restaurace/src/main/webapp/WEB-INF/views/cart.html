@@ -42,8 +42,6 @@
                         <td>
                             <form class="removeCartItem">
                                 <input name="id" type="hidden" th:value="${dish.value.id}"/>
-                                <!--<a th:href="@{/removeItem(id=${dish.value.id})}" ></a>-->
-                                    <!--<img src="/restaurace/resources/images/red-cross.png" />-->
                                 <input type="image" src="/restaurace/resources/images/red-cross.png"/>
                             </form>
                         </td>
@@ -66,6 +64,12 @@
                     </tr>
                     <tr>
                         <td th:each="ingr : ${dish.value.ingredients}" th:text="${ingr.value.ingredientLocalized.name}"></td>
+                        <td>
+                            <form class="removeCartItem">
+                                <input name="id" type="hidden" th:value="${dish.value.id}"/>
+                                <input type="image" src="/restaurace/resources/images/red-cross.png"/>
+                            </form>
+                        </td>
                     </tr>
                 </tbody>
             </table>

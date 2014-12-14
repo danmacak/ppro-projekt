@@ -1,13 +1,19 @@
 package cz.uhk.restaurace.dao.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import cz.uhk.restaurace.dao.UserDao;
+import cz.uhk.restaurace.model.Role;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import cz.uhk.restaurace.model.User;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -58,4 +64,13 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	@Override
+	@Transactional
+	public List<User> getUsersByRole(Role.RoleType role) {
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createCriteria(User.class)
+				.createCriteria("roles")
+				.add(Restrictions.eq("roleType", role))
+				.list();
+	}
 }

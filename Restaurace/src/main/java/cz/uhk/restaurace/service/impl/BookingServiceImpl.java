@@ -48,4 +48,9 @@ public class BookingServiceImpl implements BookingService {
 
 	}
 
+	@Override
+	@Transactional
+	public List<Booking> getBookingsByUsername(String username) {
+		return bookingDao.getBookingsByUsername(username);
+	}
 }

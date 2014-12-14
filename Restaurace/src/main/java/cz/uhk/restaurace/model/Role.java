@@ -3,6 +3,7 @@ package cz.uhk.restaurace.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -15,8 +16,15 @@ public class Role implements GrantedAuthority{
 	@Enumerated(EnumType.STRING)
 	private RoleType roleType;
 	@ManyToMany(mappedBy = "roles", cascade={CascadeType.ALL})
-	private Collection<User> users;
-	public enum RoleType{ROLE_ADMIN, ROLE_EMPLOYEE, ROLE_USER}
+	private Set<User> users;
+	public enum RoleType{
+		ROLE_ADMIN,
+		ROLE_COOK,
+		ROLE_WAITER,
+		ROLE_CHEF,
+		ROLE_MANAGER,
+		ROLE_USER
+	}
 
 	public Role(){}
 
@@ -32,11 +40,11 @@ public class Role implements GrantedAuthority{
 		this.roleType = roleType;
 	}
 
-	public Collection<User> getUsers() {
+	public Set<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Collection<User> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 

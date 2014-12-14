@@ -3,8 +3,10 @@ package cz.uhk.restaurace.dao.impl;
 import java.util.List;
 
 import cz.uhk.restaurace.dao.BookingDao;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import cz.uhk.restaurace.model.Booking;
@@ -58,4 +60,9 @@ public class BookingDaoImpl implements BookingDao {
 
 	}
 
+	@Override
+	public List<Booking> getBookingsByUsername(String username) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Booking.class);
+		return criteria.add(Restrictions.eq("customer.username", username)).list();
+	}
 }

@@ -1,7 +1,9 @@
 package cz.uhk.restaurace.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
+import cz.uhk.restaurace.model.Role;
 import cz.uhk.restaurace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,4 +50,8 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public List<User> getUsersByRole(Role.RoleType role) {
+		return userDao.getUsersByRole(role);
+	}
 }

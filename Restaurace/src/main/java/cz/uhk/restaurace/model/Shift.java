@@ -3,10 +3,7 @@ package cz.uhk.restaurace.model;
 import java.sql.Date;
 import java.util.Collection;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 @Entity
 public class Shift {
@@ -19,6 +16,16 @@ public class Shift {
 	private int toHour;
 	@ManyToMany(mappedBy="shifts")
 	private Collection<User> employees;
+	@Column(name = "work_day")
+	private Day workDay;
+
+	public enum Day{
+		WEDNESDAY,
+		THURSDAY,
+		FRIDAY,
+		SATURDAY,
+		SUNDAY;
+	}
 	
 	public Shift() {}
 
@@ -61,6 +68,12 @@ public class Shift {
 	public void setToHour(int toHour) {
 		this.toHour = toHour;
 	}
-	
-	
+
+	public Day getWorkDay() {
+		return workDay;
+	}
+
+	public void setWorkDay(Day workDay) {
+		this.workDay = workDay;
+	}
 }

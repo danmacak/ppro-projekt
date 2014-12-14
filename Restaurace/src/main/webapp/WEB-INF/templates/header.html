@@ -11,8 +11,13 @@
 </head>
 
 <div th:fragment="header">
+
     <div id="header_image"></div>
+
     <div id="header_login">
+
+        <!-- LOGIN FORMULAR -->
+
         <div sec:authorize="isAnonymous()">
             <form method="post" action="/j_spring_security_check" th:action="@{/j_spring_security_check}" >
                 <label>
@@ -27,14 +32,20 @@
             </form>
             <a href="/" th:href="@{/registration}" th:text="#{ui.header.registration}">Registration</a>
         </div>
+
+        <!-- USER MENU -->
+
         <div id="user_menu_header" sec:authorize="hasRole('ROLE_USER')" >
             <a href="/" th:href="@{/user/userdetails}" th:text="#{ui.header.useraccount}" >Uzivatel</a>
             <a href="/" th:href="@{/j_spring_security_logout}" th:text="#{ui.header.logout}" >Logout</a>
             <a href="/" th:href="@{/user/orders}" th:text="#{ui.header.orders}" >Orders</a>
-            <a href="/" th:href="@{/user/bookings}" th:text="#{ui.header.bookings}" >Bookings</a>
+            <a href="/" th:href="@{/user/bookings}" th:text="#{ui.header.bookings}" >Bookings</a><br/>
         </div>
         <a href="?lang=cs"><img src="/restaurace/resources/images/czech_flag.jpg"/></a>
         <a href="?lang=en"><img src="/restaurace/resources/images/us_flag.jpg"/></a>
+
+        <!-- CART PROPS -->
+
         <div>
             <table>
                 <tbody id="cartProperties">

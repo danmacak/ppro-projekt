@@ -19,7 +19,7 @@
         <div id="main_content">
             <h2 th:text="#{ui.bookings.newbookings}">New Bookings</h2>
             <h1 th:text="#{ui.bookings.minebookings}">Bookings</h1>
-            <table th:unless="${#authentication.user.bookings} == null">
+            <table th:unless="${bookings} == null">
                 <thead>
                     <tr>
                         <th th:text="#{ui.bookings.sinceHour}"></th>
@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:with="df=#{ui.date.format}" th:each="booking : ${#authentication.user.bookings}">
+                    <tr th:with="df=#{ui.date.format}" th:each="booking : ${bookings}">
                         <td th:text="${booking.sinceHour}"></td>
                         <td th:text="${booking.toHour}"></td>
                         <td th:text="${#calendars.format(booking.date, df)}"></td>

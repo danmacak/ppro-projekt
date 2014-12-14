@@ -34,7 +34,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<CustomerOrder> listUserOrder(String username) {
+	public List<CustomerOrder> getUserOrdersByUsername(String username) {
 		return customerOrderDao.listUserOrder(username);
 	}
 
