@@ -11,12 +11,12 @@ public class Shift {
 	@Id
 	@GeneratedValue
 	private int id;
-	private Date date;
 	private int sinceHour;
 	private int toHour;
 	@ManyToMany(mappedBy="shifts")
 	private Collection<User> employees;
 	@Column(name = "work_day")
+	@Enumerated(EnumType.STRING)
 	private Day workDay;
 
 	public enum Day{
@@ -29,10 +29,9 @@ public class Shift {
 	
 	public Shift() {}
 
-	public Shift(int id, Date date, int sinceHour, int toHour) {
+	public Shift(int id, int sinceHour, int toHour) {
 		super();
 		this.id = id;
-		this.date = date;
 		this.sinceHour = sinceHour;
 		this.toHour = toHour;
 	}
@@ -43,14 +42,6 @@ public class Shift {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public int getSinceHour() {
