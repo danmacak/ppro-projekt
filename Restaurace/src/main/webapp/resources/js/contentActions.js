@@ -28,6 +28,15 @@ $(document).ready(function(){
         event.preventDefault();
     });
 
+    /*
+     * on submit event remove custom dish from cart, related to the whole document
+     * in order to prevent issues after ajax reloads of page fragments
+     */
+    $(document).on('submit', ".removeCustomCartItem", function(event){
+        var id = $(this).serializeObject();
+        removeCustomCartDishItem(id);
+        event.preventDefault();
+    });
 
     //TODO dodelat rucni aktualizaci kosiku v headeru a prepoctu cen
     /*
@@ -36,24 +45,41 @@ $(document).ready(function(){
      */
     function removeCartDishItem(data){
         $.getJSON("/restaurace/removeItem", data, function(dish){
-            var dishesPrice = dish.price * dish.amount;
-
-            //actualize list of ordered dishes
-            $("#cartItems").load(document.URL + ' #cartItems');
-
-            //Change header calculations
-            $("#cartPrice").text(parseFloat(($("#cartPrice").text()) - dishesPrice).toFixed(2));
-            $("#totalItems").text(parseInt($("#totalItems").text()) - dish.amount);
-
-            //TODO mozno prepsat bez loadu do budoucna kvuli optimalizaci
-            //Change cart calculations
-            $("#cartCalculations").load(document.URL + ' #cartCalculations');
-
-            //Change orderCart calculations
-            var orderCartDishPrice = parseFloat($("#dishTotalPrice").text()) - (dish.price * dish.amount);
-            $("#dishTotalPrice").text(orderCartDishPrice.toFixed(2));
-            $("#totalPrice").text((orderCartDishPrice + parseFloat($("#deliveryPrice").text())).toFixed(2));
+            actualizeCalculationsAfterItemRemoved(dish);
         });
+    }
+
+    /*
+     * calls controller method with mapping "/restaurace/removeCustomItem",
+     * gets output, if valid JSON, executes function, which reaload some page fragments
+     */
+    function removeCustomCartDishItem(data){
+        $.getJSON("/restaurace/removeCustomItem", data, function(dish){
+            actualizeCalculationsAfterItemRemoved(dish);
+        });
+    }
+
+    /*
+     * get some html elements and actualize their values after cart items changes
+     */
+    function actualizeCalculationsAfterItemRemoved(dish){
+        var dishesPrice = dish.price * dish.amount;
+
+        //actualize list of ordered dishes
+        $("#cartItems").load(document.URL + ' #cartItems');
+
+        //Change header calculations
+        $("#cartPrice").text(parseFloat(($("#cartPrice").text()) - dishesPrice).toFixed(2));
+        $("#totalItems").text(parseInt($("#totalItems").text()) - dish.amount);
+
+        //TODO mozno prepsat bez loadu do budoucna kvuli optimalizaci
+        //Change cart calculations
+        $("#cartCalculations").load(document.URL + ' #cartCalculations');
+
+        //Change orderCart calculations
+        var orderCartDishPrice = parseFloat($("#dishTotalPrice").text()) - (dish.price * dish.amount);
+        $("#dishTotalPrice").text(orderCartDishPrice.toFixed(2));
+        $("#totalPrice").text((orderCartDishPrice + parseFloat($("#deliveryPrice").text())).toFixed(2));
     }
 
     /*

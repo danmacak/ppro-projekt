@@ -20,6 +20,8 @@ public class Shift {
 	private Day workDay;
 
 	public enum Day{
+		MONDAY,
+		TUESDAY,
 		WEDNESDAY,
 		THURSDAY,
 		FRIDAY,

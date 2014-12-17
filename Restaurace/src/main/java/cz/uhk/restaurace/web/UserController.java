@@ -56,11 +56,23 @@ public class UserController {
         return "user/bookings";
     }
 
+    /**
+     * move to registration page
+     * @param user
+     * @return
+     */
+    //TODO mozno neni potreba renderovat registration pres controller
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationForm(User user){
         return "registration";
     }
 
+    /**
+     * do register a new user and redirect him to a new page
+     * @param user
+     * @param bindingResult
+     * @return
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String doRegister(@Valid User user, BindingResult bindingResult){
         if (user == null || user.getUsername() == null){
@@ -76,7 +88,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/userdetails")
-    public String getUserDetails(Model model, HttpSession session, Principal principal){
+    public String getUserDetails(Principal principal){
         return "user/userdetails";
     }
 

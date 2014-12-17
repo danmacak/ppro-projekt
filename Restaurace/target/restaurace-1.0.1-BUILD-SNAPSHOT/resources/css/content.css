@@ -21,6 +21,14 @@ table.dish {
 	border: 1px solid #8CC400;
 }
 
+table.cook {
+	width: 80%;
+	margin-top: 10px;
+	background: linear-gradient(#D7FFA7, #C2E05D);
+	border-radius: 3px;
+	border: 1px solid #8CC400;
+}
+
 table.dish input[type="text"], table.drink input[type="text"] {
 	width: 20px;
 }

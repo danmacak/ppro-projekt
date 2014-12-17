@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import cz.uhk.restaurace.model.Role;
+import cz.uhk.restaurace.model.Shift;
 import cz.uhk.restaurace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,11 +48,17 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void removeUser(int id) {
 		userDao.removeUser(id);
-
 	}
 
 	@Override
+	@Transactional
 	public List<User> getUsersByRole(Role.RoleType role) {
 		return userDao.getUsersByRole(role);
+	}
+
+	@Override
+	@Transactional
+	public List<User> getCooksCurrentlyCooking(int hour, Shift.Day day, Role.RoleType role) {
+		return userDao.getCooksCurrentlyCooking(hour, day, role);
 	}
 }

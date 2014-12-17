@@ -41,15 +41,18 @@ public class DishController {
 		this.language = language;
 	}
 
+	/**
+	 * Create dish and store it in a session if not yet done, than return a page with localized ingredient names
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/teppanyaki", method = RequestMethod.GET)
 	public String showTeppanyakiHighLevel(HttpSession session, Model model) {
 		DishGeneral dish = (DishGeneral)session.getAttribute("teppanyakiDish");
 
 		if (dish == null) {
-			dish = new DishGeneral();
-			Map<Integer, IngredientGeneral> ingredients = new HashMap<Integer, IngredientGeneral>();
-			dish.setIngredients(ingredients);
-			dish.setDishCategory(DishGeneral.DishCategory.TEPPANYAKI);
+			dish = dishGeneralService.createDish();
 			session.setAttribute("teppanyakiDish", dish);
 		}
 		ingredientGeneralService.actualizeLocFieldsOnIngredients(dish.getIngredients(), this.language);
@@ -57,9 +60,20 @@ public class DishController {
 		return "teppanyaki";
 	}
 
+	/**
+	 * Get page with localized list of ingredients according to chosen ingredient category
+	 * @param session
+	 * @param model
+	 * @param ingredient
+	 * @return
+	 */
 	@RequestMapping(value = "/teppanyaki/{ingredient}")
 	public String showIngredientsByCategory(HttpSession session, Model model, @PathVariable("ingredient") String ingredient) {
 		DishGeneral dish = (DishGeneral)session.getAttribute("teppanyakiDish");
+		if (dish == null) {
+			dish = dishGeneralService.createDish();
+			session.setAttribute("teppanyakiDish", dish);
+		}
 		IngredientGeneral.IngredientType category = null;
 		for (IngredientGeneral.IngredientType type : IngredientGeneral.IngredientType
 				.values()) {
@@ -73,12 +87,23 @@ public class DishController {
 		return "teppanyaki";
 	}
 
+	/**
+	 * Add ingredient to teppanyaki dish, return json to ajax event handler
+	 * @param session
+	 * @param id
+	 * @param grams
+	 * @return
+	 */
 	//TODO doimplementovat, checknout potencialni duplicity v mape
 	@RequestMapping(value = "/addIngredient", method = RequestMethod.GET,  produces = "application/json")
 	@ResponseBody
 	public IngredientGeneral addIngredient(HttpSession session, @RequestParam Integer id,
 							 @RequestParam(required = false) String grams){
 		DishGeneral dish = (DishGeneral) session.getAttribute("teppanyakiDish");
+		if (dish == null) {
+			dish = dishGeneralService.createDish();
+			session.setAttribute("teppanyakiDish", dish);
+		}
 		IngredientGeneral ingredient = null;
 		if (dish != null) {
 			ingredient = ingredientGeneralService.getIngredientById(id);
@@ -98,6 +123,12 @@ public class DishController {
 		return "redirect:/teppanyaki/" + category;
 	}
 
+	/**
+	 * Show all drinks
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/drinks", method = RequestMethod.GET)
 	public String showDrinks(HttpSession session, Model model){
 		model.addAttribute("drinksToShow", true);
@@ -105,6 +136,11 @@ public class DishController {
 		return "menu";
 	}
 
+	/**
+	 * Show all dishes
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/dishes", method = RequestMethod.GET)
 	public String showDishes(Model model){
 		model.addAttribute("dishesToShow", true);
@@ -112,6 +148,12 @@ public class DishController {
 		return "menu";
 	}
 
+	/**
+	 * Show all food
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/menu", method = RequestMethod.GET)
 	public String showAllProducts(HttpSession session, Model model){
 		model.addAttribute("dishesToShow", true);

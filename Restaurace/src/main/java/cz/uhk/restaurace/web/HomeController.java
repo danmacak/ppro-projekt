@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Handles requests for the application home page.
  */
+//TODO je tento controller vubec k necemu?
 @Controller
 public class HomeController {
 

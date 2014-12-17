@@ -41,15 +41,29 @@ public class CustomerOrderController {
         return "cartCheckout";
     }
 
+    /**
+     * Show second page of cart ordering, first is a cart.html, show deliveries and ordered dishes
+     * @param session
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/orderCart")
     public String orderCart(HttpSession session, Model model){
         CustomerOrder cart = createCartIfNull(session);
         Map<Integer, DishGeneral> dishes = dishGeneralService.getLocalizedDishesInCart(cart.getOrderedDishes(), this.language);
+        Map<String, DishGeneral> teppanyakiDishes = dishGeneralService.getLocalizedTeppanyakiDishes(
+                cart.getOrderedTeppanyakiDishes(), this.language);
+        model.addAttribute("teppanyakiDishes", teppanyakiDishes);
         model.addAttribute("orderedDishes", dishes);
         model.addAttribute("deliveries", deliveryService.listDelivery());
         return "cartOrder";
     }
 
+    /**
+     * Empty a cart
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/emptyCart")
     public String emptyCart(HttpSession session){
         CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
@@ -58,7 +72,11 @@ public class CustomerOrderController {
         return "cart";
     }
 
-
+    /**
+     * Add users custom dish to a cart, generate automatically name of this dish
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/addTeppanyakiToCart", method = RequestMethod.GET)
     public String addTeppanyakiToCart(HttpSession session){
         DishGeneral dish = (DishGeneral) session.getAttribute("teppanyakiDish");
@@ -74,12 +92,21 @@ public class CustomerOrderController {
         //TODO doresit jmeno teppanyaki jidla
         String dishName = "Teppanyaki " + numOfTeppanyakis;
         dish.setName(dishName);
+        dish.setPrice(dish.getCustomDishPrice());
         cart.getOrderedTeppanyakiDishes().put(dishName, dish);
         session.removeAttribute("teppanyakiDish");
         return "redirect:/showCart";
     }
 
     //TODO dodelat test
+
+    /**
+     * Add regular dish to cart, not usable for custom dishes
+     * @param session
+     * @param id
+     * @param amount
+     * @return
+     */
     @RequestMapping(value="/addToCart", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody DishGeneral addToCart(HttpSession session, @RequestParam Integer id,
                                         @RequestParam String amount){
@@ -96,6 +123,12 @@ public class CustomerOrderController {
         return dish;
     }
 
+    /**
+     * Show users cart with completely localized info about each item
+     * @param session
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/showCart")
     public String showCart(HttpSession session, Model model){
         CustomerOrder cart = createCartIfNull(session);
@@ -114,12 +147,33 @@ public class CustomerOrderController {
         return "redirect:/showCart";
     }*/
 
+    /**
+     * Remove item from cart using ajax
+     * @param session
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/removeItem")
     @ResponseBody
     public DishGeneral removeItem(HttpSession session, @RequestParam("id") Integer id){
         CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
         DishGeneral dish = cart.getOrderedDishes().get(id);
         cart.getOrderedDishes().remove(id);
+        return dish;
+    }
+
+    /**
+     * Remove custom item from cart using ajax
+     * @param session
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/removeCustomItem")
+    @ResponseBody
+    public DishGeneral removeCustomItem(HttpSession session, @RequestParam("name") String id){
+        CustomerOrder cart = (CustomerOrder)session.getAttribute("cart");
+        DishGeneral dish = cart.getOrderedTeppanyakiDishes().get(id);
+        cart.getOrderedTeppanyakiDishes().remove(id);
         return dish;
     }
 

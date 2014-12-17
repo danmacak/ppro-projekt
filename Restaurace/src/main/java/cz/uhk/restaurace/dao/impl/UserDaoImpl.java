@@ -5,6 +5,7 @@ import java.util.Set;
 
 import cz.uhk.restaurace.dao.UserDao;
 import cz.uhk.restaurace.model.Role;
+import cz.uhk.restaurace.model.Shift;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -50,7 +51,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getUserById(String username) {
 		Session session = this.sessionFactory.getCurrentSession();
-		User a = (User) session.get(User.class, username);//load(Uzivatel.class, username);
+		User a = (User) session.get(User.class, username);
 		return a;
 	}
 
@@ -65,12 +66,29 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	@Transactional
 	public List<User> getUsersByRole(Role.RoleType role) {
 		Session session = this.sessionFactory.getCurrentSession();
 		return session.createCriteria(User.class)
 				.createCriteria("roles")
 				.add(Restrictions.eq("roleType", role))
 				.list();
+	}
+
+	@Override
+	public List<User> getCooksCurrentlyCooking(int hour, Shift.Day day, Role.RoleType role){
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class, "user");
+		criteria.createAlias("user.roles", "roles");
+		criteria.createAlias("user.shifts", "shifts");
+		criteria.add(Restrictions.eq("roles.roleType", role));
+		criteria.add(Restrictions.eq("shifts.workDay", day));
+		criteria.add(Restrictions.or(Restrictions.eq("shifts.sinceHour", hour),
+						Restrictions.eq("shifts.toHour", hour),
+						Restrictions.and(Restrictions.lt("shifts.sinceHour", hour),
+								Restrictions.gt("shifts.toHour", hour)
+						)
+					)
+				);
+		return criteria.list();
 	}
 }

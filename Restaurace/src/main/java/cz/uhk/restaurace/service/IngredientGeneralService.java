@@ -50,8 +50,33 @@ public interface IngredientGeneralService {
 	 * @return
 	 */
 	public List<IngredientGeneral> getIngredientsByCategory(IngredientGeneral.IngredientType type, String language);
+
+	/**
+	 * Get ingredients with localized attributes
+	 * @param ingredients
+	 * @param language
+	 * @return
+	 */
 	public Map<Integer, IngredientGeneral> getIngredientsLocalized(Map<Integer, IngredientGeneral> ingredients, String language);
+
+	/**
+	 * Get localized version of ingredient given
+	 * @param id
+	 * @param language
+	 * @return
+	 */
 	public IngredientLoc getIngredientLocalized(Integer id, String language);
+
+	/**
+	 * Get all ingredient types
+	 * @return
+	 */
 	public List<IngredientGeneral.IngredientType> getIngredientTypes();
+
+	/**
+	 * Actualize attr values of given ingredients (on language change request typically)
+	 * @param ingredients
+	 * @param language
+	 */
 	public void actualizeLocFieldsOnIngredients(Map<Integer, IngredientGeneral> ingredients, String language);
 }

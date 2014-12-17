@@ -60,19 +60,22 @@
                     class="dish">
                 <tbody>
                     <tr>
-                        <td class="first"><b th:text="${dish.value.name}"></b></td>
+                        <td class="first">
+                            <b th:text="${dish.value.name}"></b>
+                        </td>
                     </tr>
                     <tr>
                         <td th:each="ingr : ${dish.value.ingredients}" th:text="${ingr.value.ingredientLocalized.name}"></td>
                         <td>
-                            <form class="removeCartItem">
-                                <input name="id" type="hidden" th:value="${dish.value.id}"/>
+                            <form class="removeCustomCartItem">
+                                <input name="name" type="hidden" th:value="${dish.value.name}"/>
                                 <input type="image" src="/restaurace/resources/images/red-cross.png"/>
                             </form>
                         </td>
                     </tr>
                 </tbody>
             </table>
+
         </div>
 
         <!-- CART CALCULATIONS -->

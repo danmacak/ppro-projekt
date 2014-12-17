@@ -1,5 +1,6 @@
 package cz.uhk.restaurace.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,5 +94,25 @@ public class DishGeneralServiceImpl implements DishGeneralService {
 			}
 		}
 		return dishes;
+	}
+
+	@Override
+	public DishGeneral createDish() {
+		DishGeneral dish = new DishGeneral();
+		Map<Integer, IngredientGeneral> ingredients = new HashMap<Integer, IngredientGeneral>();
+		dish.setIngredients(ingredients);
+		dish.setDishCategory(DishGeneral.DishCategory.TEPPANYAKI);
+		return dish;
+	}
+
+	@Override
+	@Transactional
+	public Map<String, DishGeneral> getLocalizedCustomDishesInCart(Map<String, DishGeneral> dishes, String language) {
+		for (Map.Entry<String, DishGeneral> entry : dishes.entrySet()){
+			for (Map.Entry<Integer, IngredientGeneral> ent : entry.getValue().getIngredients().entrySet()){
+				ent.getValue().setIngredientLocalized(ingredientLocDao.getIngredientLocById(ent.getValue().getId(), language));
+			}
+		}
+		return null;
 	}
 }

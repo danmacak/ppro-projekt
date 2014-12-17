@@ -66,6 +66,9 @@
             <!-- CART ITEMS -->
 
             <div id="cartItems" th:unless="${session.cart} == null" th:include="cart :: cartItems"></div>
+
+            <!-- CART CALCULATIONS -->
+
             <div>
                 <table id="orderCartCalculation" th:unless="${session.cart} == null" th:object="${session.cart}">
                     <tbody>

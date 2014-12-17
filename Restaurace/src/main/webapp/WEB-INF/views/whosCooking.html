@@ -17,18 +17,43 @@
             <div id="container">
                 <div th:include="../templates/menu :: menu"></div>
                 <div id="main_content" >
-                    <table>
-                        <tbody>
-                            <tr th:each="chef : ${chefs}">
-                                <td th:text="${chef.firstname}"></td>
-                                <td th:text="${chef.surname}"></td>
-                            </tr>
-                            <tr th:each="cook : ${cooks}">
-                                <td th:text="${cook.firstname}"></td>
-                                <td th:text="${cook.surname}"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    <!-- WHOS COOKING CURRENTLY -->
+
+                    <div th:unless="${currentCooks.isEmpty()}">
+                        <h3 th:text="#{ui.whosCooking.currentCooks}"></h3>
+                        <table class="cook" th:each="currCooks : ${currentCooks}">
+                            <tbody>
+                                <tr>
+                                    <td th:text="${currCooks.firstname}"></td>
+                                    <td th:text="${currCooks.surname}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ALL COOKS AND CHEFS EMPLOYED -->
+
+                    <div>
+                        <h3 th:text="#{ui.whosCooking.cooks}"></h3>
+                        <table class="cook" th:unless="${chefs} == null" th:each="chef : ${chefs}">
+                            <tbody>
+                                <tr>
+                                    <td th:text="${chef.firstname}"></td>
+                                    <td th:text="${chef.surname}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="cook" th:unless="${cooks} == null" th:each="cook : ${cooks}">
+                            <tbody>
+                                <tr>
+                                    <td th:text="${cook.firstname}"></td>
+                                    <td th:text="${cook.surname}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         <footer th:include="../templates/footer :: footer"></footer>

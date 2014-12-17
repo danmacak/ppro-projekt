@@ -108,6 +108,13 @@ public class CustomerOrder {
 		for (Map.Entry<Integer, DishGeneral> entry : this.getOrderedDishes().entrySet()){
 			total = total.add(new BigDecimal(entry.getValue().getAmount()).multiply(entry.getValue().getPrice()));
 		}
+		for (Map.Entry<String, DishGeneral> entry : this.getOrderedTeppanyakiDishes().entrySet()){
+			for(Map.Entry<Integer, IngredientGeneral> ent : entry.getValue().getIngredients().entrySet()){
+				BigDecimal p = new BigDecimal(ent.getValue().getGrams()).multiply(ent.getValue().getPricePerHundredGrams())
+						.divide(new BigDecimal(100));
+				total = total.add(p);
+			}
+		}
 		return total.setScale(2, RoundingMode.CEILING);
 	}
 
@@ -118,6 +125,9 @@ public class CustomerOrder {
 	public int getNumberOfDishes() {
 		int amount = 0;
 		for (Map.Entry<Integer, DishGeneral> entry : this.getOrderedDishes().entrySet()){
+			amount += entry.getValue().getAmount();
+		}
+		for(Map.Entry<String, DishGeneral> entry : this.getOrderedTeppanyakiDishes().entrySet()){
 			amount += entry.getValue().getAmount();
 		}
 		return amount;

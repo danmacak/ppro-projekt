@@ -131,4 +131,13 @@ public class DishGeneral {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public BigDecimal getCustomDishPrice(){
+		BigDecimal total = new BigDecimal("0.00");
+		for(Map.Entry<Integer, IngredientGeneral> entry : this.getIngredients().entrySet()){
+			total = total.add(new BigDecimal(entry.getValue().getGrams()).multiply(entry.getValue().getPricePerHundredGrams())
+						.divide(new BigDecimal(100)));
+		}
+		return total;
+	}
 }
