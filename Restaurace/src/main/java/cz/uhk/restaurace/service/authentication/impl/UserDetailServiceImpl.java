@@ -42,10 +42,7 @@ public class UserDetailServiceImpl implements UserDetailsService{
                         tempUser.getEmail(),
                         tempUser.getTelephone(),
                         tempUser.getAddress(),
-                        tempUser.getCustomerOrders(),
-                        tempUser.getShifts(),
-                        tempUser.getRoles(),
-                        tempUser.getBookings());
+                        tempUser.getRoles());
             }
         }
 

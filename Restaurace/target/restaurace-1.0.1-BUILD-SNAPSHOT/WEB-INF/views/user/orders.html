@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     <tr th:with="df=#{ui.date.format}" th:each="order : ${customerOrders}">
-                        <td th:text="${order.totalPrice}"></td>
+                        <td th:text="${order.totalPriceFieldValue} + ' Kč'"></td>
                         <td th:text="${#calendars.format(order.date, df)}"></td>
                     </tr>
                 </tbody>

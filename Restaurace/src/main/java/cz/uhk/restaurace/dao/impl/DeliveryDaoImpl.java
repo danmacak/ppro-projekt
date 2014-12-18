@@ -35,8 +35,8 @@ public class DeliveryDaoImpl implements DeliveryDao{
     }
 
     @Override
-    public Delivery getDeliveryById(int id) {
-        return (Delivery)sessionFactory.getCurrentSession().get(Delivery.class, id);
+    public Delivery getDeliveryById(String name) {
+        return (Delivery)sessionFactory.getCurrentSession().get(Delivery.class, name);
     }
 
     @Override

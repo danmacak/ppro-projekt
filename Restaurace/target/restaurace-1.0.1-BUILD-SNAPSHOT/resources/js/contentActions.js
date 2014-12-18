@@ -1,6 +1,13 @@
 $(document).ready(function(){
 
     /*
+     * submit form on click, move to checkout
+     */
+    $("#checkoutSubmit").click(function(){
+        $("#deliveryForm").submit();
+    });
+
+    /*
      * add dish to cart on form submit
      */
     $(".buyForm").submit(function(event){

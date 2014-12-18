@@ -13,6 +13,6 @@ public interface DeliveryDao {
     public void addDelivery(Delivery delivery);
     public void updateDelivery(Delivery delivery);
     public List<Delivery> listDelivery();
-    public Delivery getDeliveryById(int id);
+    public Delivery getDeliveryById(String name);
     public void removeDelivery(int id);
 }

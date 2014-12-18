@@ -39,8 +39,8 @@ public class DeliveryServiceImpl implements DeliveryService{
 
     @Transactional(readOnly = true)
     @Override
-    public Delivery getDeliveryById(int id) {
-        return deliveryDao.getDeliveryById(id);
+    public Delivery getDeliveryById(String name) {
+        return deliveryDao.getDeliveryById(name);
     }
 
     @Transactional

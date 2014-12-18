@@ -19,10 +19,7 @@ public class UserDetails extends User{
     private String email;
     private String telephone;
     private Address address;
-    private Collection<CustomerOrder> orders;
-    private Collection<Shift> shifts;
     private Collection<Role> roles;
-    private Collection<Booking> bookings;
 
     public UserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
@@ -41,14 +38,10 @@ public class UserDetails extends User{
 
     public UserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities,
                        String surname, String firstname, String email, String telephone, Address address,
-                       Collection<CustomerOrder> orders, Collection<Shift> shifts,
-                       Collection<Role> roles, Collection<Booking> bookings) {
+                       Collection<Role> roles) {
 
         this(username, password, authorities, surname, firstname, email, telephone, address);
-        this.orders = orders;
-        this.shifts = shifts;
         this.roles = roles;
-        this.bookings = bookings;
 
     }
 
@@ -92,22 +85,6 @@ public class UserDetails extends User{
         this.address = address;
     }
 
-    public Collection<CustomerOrder> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Collection<CustomerOrder> orders) {
-        this.orders = orders;
-    }
-
-    public Collection<Shift> getShifts() {
-        return shifts;
-    }
-
-    public void setShifts(Collection<Shift> shifts) {
-        this.shifts = shifts;
-    }
-
     public Collection<Role> getRoles() {
         return roles;
     }
@@ -116,11 +93,4 @@ public class UserDetails extends User{
         this.roles = roles;
     }
 
-    public Collection<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(Collection<Booking> bookings) {
-        this.bookings = bookings;
-    }
 }

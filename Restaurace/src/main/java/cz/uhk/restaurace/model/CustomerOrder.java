@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,12 +28,13 @@ public class CustomerOrder {
 	@ManyToOne
 	@JoinColumn(name="customer_username")
 	private User customer;
-	@ManyToMany(mappedBy = "customerOrders", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "customerOrders")
 	@JsonIgnore
 	private Map<Integer, DishGeneral> orderedDishes = new HashMap<Integer, DishGeneral>();
 	@ManyToMany(mappedBy = "customerOrders")
 	@JsonIgnore
 	private Map<String, DishGeneral> orderedTeppanyakiDishes = new HashMap<String, DishGeneral>();
+	private Boolean processed = false;
 
 	public CustomerOrder() {}
 	
@@ -85,24 +86,33 @@ public class CustomerOrder {
 	public Map<String, DishGeneral> getOrderedTeppanyakiDishes() {
 		return orderedTeppanyakiDishes;
 	}
-
 	public void setOrderedTeppanyakiDishes(Map<String, DishGeneral> orderedTeppanyakiDishes) {
 		this.orderedTeppanyakiDishes = orderedTeppanyakiDishes;
 	}
-
 	public int getNumOfTeppanyakis() {
 		return numOfTeppanyakis;
 	}
-
 	public void setNumOfTeppanyakis(int numOfTeppanyakis) {
 		this.numOfTeppanyakis = numOfTeppanyakis;
+	}
+	public Boolean getProcessed() {
+		return processed;
+	}
+	public void setProcessed(Boolean processed) {
+		this.processed = processed;
 	}
 
 	public BigDecimal getRegularTax() {
 		return getTotalPrice().multiply(this.regularTax).setScale(2, RoundingMode.HALF_DOWN);
 	}
+	public BigDecimal getTotalPriceFieldValue(){
+		return this.totalPrice;
+	}
 
-
+	/**
+	 * Get the fucking total price of the cart
+	 * @return
+	 */
 	public BigDecimal getTotalPrice() {
 		BigDecimal total = new BigDecimal("0.00");
 		for (Map.Entry<Integer, DishGeneral> entry : this.getOrderedDishes().entrySet()){

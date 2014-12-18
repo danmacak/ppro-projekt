@@ -3,11 +3,18 @@ package cz.uhk.restaurace.web;
 import cz.uhk.restaurace.model.*;
 import cz.uhk.restaurace.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.RequestContext;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,9 +42,23 @@ public class CustomerOrderController {
         this.language = language;
     }
 
-    @RequestMapping(value = "/checkout")
-    public String checkout(Model model, HttpSession session){
-
+    @RequestMapping(value = "/checkout", method = RequestMethod.POST, headers = "Content-Type=application/x-www-form-urlencoded")
+    public String checkout(HttpSession session, Principal principal,
+                           @RequestParam(value = "delivery", required = false) String delivery){
+        String attr = "cart";
+        CustomerOrder cart = (CustomerOrder)session.getAttribute(attr);
+        if(!cart.getOrderedDishes().isEmpty() || !cart.getOrderedTeppanyakiDishes().isEmpty()) {
+            if(principal != null) {
+                cart.setCustomer(userService.getUserById(principal.getName()));
+            }
+            LocalDate currentDate = LocalDate.now();
+            Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            cart.setDate(date);
+            cart.setDelivery(deliveryService.getDeliveryById(delivery));
+            cart.setTotalPrice(cart.getTotalPrice().add(deliveryService.getDeliveryById(delivery).getPrice()));
+            customerOrderService.addOrder(cart);
+        }
+        session.removeAttribute(attr);
         return "cartCheckout";
     }
 

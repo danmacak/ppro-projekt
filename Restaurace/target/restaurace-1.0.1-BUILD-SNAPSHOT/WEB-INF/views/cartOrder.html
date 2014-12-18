@@ -41,7 +41,9 @@
             <!-- AVAILABLE DELIVERIES -->
 
             <div th:unless="${deliveries} == null">
-                <form action="#" th:action="@{/checkout}" method="post">
+                <form id="deliveryForm" action="#" th:action="@{/checkout}"
+                      method="post" enctype="application/x-www-form-urlencoded"
+                      th:href="@{/checkout}" >
                     <table>
                         <thead>
                             <tr>
@@ -53,7 +55,7 @@
                         </thead>
                         <tbody>
                             <tr class="deliveries" th:each="delivery : ${deliveries}">
-                                <td><input class="deliveryRadio" type="radio" name="active"/></td>
+                                <td><input class="deliveryRadio" type="radio" name="delivery" th:value="${delivery.name}"/></td>
                                 <td th:text="${delivery.name}"></td>
                                 <td th:text="${delivery.companyName}"></td>
                                 <td class="deliveryPrice" th:text="${delivery.price} + ' Kč'"></td>
@@ -86,7 +88,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <a th:class="abutton" th:href="@{/checkout}" th:text="#{ui.cart.doOrder}"/>
+                <button id="checkoutSubmit" th:class="abutton" th:text="#{ui.cart.doOrder}"/>
             </div>
         </div>
     </div>
