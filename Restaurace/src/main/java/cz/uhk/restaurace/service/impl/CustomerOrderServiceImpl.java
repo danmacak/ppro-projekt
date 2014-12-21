@@ -59,4 +59,9 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 		return cart;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<CustomerOrder> getUnprocessedCustomerOrders() {
+		return customerOrderDao.getUnprocessedCustomerOrders();
+	}
 }

@@ -3,8 +3,11 @@ package cz.uhk.restaurace.dao.impl;
 import java.util.List;
 
 import cz.uhk.restaurace.dao.ShiftDao;
+import cz.uhk.restaurace.model.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import cz.uhk.restaurace.model.Shift;
@@ -55,7 +58,22 @@ public class ShiftDaoImpl implements ShiftDao {
 		if (a != null) {
 			session.delete(a);
 		}
-
 	}
 
+	@Override
+	public Shift getCurrentEmployeesShift(int hour, Shift.Day day, User user) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(Shift.class, "shift");
+		criteria.add(Restrictions.eq("workDay", day));
+		criteria.add(Restrictions.or(Restrictions.eq("sinceHour", hour),
+						Restrictions.eq("toHour", hour - 1),
+						Restrictions.and(Restrictions.lt("sinceHour", hour),
+								Restrictions.gt("toHour", hour - 1)
+						)
+				)
+		);
+		criteria.createCriteria("employees").add(Restrictions.eq("username", user.getUsername()));
+		List<Shift> shifts = criteria.list();
+		return shifts.get(0);
+	}
 }

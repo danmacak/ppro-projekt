@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,12 +52,15 @@ public class CustomerOrderController {
             if(principal != null) {
                 cart.setCustomer(userService.getUserById(principal.getName()));
             }
-            LocalDate currentDate = LocalDate.now();
-            Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            cart.setDate(date);
-            cart.setDelivery(deliveryService.getDeliveryById(delivery));
-            cart.setTotalPrice(cart.getTotalPrice().add(deliveryService.getDeliveryById(delivery).getPrice()));
-            customerOrderService.addOrder(cart);
+            try {
+                LocalDate currentDate = LocalDate.now();
+                Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                cart.setDate(date);
+                cart.setDelivery(deliveryService.getDeliveryById(delivery));
+                cart.setTotalPrice(cart.getTotalPrice().add(deliveryService.getDeliveryById(delivery).getPrice()));
+            }finally {
+                customerOrderService.addOrder(cart);
+            }
         }
         session.removeAttribute(attr);
         return "cartCheckout";

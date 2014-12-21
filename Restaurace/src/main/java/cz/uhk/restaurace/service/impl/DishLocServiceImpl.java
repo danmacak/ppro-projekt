@@ -28,7 +28,7 @@ public class DishLocServiceImpl implements DishLocService {
 
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	@Override
 	public DishLoc getDishLocById(Integer id, String language) {
 		return dishLocDao.getDishLocById(id, language);
@@ -39,16 +39,6 @@ public class DishLocServiceImpl implements DishLocService {
 	public void removeDishLoc(Integer id, String language) {
 		dishLocDao.removeDishLoc(id, language);
 
-	}
-	@Transactional
-	@Override
-	public List<DishLoc> listDishesLoc(String lang) {
-		return dishLocDao.listDishesLoc(lang);
-	}
-	@Transactional
-	@Override
-	public List<DishLoc> listDrinksLoc(String lang) {
-		return dishLocDao.listDrinksLoc(lang);
 	}
 
 }

@@ -29,7 +29,7 @@ public class IngredientLocServiceImpl implements IngredientLocService {
 
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	@Override
 	public IngredientLoc getIngredientLocById(Integer id, String language) {
 		return ingredientLocDao.getIngredientLocById(id, language);
@@ -43,6 +43,7 @@ public class IngredientLocServiceImpl implements IngredientLocService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<IngredientLoc> listIngredientsLoc(String lang) {
 		return ingredientLocDao.listIngredientLoc(lang);
 	}

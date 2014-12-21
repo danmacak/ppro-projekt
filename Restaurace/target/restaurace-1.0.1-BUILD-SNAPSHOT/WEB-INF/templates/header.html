@@ -33,14 +33,25 @@
             <a href="/" th:href="@{/registration}" th:text="#{ui.header.registration}">Registration</a>
         </div>
 
+        <!-- ADMIN MENU -->
+        <div class="user_menu_header" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_CHEF')">
+            <a th:href="@{/admin/newOrders}">
+                <img id="orders" src="/restaurace/resources/images/order.png"/>
+            </a>
+            <div id="newOrders">
+                <span id="newOrdersCount"></span>
+            </div>
+            <a href="/adminHome" th:href="@{/admin/adminHome}" th:text="#{ui.header.adminHome}">Admin home</a>
+        </div>
+
         <!-- USER MENU -->
 
-        <div id="user_menu_header" sec:authorize="hasRole('ROLE_USER')" >
+        <div class="user_menu_header" sec:authorize="hasRole('ROLE_USER')" >
             <a href="/" th:href="@{/user/userdetails}" th:text="#{ui.header.useraccount}" >Uzivatel</a>
-            <a href="/" th:href="@{/j_spring_security_logout}" th:text="#{ui.header.logout}" >Logout</a>
             <a href="/" th:href="@{/user/orders}" th:text="#{ui.header.orders}" >Orders</a>
             <a href="/" th:href="@{/user/bookings}" th:text="#{ui.header.bookings}" >Bookings</a><br/>
         </div>
+        <a href="/" th:href="@{/j_spring_security_logout}" th:text="#{ui.header.logout}" >Logout</a>
         <a href="?lang=cs"><img src="/restaurace/resources/images/czech_flag.jpg"/></a>
         <a href="?lang=en"><img src="/restaurace/resources/images/us_flag.jpg"/></a>
 
@@ -50,17 +61,23 @@
             <table>
                 <tbody id="cartProperties">
                 <tr>
-                    <td th:text="#{ui.header.cartPrice} + ': '"></td>
-                    <td th:text="(${session.cart} != null? ${session.cart.totalPrice} : '0')" id="cartPrice"></td>
-                    <td th:text="' Kč'"></td>
+                    <td class="cartPropsLong" th:text="#{ui.header.cartPrice} + ': '"></td>
+                    <td class="cartPropsShort"
+                        th:text="(${session.cart} != null? ${session.cart.totalPrice} : '0')"
+                        id="cartPrice">
+                    </td>
+                    <td class="cartPropsShort" th:text="' Kč'"></td>
                 </tr>
                 <tr>
-                    <td th:text="#{ui.header.amountOfItems} + ': '"></td>
-                    <td th:text="(${session.cart} != null? ${session.cart.numberOfDishes} : '0')" id="totalItems"></td>
+                    <td class="cartPropsLong" th:text="#{ui.header.amountOfItems} + ': '"></td>
+                    <td class="cartPropsShort"
+                        th:text="(${session.cart} != null? ${session.cart.numberOfDishes} : '0')" id="totalItems"></td>
                 </tr>
                 </tbody>
             </table>
-            <a href="#" th:href="@{/showCart}" th:text="#{ui.header.toCart}"></a>
+            <a href="#" th:href="@{/showCart}">  <!--th:text="#{ui.header.toCart}"-->
+                <img id="cart" src="/restaurace/resources/images/cart.png"/>
+            </a>
         </div>
     </div>
 </div>

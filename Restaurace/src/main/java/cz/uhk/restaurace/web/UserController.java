@@ -8,6 +8,7 @@ import cz.uhk.restaurace.service.AddressService;
 import cz.uhk.restaurace.service.BookingService;
 import cz.uhk.restaurace.service.CustomerOrderService;
 import cz.uhk.restaurace.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import java.security.Principal;
 import java.util.*;
 
@@ -81,7 +83,8 @@ public class UserController {
         if (bindingResult.hasErrors()){
             return "registration";
         }
-        Set<Role> role = (Set)Arrays.asList(new Role(Role.RoleType.ROLE_USER));
+        Set<Role> role = new HashSet<Role>();
+        role.add(new Role(Role.RoleType.ROLE_USER));
         user.setRoles(role);
         userService.addUser(user);
         return "redirect:/regsuccessful";
@@ -98,4 +101,5 @@ public class UserController {
         session.removeAttribute("user");
         return "redirect:/";
     }
+
 }

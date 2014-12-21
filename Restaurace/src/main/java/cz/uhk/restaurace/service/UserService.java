@@ -39,8 +39,16 @@ public interface UserService {
 	 * Returns list of Cooks currently cooking
 	 * @param hour
 	 * @param day
-	 * @param role
+	 * @param roles
 	 * @return
 	 */
-	public List<User> getCooksCurrentlyCooking(int hour, Shift.Day day, Role.RoleType role);
+	public List<User> getEmployeesCurrentlyWorking(int hour, Shift.Day day, List<Role.RoleType> roles);
+
+	/**
+	 * Get additional localized information about given list of employees
+	 * @param employees
+	 * @param language
+	 * @return
+	 */
+	public List<User> getEmployeesLocalized(List<User> employees, String language);
 }

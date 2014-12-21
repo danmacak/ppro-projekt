@@ -49,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Booking> getBookingsByUsername(String username) {
 		return bookingDao.getBookingsByUsername(username);
 	}

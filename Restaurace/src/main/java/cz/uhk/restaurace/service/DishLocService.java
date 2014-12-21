@@ -9,7 +9,4 @@ public interface DishLocService {
 	public void updateDishLoc(DishLoc dish);
 	public DishLoc getDishLocById(Integer id, String language);
 	public void removeDishLoc(Integer id, String language);
-	public List<DishLoc> listDishesLoc(String lang);
-	public List<DishLoc> listDrinksLoc(String lang);
-
 }

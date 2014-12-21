@@ -16,6 +16,9 @@ public class IngredientGeneral {
 	@Id
 	@GeneratedValue
 	private int id;
+	/**
+	 * kcal per hundred grams
+	 */
 	private int kcal;
 	private int fatGrams;
 	private int saccharideGrams;
@@ -74,8 +77,12 @@ public class IngredientGeneral {
 		this.id = id;
 	}
 
-	public int getKcal() {
+	public int getKcalPerHundredGrams() {
 		return kcal;
+	}
+
+	public double getKcal(){
+		return this.kcal * this.grams / 100;
 	}
 
 	public void setKcal(int kcal) {

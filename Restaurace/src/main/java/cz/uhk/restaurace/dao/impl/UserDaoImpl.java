@@ -75,7 +75,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public List<User> getCooksCurrentlyCooking(int hour, Shift.Day day, Role.RoleType role){
+	public List<User> getEmployeesCurrentlyWorking(int hour, Shift.Day day, Role.RoleType role){
 		Session session = this.sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(User.class, "user");
 		criteria.createAlias("user.roles", "roles");
@@ -83,12 +83,13 @@ public class UserDaoImpl implements UserDao {
 		criteria.add(Restrictions.eq("roles.roleType", role));
 		criteria.add(Restrictions.eq("shifts.workDay", day));
 		criteria.add(Restrictions.or(Restrictions.eq("shifts.sinceHour", hour),
-						Restrictions.eq("shifts.toHour", hour),
+						Restrictions.eq("shifts.toHour", hour - 1),
 						Restrictions.and(Restrictions.lt("shifts.sinceHour", hour),
-								Restrictions.gt("shifts.toHour", hour)
+								Restrictions.gt("shifts.toHour", hour - 1)
 						)
 					)
 				);
-		return criteria.list();
+		List<User> list = criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return list;
 	}
 }

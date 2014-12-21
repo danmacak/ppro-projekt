@@ -23,7 +23,13 @@
             <li><a href="" th:href="@{/}" th:text="#{ui.menu.contact}">Kontakty</a></li>
             <li><a href="" th:href="@{/teppanyaki}" th:text="#{ui.menu.teppanyaki}">Teppanyaki</a></li>
             <li><a href="" th:href="@{/}" th:text="#{ui.menu.calculator}">Kalkulacka</a></li>
-            <li><a href="" th:href="@{/whosCooking}" th:text="#{ui.menu.shifts}">Smeny</a></li>
+            <li>
+                <a th:text="#{ui.menu.shifts}">Smeny</a>
+                <ul>
+                    <li><a th:href="@{/currentlyWorking}" th:text="#{ui.personal.currentlyWorking}"></a></li>
+                    <li><a th:href="@{/allPersonal}" th:text="#{ui.personal.allPersonal}"></a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>

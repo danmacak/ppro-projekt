@@ -63,7 +63,7 @@ public class IngredientGeneralServiceImpl implements IngredientGeneralService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<Integer, IngredientGeneral> getIngredientsLocalized(Map<Integer, IngredientGeneral> ingredients, String language) {
 		for(Map.Entry<Integer, IngredientGeneral> ingr : ingredients.entrySet()){
 			ingr.getValue().setIngredientLocalized(ingredientLocDao.getIngredientLocById(ingr.getValue().getId(), language));
@@ -72,7 +72,7 @@ public class IngredientGeneralServiceImpl implements IngredientGeneralService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public IngredientLoc getIngredientLocalized(Integer id, String language) {
 		return ingredientLocDao.getIngredientLocById(id, language);
 	}

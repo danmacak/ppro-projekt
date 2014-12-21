@@ -42,5 +42,5 @@ public interface UserDao {
 	 * @param role
 	 * @return
 	 */
-	public List<User> getCooksCurrentlyCooking(int hour, Shift.Day day, Role.RoleType role);
+	public List<User> getEmployeesCurrentlyWorking(int hour, Shift.Day day, Role.RoleType role);
 }

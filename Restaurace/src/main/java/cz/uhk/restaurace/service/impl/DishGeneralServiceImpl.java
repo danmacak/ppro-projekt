@@ -76,7 +76,7 @@ public class DishGeneralServiceImpl implements DishGeneralService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<Integer, DishGeneral> getLocalizedDishesInCart(Map<Integer, DishGeneral> dishes, String language) {
 		for(Map.Entry<Integer, DishGeneral> dish : dishes.entrySet()){
 			dish.getValue().setDishLoc(dishLocDao.getDishLocById(dish.getValue().getId(), language));
@@ -85,7 +85,7 @@ public class DishGeneralServiceImpl implements DishGeneralService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<String, DishGeneral> getLocalizedTeppanyakiDishes(Map<String, DishGeneral> dishes, String language) {
 		for(Map.Entry<String, DishGeneral> dish : dishes.entrySet()){
 			for(Map.Entry<Integer, IngredientGeneral> ingr : dish.getValue().getIngredients().entrySet()){
@@ -106,7 +106,7 @@ public class DishGeneralServiceImpl implements DishGeneralService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<String, DishGeneral> getLocalizedCustomDishesInCart(Map<String, DishGeneral> dishes, String language) {
 		for (Map.Entry<String, DishGeneral> entry : dishes.entrySet()){
 			for (Map.Entry<Integer, IngredientGeneral> ent : entry.getValue().getIngredients().entrySet()){

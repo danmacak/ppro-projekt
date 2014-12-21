@@ -47,7 +47,6 @@ public class DishLocDaoImpl implements DishLocDao {
 			
 		} else {
 			return null;
-
 		}
 
 	}
@@ -63,24 +62,6 @@ public class DishLocDaoImpl implements DishLocDao {
 		if (dll.size() == 1) {	session.delete( dll.get(0));
 			
 		}
-
-	}
-
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<DishLoc> listDishesLoc(String lang) {
-		Session session = this.sessionFactory.getCurrentSession();
-		List<DishLoc> dishLocList = session.createQuery("from DishLoc where language='"+lang+"'and id in (select id from DishGeneral where not(dishCategory = 'DRINK') ) order by id").list();
-		
-		return dishLocList;
-	}
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<DishLoc> listDrinksLoc(String lang) {
-		Session session = this.sessionFactory.getCurrentSession();
-		List<DishLoc> dishLocList = session.createQuery("from DishLoc where language='"+lang+"'and id in (select id from DishGeneral where dishCategory = 'DRINK' ) order by id").list();
-		return dishLocList;
 	}
 
 }

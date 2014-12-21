@@ -67,7 +67,7 @@
 
             <!-- CART ITEMS -->
 
-            <div id="cartItems" th:unless="${session.cart} == null" th:include="cart :: cartItems"></div>
+            <div id="cartItems" th:unless="${session.cart} == null" th:include="@{../templates/cartItems} :: cartItems"></div>
 
             <!-- CART CALCULATIONS -->
 

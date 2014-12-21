@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cz.uhk.restaurace.web.CustomerOrderController;
 import cz.uhk.restaurace.web.DishController;
+import cz.uhk.restaurace.web.ShiftController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.LocaleEditor;
 import org.springframework.web.servlet.LocaleResolver;
@@ -22,6 +23,9 @@ public class LocaleChangeInterceptorDB extends HandlerInterceptorAdapter {
 
 	@Autowired
 	private CustomerOrderController customerOrderController;
+
+	@Autowired
+	private ShiftController shiftController;
 
 	public static final String DEFAULT_PARAM_NAME = "locale";
 
@@ -41,6 +45,7 @@ public class LocaleChangeInterceptorDB extends HandlerInterceptorAdapter {
 			
 			dishController.setLanguage(newLocale, request.getSession());
 			customerOrderController.setLanguage(newLocale, request.getSession());
+			shiftController.setLanguage(newLocale);
 			LocaleResolver localeResolver = RequestContextUtils
 					.getLocaleResolver(request);
 

@@ -44,12 +44,12 @@
             </label>
             <label>
                 <span class="fname" th:text="#{ui.registration.password} + ' : '"></span>
-                <input type="text" th:field="*{password}"/>
+                <input type="password" th:field="*{password}"/>
                 <span class="errormsg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
             </label>
             <label>
                 <span class="fname" th:text="#{ui.registration.passwordSecond} + ' : '"></span>
-                <input type="text" th:field="*{passwordVerif}"/>
+                <input type="password" th:field="*{passwordVerif}"/>
                 <span class="errormsg" th:if="${#fields.hasErrors('passwordVerif')}" th:text="#{ui.err.passmatch}"></span>
             </label>
             <label>

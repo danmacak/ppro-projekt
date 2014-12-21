@@ -1,6 +1,8 @@
 package cz.uhk.restaurace.model;
 
 import cz.uhk.restaurace.service.validation.constraints.FieldMatch;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +20,7 @@ public class User{
 	@Id
 	@Size(min = 5, max = 20)
 	private String username;
-	@Size(min = 8, max = 30)
+	@Size(min = 8)
 	private String password;
 	private transient String passwordVerif;
 	@NotEmpty(message = "{NotEmpty.user.surname}")
@@ -43,6 +45,9 @@ public class User{
 	private Set<Role> roles;
 	@OneToMany(mappedBy="customer")
 	private Collection<Booking> bookings;
+	@OneToOne(fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn
+	private Employee employee;
 
 	public User() {
 	}
@@ -163,6 +168,14 @@ public class User{
 
 	public void setPasswordVerif(String passwordVerif) {
 		this.passwordVerif = passwordVerif;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	@Override

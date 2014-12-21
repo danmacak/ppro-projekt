@@ -10,5 +10,5 @@ public interface CustomerOrderDao {
 	public List<CustomerOrder> listUserOrder(String username);
 	public CustomerOrder getOrderById(int id);
 	public void removeOrder(int id);
-
+	public List<CustomerOrder> getUnprocessedCustomerOrders();
 }

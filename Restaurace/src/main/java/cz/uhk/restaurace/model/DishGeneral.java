@@ -140,4 +140,12 @@ public class DishGeneral {
 		}
 		return total;
 	}
+
+	public int getDishesTotalKcals(){
+		Double kcal = 0d;
+		for(Map.Entry<Integer, IngredientGeneral> ingr : this.ingredients.entrySet()){
+			kcal += ingr.getValue().getKcal();
+		}
+		return kcal.intValue();
+	}
 }

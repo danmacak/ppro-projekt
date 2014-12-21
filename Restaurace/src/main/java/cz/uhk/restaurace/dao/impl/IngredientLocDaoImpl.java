@@ -66,15 +66,8 @@ public class IngredientLocDaoImpl implements IngredientLocDao {
 	@Override
 	public void removeIngredientLoc(int id, String language) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(IngredientLoc.class);
-		Criterion criterion = Restrictions.conjunction().add(Restrictions.eq("id", id)).
-				add(Restrictions.eq("language", language));
-		List<IngredientLoc> ill = criteria.add(criterion).list();
-		if (ill.size() == 1) {
-			session.delete(ill.get(0));
-			
-		}
-
+		String hql = "delete from IngredientLoc where language = :language and id = :id";
+		session.createQuery(hql).setString("language", language).setInteger("id", id).executeUpdate();
 	}
 
 }

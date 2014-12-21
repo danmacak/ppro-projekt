@@ -5,107 +5,56 @@ html {
 
 }
 
-table.drink {
-	width: 65%;
-	margin-top: 10px;
-	background: linear-gradient(#FFA78E, #FF8766);
-	border-radius: 3px;
-    border: 1px solid #C68B15;
-}
-
-table.dish {
-	width: 85%;
-	margin-top: 10px;
-	background: linear-gradient(#D7FF75, #A2E200);
-	border-radius: 3px;
-	border: 1px solid #8CC400;
-}
-
-table.cook {
-	width: 80%;
-	margin-top: 10px;
-	background: linear-gradient(#D7FFA7, #C2E05D);
-	border-radius: 3px;
-	border: 1px solid #8CC400;
-}
-
-table.dish input[type="text"], table.drink input[type="text"] {
-	width: 20px;
-}
-
-table.dish .first {
-	width: 200px;
-}
-
-table.dish .second {
-	width: 500px;
-}
-
-table.dish .third {
-	width: 80px;
-}
-
-table.dish .fourth {
-	width: 30px;
-}
-
-table.ingredient {
-	margin: 5px 5px 5px 5px;
-	width: 47%;
-	float: left;
-	margin-top: 10px;
-	background: linear-gradient(#D7FF75, #A2E200);
-	border-radius: 3px;
-	border: 1px solid #8CC400;
-}
-
-table.ingredient input[type="text"] {
-	width: 20px;
-}
-
-th, td {
-	padding: 4px 10px 4px 10px;
-}
-
-td {
-}
-
-th {
-	text-align: left;
-}
-
-#main_menu ul{
+#main_menu ul {
 	margin: 0;
 	list-style: none;
 	padding: 0;
 }
-
 #main_menu ul li {
-	float: left;
+
 	min-width: 7em;
-	text-align: center;
-	background: #353535;
-	padding-left: 2px;
-	padding-right: 2px;
+	display: inline-block;
+  	margin-right: -4px;
+  	position: relative;
+  	background: #353535;
+  	text-align: center;
+}
+#main_menu ul li:hover {
+  background: black;
 }
 
 #main_menu ul li a {
 	display: block;
 	text-decoration: none;
 	color: white;
-
 }
 
 #main_menu ul li a:hover {
 	background-color: black;
 }
-
-#main_menu ul li ul {
-	display: none;
+#main_menu ul li ul {		
+  padding: 0;
+  position: absolute;
+  left: 0;
+  width: 150px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
 }
-
-#main_menu ul li:hover ul{
-	display: block;
+#main_menu ul li ul li { 
+  background: #555; 
+  display: block;
+  color: #fff;
+  text-shadow: 0 -1px 0 #000;
+}
+#main_menu ul li ul li:hover { background: #666; }
+#main_menu ul li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 #main_menu ul li ul li a {
@@ -135,7 +84,7 @@ th {
 }
 
 h1, h2 {
-	margin-top: 0px;
+	margin-top: 15px;
 	font-size: 20px;
 }
 
@@ -150,7 +99,7 @@ h1, h2 {
 	color: grey;
 }
 
-#user_menu_header a {
+.user_menu_header a {
 	display: block;
 }
 
@@ -174,4 +123,41 @@ h1, h2 {
 
 #actualIngredients.description {
 	width: 120px;
+}
+
+div.personal td, div.currentPersonal td {
+	min-width: 110px;
+}
+
+td.removeRedCross {
+	float: right;
+}
+
+img#orders, img#cart{
+	border-radius: 2px;
+	margin: 3px 3px 3px 3px;
+}
+
+img#cart {
+	margin-left: 190px;
+}
+
+/*img#orders:hover, img#cart:hover{
+	background-color: #3F3F3F;
+}*/
+
+div#newOrders{
+	position: absolute;
+	background-color: #E20000;
+	width: auto;
+	height: 18px;
+	margin-top: 0.1%;
+	margin-left: 1.7%;
+	border: 1px solid #FF6D6D;
+	border-radius: 2px;
+	text-align: top;
+}
+
+#newOrdersCount {
+	vertical-align: top;
 }

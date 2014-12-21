@@ -128,6 +128,10 @@ public class CustomerOrder {
 		return total.setScale(2, RoundingMode.CEILING);
 	}
 
+	public BigDecimal getValueOfTotalPriceField(){
+		return this.totalPrice;
+	}
+
 	public BigDecimal getTotalPriceWithoutTax(){
 		return getTotalPrice().multiply(new BigDecimal("1.00").subtract(this.regularTax)).setScale(2, RoundingMode.HALF_DOWN);
 	}

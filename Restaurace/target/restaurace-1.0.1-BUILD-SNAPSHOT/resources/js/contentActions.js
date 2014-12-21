@@ -1,5 +1,19 @@
 $(document).ready(function(){
 
+    /**
+      * actualize field with new orders count on every page ready with admin logged in
+      */
+    $("#newOrdersCount").ready(function(){
+        var ele = $("#newOrdersCount").length;
+        //this actually tests, if admin is logged in, the element above exists only in that case
+        if(ele > 0){
+            $.getJSON("/restaurace/admin/showNewOrders", function(size){
+                console.log(size);
+                $("#newOrdersCount").text(size);
+            });
+        }
+    });
+
     /*
      * submit form on click, move to checkout
      */

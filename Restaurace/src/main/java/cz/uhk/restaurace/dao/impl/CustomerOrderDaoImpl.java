@@ -58,7 +58,11 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
 		if (a != null) {
 			session.delete(a);
 		}
-
 	}
 
+	@Override
+	public List<CustomerOrder> getUnprocessedCustomerOrders() {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(CustomerOrder.class);
+		return criteria.add(Restrictions.eq("processed", false)).list();
+	}
 }
