@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import cz.uhk.restaurace.model.DishGeneral;
+import cz.uhk.restaurace.model.TempCustomerInfo;
 import cz.uhk.restaurace.service.CustomerOrderService;
+import cz.uhk.restaurace.service.TempCustomerInfoService;
+import cz.uhk.restaurace.service.UserService;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +21,12 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 
 	@Autowired
 	private CustomerOrderDao customerOrderDao;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private TempCustomerInfoService tempCustomerInfoService;
 
 	@Override
 	@Transactional
@@ -61,7 +71,18 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<CustomerOrder> getUnprocessedCustomerOrders() {
-		return customerOrderDao.getUnprocessedCustomerOrders();
+	public List<CustomerOrder> getUnprocessedRegisteredCustomerOrders() {
+		List<CustomerOrder> orders = customerOrderDao.getUnprocessedRegisteredCustomerOrders();
+		return orders;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<CustomerOrder> getUnprocessedNotregisteredCustomerOrders() {
+		List<CustomerOrder> orders = customerOrderDao.getUnprocessedNotregisteredCustomerOrders();
+		for(CustomerOrder ord : orders){
+			ord.setTempCustomerInfo(tempCustomerInfoService.);
+		}
+		return orders;
 	}
 }

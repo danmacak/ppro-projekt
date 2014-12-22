@@ -1,3 +1,4 @@
+//TODO po odecteni vsech jidel z kosiku obcas par haleru zbyde v headeru
 $(document).ready(function(){
 
     /**

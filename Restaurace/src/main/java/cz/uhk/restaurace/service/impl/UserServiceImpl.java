@@ -103,4 +103,10 @@ public class UserServiceImpl implements UserService {
 		}
 		return employees;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public User loadUser(String username) {
+		return userDao.loadUser(username);
+	}
 }

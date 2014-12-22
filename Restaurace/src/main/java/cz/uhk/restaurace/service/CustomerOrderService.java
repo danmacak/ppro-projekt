@@ -24,8 +24,15 @@ public interface CustomerOrderService {
 	public CustomerOrder createCart();
 
 	/**
-	 * Get new customer orders
+	 * Get new customer orders of registered users
 	 * @return
 	 */
-	public List<CustomerOrder> getUnprocessedCustomerOrders();
+	public List<CustomerOrder> getUnprocessedRegisteredCustomerOrders();
+
+	/**
+	 * Get new customer orders of unregistered users
+	 * @return
+	 */
+	public List<CustomerOrder> getUnprocessedNotregisteredCustomerOrders();
+
 }

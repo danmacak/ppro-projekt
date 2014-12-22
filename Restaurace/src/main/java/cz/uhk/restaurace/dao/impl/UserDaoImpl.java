@@ -30,14 +30,17 @@ public class UserDaoImpl implements UserDao {
 	public void addUser(User user) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.persist(user);
-
 	}
 
 	@Override
 	public void updateUser(User user) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(user);
+	}
 
+	@Override
+	public User loadUser(String username) {
+		return (User)sessionFactory.getCurrentSession().load(User.class, username);
 	}
 
 	@Override

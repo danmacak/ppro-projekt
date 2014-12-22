@@ -14,6 +14,11 @@ table.dish, table.order {
 	border: 1px solid #8CC400;
 }
 
+table.order {
+	background: linear-gradient(#FFC99B, #FFC937);
+	border-color: #EDB284;
+}
+
 table.cook {
 	width: 80%;
 	margin-top: 10px;
@@ -69,8 +74,11 @@ th {
 
 td.cartPropsShort {
 	width: 10px;
+	margin: 0px;
+	padding: 0px;
 }
 
 td.cartPropsLong {
 	width: 100px;
+	padding-right: 0px;
 }

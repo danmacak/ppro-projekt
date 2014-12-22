@@ -139,7 +139,7 @@ img#orders, img#cart{
 }
 
 img#cart {
-	margin-left: 30px;
+	margin-left: 190px;
 }
 
 /*img#orders:hover, img#cart:hover{
@@ -151,11 +151,12 @@ div#newOrders{
 	background-color: #E20000;
 	width: auto;
 	height: 18px;
-	margin-top: 0.1%;
+	margin-top: 0%;
 	margin-left: 1.7%;
 	border: 1px solid #FF6D6D;
 	border-radius: 2px;
 	text-align: top;
+	box-shadow: 3px 3px 5px #4C4C3D;
 }
 
 #newOrdersCount {

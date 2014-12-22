@@ -43,12 +43,28 @@ INSERT INTO dishloc VALUES ('en', '3', 'Roastbeaf - best while farting', 'Roastb
 INSERT INTO ingredient_general VALUES (1, 15, 26, 12.50, 15, 78, 'VEGETABLE');
 INSERT INTO ingredient_general VALUES (2, 23, 45, 23.40, 34, 34, 'VEGETABLE');
 INSERT INTO ingredient_general VALUES (3, 73, 75, 10.35, 14, 21, 'VEGETABLE');
+INSERT INTO ingredient_general VALUES (4, 23, 34, 12.60, 4, 8, 'VEGETABLE');
+INSERT INTO ingredient_general VALUES (5, 13, 51, 14.20, 7, 2, 'VEGETABLE');
+INSERT INTO ingredient_general VALUES (6, 14, 23, 23.10, 6, 8, 'VEGETABLE');
+INSERT INTO ingredient_general VALUES (7, 23, 74, 2.60, 7, 8, 'VEGETABLE');
+INSERT INTO ingredient_general VALUES (8, 2, 21, 5.80, 5, 3, 'VEGETABLE');
+
 INSERT INTO ingredientloc VALUES ('cs', 1, 'Mrkev');
 INSERT INTO ingredientloc VALUES ('en', 1, 'Carrot');
 INSERT INTO ingredientloc VALUES ('cs', 2, 'Brambory');
 INSERT INTO ingredientloc VALUES ('en', 2, 'Potatos');
 INSERT INTO ingredientloc VALUES ('cs', 3, 'Celer');
 INSERT INTO ingredientloc VALUES ('en', 3, 'Celery');
+INSERT INTO ingredientloc VALUES ('cs', 4, 'Dýně');
+INSERT INTO ingredientloc VALUES ('en', 4, 'Pumpkin');
+INSERT INTO ingredientloc VALUES ('cs', 5, 'Hrášek');
+INSERT INTO ingredientloc VALUES ('en', 5, 'Pea');
+INSERT INTO ingredientloc VALUES ('cs', 6, 'Cibule');
+INSERT INTO ingredientloc VALUES ('en', 6, 'Onion');
+INSERT INTO ingredientloc VALUES ('cs', 7, 'Česnek');
+INSERT INTO ingredientloc VALUES ('en', 7, 'Garlic');
+INSERT INTO ingredientloc VALUES ('cs', 8, 'Petržel');
+INSERT INTO ingredientloc VALUES ('en', 8, 'Parsley');
 
 INSERT INTO shift VALUES (1, 10, 22, 'THURSDAY');
 INSERT INTO shift VALUES (2, 10, 22, 'TUESDAY');

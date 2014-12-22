@@ -15,4 +15,5 @@ public interface DeliveryDao {
     public List<Delivery> listDelivery();
     public Delivery getDeliveryById(String name);
     public void removeDelivery(int id);
+    public Delivery loadDeliveryById(String name);
 }

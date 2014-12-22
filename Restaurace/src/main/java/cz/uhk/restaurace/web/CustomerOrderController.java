@@ -4,6 +4,8 @@ import cz.uhk.restaurace.model.*;
 import cz.uhk.restaurace.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,33 +39,68 @@ public class CustomerOrderController {
     @Autowired
     private DeliveryService deliveryService;
 
+    @Autowired
+    private TempCustomerInfoService tempCustomerInfoService;
+
     private String language = "cs";
+
+    private static String ANONYMOUS_USER ="anonymousUser";
 
     public void setLanguage(String language, HttpSession session) {
         this.language = language;
     }
 
+    @RequestMapping(value="/cartCheckout")
+    public String showCartCheckout(){
+        return "cartCheckout";
+    }
+
+    //TODO dodelat periodicke mazani temp zaznamu
+    /**
+     * Gets from request a way of delivery and, if the user is not logged in, given street, city and phonenumber
+     * Than sets to the cart customer name, if logged in, sets other important properties
+     * If the user isn't logged in, persists given request parameters in db in TempCustomerInfo table
+     * Removes cart from session at the end and redirects to cartCheckout.html
+     * @param session
+     * @param deliveryName
+     * @param street
+     * @param city
+     * @param phonenumber
+     * @return
+     */
     @RequestMapping(value = "/checkout", method = RequestMethod.POST, headers = "Content-Type=application/x-www-form-urlencoded")
-    public String checkout(HttpSession session, Principal principal,
-                           @RequestParam(value = "delivery", required = false) String delivery){
+    public String checkout(HttpSession session,
+                           @RequestParam(value = "delivery", required = false) String deliveryName,
+                           @RequestParam(required = false) String street,
+                           @RequestParam(required = false) String city,
+                           @RequestParam(required = false) String phonenumber){
         String attr = "cart";
+        User user = null;
         CustomerOrder cart = (CustomerOrder)session.getAttribute(attr);
         if(!cart.getOrderedDishes().isEmpty() || !cart.getOrderedTeppanyakiDishes().isEmpty()) {
-            if(principal != null) {
-                cart.setCustomer(userService.getUserById(principal.getName()));
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if(!ANONYMOUS_USER.equals(auth.getPrincipal())) {
+                user = (User) auth.getPrincipal();
+                if(user != null) {
+                    cart.setCustomer(userService.loadUser(user.getUsername()));
+                }
             }
             try {
                 LocalDate currentDate = LocalDate.now();
                 Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
                 cart.setDate(date);
-                cart.setDelivery(deliveryService.getDeliveryById(delivery));
-                cart.setTotalPrice(cart.getTotalPrice().add(deliveryService.getDeliveryById(delivery).getPrice()));
+                Delivery delivery = deliveryService.getDeliveryById(deliveryName);
+                cart.setDelivery(delivery);
+                cart.setTotalPrice(cart.getTotalPrice().add(delivery.getPrice()));
             }finally {
                 customerOrderService.addOrder(cart);
+                if(street != null && city != null && phonenumber != null){
+                    tempCustomerInfoService.addTempCustomerInfo(new TempCustomerInfo(cart.getId(), street, city, phonenumber));
+                }
             }
         }
         session.removeAttribute(attr);
-        return "cartCheckout";
+        return "redirect:/cartCheckout";
     }
 
     /**

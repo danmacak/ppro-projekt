@@ -38,12 +38,22 @@
                 </form>
             </div>
 
-            <!-- AVAILABLE DELIVERIES -->
+            <!-- FORM TO BE SENT TO CHECKOUT -->
 
-            <div th:unless="${deliveries} == null">
-                <form id="deliveryForm" action="#" th:action="@{/checkout}"
-                      method="post" enctype="application/x-www-form-urlencoded"
-                      th:href="@{/checkout}" >
+            <form id="deliveryForm" action="#" th:action="@{/checkout}"
+                  method="post" enctype="application/x-www-form-urlencoded">
+
+                <!-- ADDITIONAL INFO IF NOT LOGGED IN -->
+
+                <div sec:authorize="isAnonymous()">
+                    <span th:text="#{ui.orderCart.street} + ': '"></span><input type="text" name="street"/>
+                    <span th:text="#{ui.orderCart.city} + ': '"></span><input type="text" name="city"/>
+                    <span th:text="#{ui.orderCart.phonenumber} + ': '"></span><input type="text" name="phonenumber"/>
+                </div>
+
+                <!-- AVAILABLE DELIVERIES -->
+
+                <div th:unless="${deliveries} == null">
                     <table>
                         <thead>
                             <tr>
@@ -62,8 +72,8 @@
                             </tr>
                         </tbody>
                     </table>
-                </form>
-            </div>
+                </div>
+            </form>
 
             <!-- CART ITEMS -->
 

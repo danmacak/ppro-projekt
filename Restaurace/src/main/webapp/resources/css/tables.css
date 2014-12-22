@@ -14,6 +14,11 @@ table.dish, table.order {
 	border: 1px solid #8CC400;
 }
 
+table.order {
+	background: linear-gradient(#FFC99B, #FFC937);
+	border-color: #EDB284;
+}
+
 table.cook {
 	width: 80%;
 	margin-top: 10px;

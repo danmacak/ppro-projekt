@@ -14,6 +14,13 @@ public interface UserService {
 	public void updateUser(User user);
 
 	/**
+	 * Get User proxy
+	 * @param username
+	 * @return
+	 */
+	public User loadUser(String username);
+
+	/**
 	 * Returns all users
 	 * @return
 	 */

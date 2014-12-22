@@ -210,7 +210,7 @@ public class User{
 		return result;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "User{" +
 				"username='" + username + '\'' +
@@ -220,5 +220,5 @@ public class User{
 				", email='" + email + '\'' +
 				", enabled=" + enabled +
 				'}';
-	}
+	}*/
 }

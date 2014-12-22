@@ -44,4 +44,9 @@ public class DeliveryDaoImpl implements DeliveryDao{
         Session session = sessionFactory.getCurrentSession();
         session.delete(session.get(Delivery.class, id));
     }
+
+    @Override
+    public Delivery loadDeliveryById(String name) {
+        return (Delivery)this.sessionFactory.getCurrentSession().load(Delivery.class, name);
+    }
 }

@@ -28,14 +28,18 @@ public class AdminController {
 
     @RequestMapping(value= "/newOrders")
     public String showNewOrders(Model model){
-        model.addAttribute("newOrders", customerOrderService.getUnprocessedCustomerOrders());
+        List<CustomerOrder> regOrders = customerOrderService.getUnprocessedRegisteredCustomerOrders();
+        model.addAttribute("newRegOrders", regOrders);
+        List<CustomerOrder> notregOrders = customerOrderService.getUnprocessedNotregisteredCustomerOrders();
+        model.addAttribute("newNotregOrders", notregOrders);
         return "admin/adminNewOrders";
     }
 
     @RequestMapping(value = "/showNewOrders", produces = "application/json")
     @ResponseBody
     public Integer getNewOrders(){
-        List<CustomerOrder> orders = customerOrderService.getUnprocessedCustomerOrders();
-        return orders.size();
+        List<CustomerOrder> regOrders = customerOrderService.getUnprocessedRegisteredCustomerOrders();
+        List<CustomerOrder> notregOrders = customerOrderService.getUnprocessedNotregisteredCustomerOrders();
+        return regOrders.size() + notregOrders.size();
     }
 }

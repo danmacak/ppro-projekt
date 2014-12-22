@@ -1,6 +1,8 @@
 package cz.uhk.restaurace.model;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 @Entity(name = "customer_order")
 public class CustomerOrder {
@@ -35,6 +38,10 @@ public class CustomerOrder {
 	@JsonIgnore
 	private Map<String, DishGeneral> orderedTeppanyakiDishes = new HashMap<String, DishGeneral>();
 	private Boolean processed = false;
+	@OneToOne(fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn
+	@Cascade(CascadeType.ALL)
+	private TempCustomerInfo tempCustomerInfo;
 
 	public CustomerOrder() {}
 	
@@ -101,6 +108,12 @@ public class CustomerOrder {
 	public void setProcessed(Boolean processed) {
 		this.processed = processed;
 	}
+	public TempCustomerInfo getTempCustomerInfo() {
+		return tempCustomerInfo;
+	}
+	public void setTempCustomerInfo(TempCustomerInfo tempCustomerInfo) {
+		this.tempCustomerInfo = tempCustomerInfo;
+	}
 
 	public BigDecimal getRegularTax() {
 		return getTotalPrice().multiply(this.regularTax).setScale(2, RoundingMode.HALF_DOWN);
@@ -145,5 +158,29 @@ public class CustomerOrder {
 			amount += entry.getValue().getAmount();
 		}
 		return amount;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		CustomerOrder order = (CustomerOrder) o;
+
+		if (id != order.id) return false;
+		if (delivery != null ? !delivery.equals(order.delivery) : order.delivery != null) return false;
+		if (processed != null ? !processed.equals(order.processed) : order.processed != null) return false;
+		if (totalPrice != null ? !totalPrice.equals(order.totalPrice) : order.totalPrice != null) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id;
+		result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
+		result = 31 * result + (delivery != null ? delivery.hashCode() : 0);
+		result = 31 * result + (processed != null ? processed.hashCode() : 0);
+		return result;
 	}
 }

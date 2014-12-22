@@ -61,8 +61,20 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
 	}
 
 	@Override
-	public List<CustomerOrder> getUnprocessedCustomerOrders() {
+	public List<CustomerOrder> getUnprocessedRegisteredCustomerOrders() {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(CustomerOrder.class);
-		return criteria.add(Restrictions.eq("processed", false)).list();
+		return criteria.add(Restrictions.eq("processed", false))
+				.add(Restrictions.isNotNull("customer"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
+	}
+
+	@Override
+	public List<CustomerOrder> getUnprocessedNotregisteredCustomerOrders() {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(CustomerOrder.class);
+		return criteria.add(Restrictions.eq("processed", false))
+				.add(Restrictions.isNull("customer"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 	}
 }

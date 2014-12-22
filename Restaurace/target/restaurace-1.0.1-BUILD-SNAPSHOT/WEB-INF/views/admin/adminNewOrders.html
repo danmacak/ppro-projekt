@@ -17,16 +17,32 @@
         <div id="container">
             <div th:include="../templates/menu :: menu"></div>
             <div id="main_content" >
-                <table class="order" th:each="order : ${newOrders}">
+                <h3 th:text="#{ui.adminNewOrders.notregOrders}"></h3>
+                <table class="order" th:each="order : ${newNotregOrders}">
                     <tbody>
                         <tr>
                             <td th:text="${order.valueOfTotalPriceField}"></td>
+                            <td th:text="${order.tempCustomerInfo.street}"></td>
                             <form class="processOrder">
                                 <td>
                                     <input type="submit" th:value="#{ui.adminNewOrders.process}"/>
                                 </td>
                             </form>
                         </tr>
+                    </tbody>
+                </table>
+                <h3 th:text="#{ui.adminNewOrders.regOrders}"></h3>
+                <table class="order" th:each="order : ${newRegOrders}">
+                    <tbody>
+                    <tr>
+                        <td th:text="${order.valueOfTotalPriceField}"></td>
+                        <td th:text="${order.customer.address.street}"></td>
+                        <form class="processOrder">
+                            <td>
+                                <input type="submit" th:value="#{ui.adminNewOrders.process}"/>
+                            </td>
+                        </form>
+                    </tr>
                     </tbody>
                 </table>
             </div>

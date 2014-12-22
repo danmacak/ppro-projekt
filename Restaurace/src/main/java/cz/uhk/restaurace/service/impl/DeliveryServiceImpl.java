@@ -48,4 +48,10 @@ public class DeliveryServiceImpl implements DeliveryService{
     public void removeDelivery(int id) {
         deliveryDao.removeDelivery(id);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Delivery loadDeliveryById(String name) {
+        return deliveryDao.loadDeliveryById(name);
+    }
 }

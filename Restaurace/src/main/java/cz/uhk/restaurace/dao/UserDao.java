@@ -43,4 +43,11 @@ public interface UserDao {
 	 * @return
 	 */
 	public List<User> getEmployeesCurrentlyWorking(int hour, Shift.Day day, Role.RoleType role);
+
+	/**
+	 * Get User proxy
+	 * @param username
+	 * @return
+	 */
+	public User loadUser(String username);
 }
