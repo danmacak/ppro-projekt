@@ -29,9 +29,9 @@ INSERT INTO user_roles VALUES ('chef1', 'ROLE_CHEF');
 INSERT INTO user_roles VALUES ('cook2', 'ROLE_COOK');
 INSERT INTO user_roles VALUES ('buh', 'ROLE_ADMIN');
 
-INSERT INTO dishgeneral VALUES ('1', 'MAIN', '120', '470', '220.50', '120', '38');
-INSERT INTO dishgeneral VALUES ('2', 'DRINK', '35', '120',  '20.20', '36', '24');
-INSERT INTO dishgeneral VALUES ('3', 'MAIN', '10', '270', '285.50', '140', '30');
+INSERT INTO dishgeneral VALUES ('1', 'MAIN', '120', '470', '220.50', '120', '38', 'svickova');
+INSERT INTO dishgeneral VALUES ('2', 'DRINK', '35', '120',  '20.20', '36', '24', 'cocacola');
+INSERT INTO dishgeneral VALUES ('3', 'MAIN', '10', '270', '285.50', '140', '30', 'rostena');
 
 INSERT INTO dishloc VALUES ('cs', '1', 'Svíčková výtečná za přihlížení Fapoleona', 'Svíčková na smetaně');
 INSERT INTO dishloc VALUES ('en', '1', 'Swizckowa', 'Svickova');

@@ -36,12 +36,14 @@ public class CustomerOrder {
 	@JoinTable(name="Order_dishes",
 			joinColumns={@JoinColumn(name="dish_id")},
 			inverseJoinColumns={@JoinColumn(name="customer_order_id")})
+	@MapKey(name = "id")
 	private Map<Integer, DishGeneral> orderedDishes = new HashMap<Integer, DishGeneral>();
 	@ManyToMany
 	@JsonIgnore
 	@JoinTable(name="Order_dishes",
 			joinColumns={@JoinColumn(name="dish_id")},
 			inverseJoinColumns={@JoinColumn(name="customer_order_id")})
+	@MapKey(name = "id")
 	private Map<String, DishGeneral> orderedTeppanyakiDishes = new HashMap<String, DishGeneral>();
 	private Boolean processed = false;
 	@OneToOne(fetch = FetchType.EAGER)
