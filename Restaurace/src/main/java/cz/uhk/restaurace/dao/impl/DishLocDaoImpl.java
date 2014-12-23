@@ -36,18 +36,13 @@ public class DishLocDaoImpl implements DishLocDao {
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public DishLoc getDishLocById(int id, String language) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishLoc.class);
 		Criterion criterion = Restrictions.conjunction().add(Restrictions.eq("id", id)).
 				add(Restrictions.eq("language", language));
-		List<DishLoc> dll = criteria.add(criterion).list();
-		if (dll.size() == 1) {	return dll.get(0);
-			
-		} else {
-			return null;
-		}
+		return (DishLoc) criteria.add(criterion).uniqueResult();
+
 
 	}
 

@@ -3,6 +3,7 @@ package cz.uhk.restaurace.dao.impl;
 import cz.uhk.restaurace.dao.EmployeeLocDao;
 import cz.uhk.restaurace.model.EmployeeLoc;
 import cz.uhk.restaurace.service.impl.UserServiceImpl;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,7 +41,8 @@ public class EmployeeLocDaoImpl implements EmployeeLocDao {
         sessionFactory.getCurrentSession().update(employee);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<EmployeeLoc> getAllEmployeesLocs(String language) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EmployeeLoc.class);
         criteria.add(Restrictions.eq("language", language));
@@ -50,13 +52,9 @@ public class EmployeeLocDaoImpl implements EmployeeLocDao {
     @Override
     public EmployeeLoc getEmployeeLocById(String language, String username) {
         Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(EmployeeLoc.class);
-        List<EmployeeLoc> empLoc = criteria.add(Restrictions.eq("language", language))
+        return  (EmployeeLoc) criteria.add(Restrictions.eq("language", language))
                 .add(Restrictions.eq("username", username))
-                .list();
-        if(!empLoc.isEmpty()){
-            return empLoc.get(0);
-        }
-        return null;
+                .uniqueResult();
     }
 
     @Override

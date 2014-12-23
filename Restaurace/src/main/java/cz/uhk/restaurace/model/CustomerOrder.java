@@ -31,11 +31,17 @@ public class CustomerOrder {
 	@ManyToOne
 	@JoinColumn(name="customer_username")
 	private User customer;
-	@ManyToMany(mappedBy = "customerOrders")
+	@ManyToMany
 	@JsonIgnore
+	@JoinTable(name="Order_dishes",
+			joinColumns={@JoinColumn(name="dish_id")},
+			inverseJoinColumns={@JoinColumn(name="customer_order_id")})
 	private Map<Integer, DishGeneral> orderedDishes = new HashMap<Integer, DishGeneral>();
-	@ManyToMany(mappedBy = "customerOrders")
+	@ManyToMany
 	@JsonIgnore
+	@JoinTable(name="Order_dishes",
+			joinColumns={@JoinColumn(name="dish_id")},
+			inverseJoinColumns={@JoinColumn(name="customer_order_id")})
 	private Map<String, DishGeneral> orderedTeppanyakiDishes = new HashMap<String, DishGeneral>();
 	private Boolean processed = false;
 	@OneToOne(fetch = FetchType.EAGER)

@@ -22,4 +22,10 @@ public class TempCustomerInfoServiceImpl implements TempCustomerInfoService {
     public void addTempCustomerInfo(TempCustomerInfo info) {
         tempCustomerInfoDao.addTempCustomerInfo(info);
     }
+
+	@Override
+	@Transactional
+	public TempCustomerInfo getTempCustomerInfoById(int id) {
+		return tempCustomerInfoDao.getTempCustomerInfoById(id);
+	}
 }

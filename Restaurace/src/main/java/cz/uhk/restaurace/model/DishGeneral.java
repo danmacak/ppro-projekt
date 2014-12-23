@@ -18,7 +18,7 @@ public class DishGeneral {
 	@Id
 	@GeneratedValue
 	private int id;
-	private transient String name;
+	private String name;
 	private transient int amount = 1;
 	@Column(precision = 15, scale = 2)
 	private BigDecimal price;
@@ -33,6 +33,9 @@ public class DishGeneral {
 	private Map<Integer, IngredientGeneral> ingredients;
 	@ManyToMany(cascade={CascadeType.ALL})
 	@JsonIgnore
+	@JoinTable(name="Order_dishes",
+			joinColumns={@JoinColumn(name="customer_order_id")},
+			inverseJoinColumns={@JoinColumn(name="dish_id")})
 	private Collection<CustomerOrder> customerOrders;
 	private transient DishLoc dishLoc;
 

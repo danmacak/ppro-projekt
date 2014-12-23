@@ -40,11 +40,12 @@ public class IngredientLocDaoImpl implements IngredientLocDao {
 	@Override
 	public List<IngredientLoc> listIngredientLoc(String lang) {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<IngredientLoc> ingredientLocList = session.createQuery("from IngredientLoc where language='"+lang+"' order by id").list();
+		Criteria criteria = session.createCriteria(IngredientLoc.class);
+		Criterion criterion = Restrictions.eq("language", lang);
+		List<IngredientLoc> ingredientLocList = criteria.add(criterion).list();
 		return ingredientLocList;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public IngredientLoc getIngredientLocById(int id, String language) {
 	
@@ -53,16 +54,9 @@ public class IngredientLocDaoImpl implements IngredientLocDao {
 		Criteria criteria = session.createCriteria(IngredientLoc.class);
 		Criterion criterion = Restrictions.conjunction().add(Restrictions.eq("id", id)).
 				add(Restrictions.eq("language", language));
-		List<IngredientLoc> ill = criteria.add(criterion).list();
-		if (ill.size() == 1) {
-			return ill.get(0);
-			
-		} else {return null;
-
-		}
+		return (IngredientLoc) criteria.add(criterion).uniqueResult();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void removeIngredientLoc(int id, String language) {
 		Session session = this.sessionFactory.getCurrentSession();

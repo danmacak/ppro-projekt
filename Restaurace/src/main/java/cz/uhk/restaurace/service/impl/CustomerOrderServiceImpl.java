@@ -81,7 +81,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	public List<CustomerOrder> getUnprocessedNotregisteredCustomerOrders() {
 		List<CustomerOrder> orders = customerOrderDao.getUnprocessedNotregisteredCustomerOrders();
 		for(CustomerOrder ord : orders){
-			ord.setTempCustomerInfo(tempCustomerInfoService.);
+			ord.setTempCustomerInfo(tempCustomerInfoService.getTempCustomerInfoById(ord.getId()));
 		}
 		return orders;
 	}

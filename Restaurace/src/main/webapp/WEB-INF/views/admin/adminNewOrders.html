@@ -17,34 +17,48 @@
         <div id="container">
             <div th:include="../templates/menu :: menu"></div>
             <div id="main_content" >
-                <h3 th:text="#{ui.adminNewOrders.notregOrders}"></h3>
-                <table class="order" th:each="order : ${newNotregOrders}">
-                    <tbody>
+                <div th:unless="${newRegOrders} == null">
+                    <h3 th:text="#{ui.adminNewOrders.regOrders}"></h3>
+                    <table class="order" th:each="order : ${newRegOrders}">
+                        <tbody th:unless="${order.customer} == null">
                         <tr>
-                            <td th:text="${order.valueOfTotalPriceField}"></td>
-                            <td th:text="${order.tempCustomerInfo.street}"></td>
+                            <td th:text="#{ui.adminNewOrders.totalPrice} + ': ' + ${order.valueOfTotalPriceField} + ' Kč'"></td>
+                            <td th:text="#{ui.adminNewOrders.street} + ': ' + ${order.customer.address.street}"></td>
+                            <td th:text="#{ui.adminNewOrders.city} + ': ' + ${order.customer.address.city}"></td>
+                            <td th:text="#{ui.adminNewOrders.phonenumber} + ': ' + ${order.customer.telephone}"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{ui.adminNewOrders.houseNumber} + ': ' + ${order.customer.address.houseNumber}"></td>
+                            <td th:text="#{ui.adminNewOrders.zipCode} + ': ' + ${order.customer.address.zipCode}"></td>
                             <form class="processOrder">
                                 <td>
                                     <input type="submit" th:value="#{ui.adminNewOrders.process}"/>
                                 </td>
                             </form>
                         </tr>
-                    </tbody>
-                </table>
-                <h3 th:text="#{ui.adminNewOrders.regOrders}"></h3>
-                <table class="order" th:each="order : ${newRegOrders}">
-                    <tbody>
-                    <tr>
-                        <td th:text="${order.valueOfTotalPriceField}"></td>
-                        <td th:text="${order.customer.address.street}"></td>
-                        <form class="processOrder">
-                            <td>
-                                <input type="submit" th:value="#{ui.adminNewOrders.process}"/>
-                            </td>
-                        </form>
-                    </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${newNotregOrders} == null">
+                    <h3 th:text="#{ui.adminNewOrders.notregOrders}"></h3>
+                    <table class="order" th:each="order : ${newNotregOrders}">
+                        <tbody th:unless="${order.tempCustomerInfo} == null">
+                            <tr>
+                                <td th:text="#{ui.adminNewOrders.totalPrice} + ': ' + ${order.valueOfTotalPriceField} + ' Kč'"></td>
+                                <td th:text="#{ui.adminNewOrders.street} + ': ' + ${order.tempCustomerInfo.street}"></td>
+                                <td th:text="#{ui.adminNewOrders.city} + ': ' + ${order.tempCustomerInfo.city}"></td>
+                            </tr>
+                            <tr>
+                                <td th:text="#{ui.adminNewOrders.phonenumber} + ': ' + ${order.tempCustomerInfo.phonenumber}"></td>
+                                <form class="processOrder">
+                                    <td>
+                                        <input type="submit" th:value="#{ui.adminNewOrders.process}"/>
+                                    </td>
+                                </form>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <footer th:include="../templates/footer :: footer"></footer>

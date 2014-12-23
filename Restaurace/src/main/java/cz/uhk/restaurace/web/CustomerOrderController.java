@@ -94,6 +94,11 @@ public class CustomerOrderController {
                 cart.setTotalPrice(cart.getTotalPrice().add(delivery.getPrice()));
             }finally {
                 customerOrderService.addOrder(cart);
+                for(Map.Entry<String, DishGeneral> entry : cart.getOrderedTeppanyakiDishes().entrySet()){
+                    DishGeneral tepDish = entry.getValue();
+                    tepDish.setName(entry.getKey());
+                    dishGeneralService.addDish(tepDish);
+                }
                 if(street != null && city != null && phonenumber != null){
                     tempCustomerInfoService.addTempCustomerInfo(new TempCustomerInfo(cart.getId(), street, city, phonenumber));
                 }

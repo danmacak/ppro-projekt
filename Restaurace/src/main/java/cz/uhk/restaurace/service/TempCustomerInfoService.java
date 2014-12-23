@@ -12,5 +12,6 @@ public interface TempCustomerInfoService {
      * Add temporary additional info about order of unregistered user into db
      * @param info
      */
-    void addTempCustomerInfo(TempCustomerInfo info);
+	public void addTempCustomerInfo(TempCustomerInfo info);
+    public TempCustomerInfo getTempCustomerInfoById(int id);
 }
