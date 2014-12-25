@@ -5,11 +5,16 @@ import org.hibernate.annotations.*;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@Entity(name = "ingredient_general")
+@Entity
+@Table(name = "ingredient_general")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class IngredientGeneral {
 
@@ -26,9 +31,12 @@ public class IngredientGeneral {
 	private transient int grams = 0;
 	@Enumerated(EnumType.STRING)
 	private IngredientType type;
-	@ManyToMany(mappedBy="ingredients")
+	/*@ManyToMany(cascade = CascadeType.ALL, mappedBy="ingredients")*/
 	@JsonIgnore
-	private Collection<DishGeneral> dishes;
+	private transient Collection<DishGeneral> dishes;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.ingredient", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<DishIngredient> dishIngredients = new HashSet<DishIngredient>();
 	@Column(name="price")
 	private BigDecimal pricePerHundredGrams;
 	private transient IngredientLoc ingredientLocalized;
@@ -49,8 +57,7 @@ public class IngredientGeneral {
 		VEGETABLE("Zelenina", "vegetable"),
 		MEAT("Maso", "meat"),
 		FRUIT("Ovoce", "fruit"),
-		SPICE("Koreni", "spice"),
-		TEPPANYAKI("Teppanyaki", "teppanyaki");
+		SPICE("Koreni", "spice");
 
 		private String description;
 		private String url;
@@ -151,5 +158,13 @@ public class IngredientGeneral {
 
 	public void setIngredientLocalized(IngredientLoc ingredientLocalized) {
 		this.ingredientLocalized = ingredientLocalized;
+	}
+
+	public Set<DishIngredient> getDishIngredients() {
+		return dishIngredients;
+	}
+
+	public void setDishIngredients(Set<DishIngredient> dishIngredients) {
+		this.dishIngredients = dishIngredients;
 	}
 }

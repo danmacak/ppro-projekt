@@ -53,6 +53,8 @@
 				<beans:value>cz.uhk.restaurace.model.EmployeeLoc</beans:value>
 				<beans:value>cz.uhk.restaurace.model.Employee</beans:value>
 				<beans:value>cz.uhk.restaurace.model.TempCustomerInfo</beans:value>
+				<beans:value>cz.uhk.restaurace.model.DishIngredient</beans:value>
+				<beans:value>cz.uhk.restaurace.model.OrderDish</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">

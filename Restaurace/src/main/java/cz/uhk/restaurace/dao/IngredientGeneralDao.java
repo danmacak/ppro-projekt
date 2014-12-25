@@ -1,6 +1,7 @@
 package cz.uhk.restaurace.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import cz.uhk.restaurace.model.IngredientGeneral;
 
@@ -12,4 +13,10 @@ public interface IngredientGeneralDao {
 	public IngredientGeneral getIngredientGeneralById(int id);
 	public void removeIngredientGeneral(int id);
 
+	/**
+	 * Get proxies of given ingredients for join tables purposes
+	 * @param ingredients
+	 * @return
+	 */
+	public Map<Integer, IngredientGeneral> loadIngredientsGeneral(Map<Integer, IngredientGeneral> ingredients);
 }

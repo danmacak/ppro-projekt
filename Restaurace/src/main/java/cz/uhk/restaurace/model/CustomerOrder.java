@@ -6,9 +6,7 @@ import org.hibernate.annotations.CascadeType;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -31,20 +29,21 @@ public class CustomerOrder {
 	@ManyToOne
 	@JoinColumn(name="customer_username")
 	private User customer;
-	@ManyToMany
 	@JsonIgnore
-	@JoinTable(name="Order_dishes",
-			joinColumns={@JoinColumn(name="dish_id")},
-			inverseJoinColumns={@JoinColumn(name="customer_order_id")})
-	@MapKey(name = "id")
-	private Map<Integer, DishGeneral> orderedDishes = new HashMap<Integer, DishGeneral>();
-	@ManyToMany
+	/*@JoinTable(name="Order_dishes",
+			joinColumns={@JoinColumn(name="customer_order_id")},
+			inverseJoinColumns={@JoinColumn(name="dish_id")})
+	@MapKey(name = "id")*/
+	private transient Map<Integer, DishGeneral> orderedDishes = new HashMap<Integer, DishGeneral>();
+	@OneToMany(cascade = javax.persistence.CascadeType.ALL, mappedBy = "pk.order", fetch = FetchType.LAZY)
 	@JsonIgnore
-	@JoinTable(name="Order_dishes",
-			joinColumns={@JoinColumn(name="dish_id")},
-			inverseJoinColumns={@JoinColumn(name="customer_order_id")})
-	@MapKey(name = "id")
-	private Map<String, DishGeneral> orderedTeppanyakiDishes = new HashMap<String, DishGeneral>();
+	private Set<OrderDish> orderedDishesToPersist = new HashSet<OrderDish>();
+	@JsonIgnore
+	/*@JoinTable(name="Order_dishes",
+			joinColumns={@JoinColumn(name="customer_order_id")},
+			inverseJoinColumns={@JoinColumn(name="dish_id")})
+	@MapKey(name = "id")*/
+	private transient Map<String, DishGeneral> orderedTeppanyakiDishes = new HashMap<String, DishGeneral>();
 	private Boolean processed = false;
 	@OneToOne(fetch = FetchType.EAGER)
 	@PrimaryKeyJoinColumn
@@ -128,6 +127,14 @@ public class CustomerOrder {
 	}
 	public BigDecimal getTotalPriceFieldValue(){
 		return this.totalPrice;
+	}
+
+	public Set<OrderDish> getOrderedDishesToPersist() {
+		return orderedDishesToPersist;
+	}
+
+	public void setOrderedDishesToPersist(Set<OrderDish> orderedDishesToPersist) {
+		this.orderedDishesToPersist = orderedDishesToPersist;
 	}
 
 	/**

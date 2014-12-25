@@ -79,4 +79,11 @@ public interface IngredientGeneralService {
 	 * @param language
 	 */
 	public void actualizeLocFieldsOnIngredients(Map<Integer, IngredientGeneral> ingredients, String language);
+
+	/**
+	 * Get proxies of given ingredients for join tables purposes
+	 * @param ingredients
+	 * @return
+	 */
+	public Map<Integer, IngredientGeneral> loadIngredientsGeneral(Map<Integer, IngredientGeneral> ingredients);
 }

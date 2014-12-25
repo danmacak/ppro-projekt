@@ -34,7 +34,7 @@ public class DishGeneralDaoImpl implements DishGeneralDao {
 	@Override
 	public void addDishGeneral(DishGeneral dishGeneral) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(dishGeneral);
+		session.saveOrUpdate(dishGeneral);
 		
 	}
 
@@ -49,8 +49,8 @@ public class DishGeneralDaoImpl implements DishGeneralDao {
 	@Override
 	public List<DishGeneral> listDishesGeneral() {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DishGeneral.class);
-		return criteria.add(Restrictions.not(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK))).list();
-		
+		return criteria.add(Restrictions.not(Restrictions.eq("dishCategory", DishGeneral.DishCategory.DRINK)))
+				.add(Restrictions.not(Restrictions.eq("dishCategory", DishGeneral.DishCategory.TEPPANYAKI))).list();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -74,5 +74,16 @@ public class DishGeneralDaoImpl implements DishGeneralDao {
 		if (a != null) {
 			session.delete(a);
 		}
+	}
+
+	@Override
+	public Map<Integer, DishGeneral> loadOrderedDishes(Map<Integer, DishGeneral> dishes) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Map<Integer, DishGeneral> proxies = new HashMap<Integer, DishGeneral>();
+		for(Map.Entry<Integer, DishGeneral> entry : dishes.entrySet()){
+			DishGeneral proxy = (DishGeneral) session.load(DishGeneral.class, entry.getKey());
+			proxies.put(entry.getKey(), proxy);
+		}
+		return proxies;
 	}
 }

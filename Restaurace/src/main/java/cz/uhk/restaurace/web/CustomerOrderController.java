@@ -42,6 +42,9 @@ public class CustomerOrderController {
     @Autowired
     private TempCustomerInfoService tempCustomerInfoService;
 
+    @Autowired
+    private IngredientGeneralService ingredientGeneralService;
+
     private String language = "cs";
 
     private static String ANONYMOUS_USER ="anonymousUser";
@@ -78,30 +81,12 @@ public class CustomerOrderController {
         User user = null;
         CustomerOrder cart = (CustomerOrder)session.getAttribute(attr);
         if(!cart.getOrderedDishes().isEmpty() || !cart.getOrderedTeppanyakiDishes().isEmpty()) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if(!ANONYMOUS_USER.equals(auth.getPrincipal())) {
-                user = (User) auth.getPrincipal();
-                if(user != null) {
-                    cart.setCustomer(userService.loadUser(user.getUsername()));
-                }
-            }
-            try {
-                LocalDate currentDate = LocalDate.now();
-                Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                cart.setDate(date);
-                Delivery delivery = deliveryService.getDeliveryById(deliveryName);
-                cart.setDelivery(delivery);
-                cart.setTotalPrice(cart.getTotalPrice().add(delivery.getPrice()));
-            }finally {
-                customerOrderService.addOrder(cart);
-                for(Map.Entry<String, DishGeneral> entry : cart.getOrderedTeppanyakiDishes().entrySet()){
-                    DishGeneral tepDish = entry.getValue();
-                    tepDish.setName(entry.getKey());
-                    dishGeneralService.addDish(tepDish);
-                }
-                if(street != null && city != null && phonenumber != null){
-                    tempCustomerInfoService.addTempCustomerInfo(new TempCustomerInfo(cart.getId(), street, city, phonenumber));
-                }
+
+            cart = prepareCartToCheckout(cart, user, deliveryName);
+
+            customerOrderService.addOrder(cart);
+            if(street != null && city != null && phonenumber != null){
+                tempCustomerInfoService.addTempCustomerInfo(new TempCustomerInfo(cart.getId(), street, city, phonenumber));
             }
         }
         session.removeAttribute(attr);
@@ -249,6 +234,43 @@ public class CustomerOrderController {
         if (cart == null) {
             cart = customerOrderService.createCart();
             session.setAttribute("cart", cart);
+        }
+        return cart;
+    }
+
+    public CustomerOrder prepareCartToCheckout(CustomerOrder cart, User user, String deliveryName){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(!ANONYMOUS_USER.equals(auth.getPrincipal())) {
+            user = (User) auth.getPrincipal();
+            if(user != null) {
+                cart.setCustomer(userService.loadUser(user.getUsername()));
+            }
+        }
+
+        LocalDate currentDate = LocalDate.now();
+        Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        cart.setDate(date);
+        Delivery delivery = deliveryService.getDeliveryById(deliveryName);
+        cart.setDelivery(delivery);
+        cart.setTotalPrice(cart.getTotalPrice().add(delivery.getPrice()));
+
+        for(Map.Entry<Integer, DishGeneral> dishh : cart.getOrderedDishes().entrySet()){
+            DishGeneral dish = dishh.getValue();
+            OrderDish orderDish = new OrderDish(cart, dish, dish.getAmount());
+            cart.getOrderedDishesToPersist().add(orderDish);
+        }
+
+        cart.setOrderedDishes(dishGeneralService.loadOrderedDishes(cart.getOrderedDishes()));
+
+        for(Map.Entry<String, DishGeneral> dishh : cart.getOrderedTeppanyakiDishes().entrySet()){
+            DishGeneral dish = dishh.getValue();
+            for(Map.Entry<Integer, IngredientGeneral> ingr : dish.getIngredients().entrySet()) {
+                DishIngredient dishIngredient = new DishIngredient(dish, ingr.getValue(), ingr.getValue().getGrams());
+                dish.getDishIngredients().add(dishIngredient);
+            }
+            OrderDish orderDish = new OrderDish(cart, dish, dish.getAmount());
+            cart.getOrderedDishesToPersist().add(orderDish);
         }
         return cart;
     }

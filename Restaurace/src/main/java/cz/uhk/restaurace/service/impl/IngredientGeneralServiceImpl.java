@@ -1,6 +1,7 @@
 package cz.uhk.restaurace.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -79,14 +80,7 @@ public class IngredientGeneralServiceImpl implements IngredientGeneralService {
 
 	@Override
 	public List<IngredientGeneral.IngredientType> getIngredientTypes() {
-		List<IngredientGeneral.IngredientType> ingredientTypes = new ArrayList<IngredientGeneral.IngredientType>();
-		for(IngredientGeneral.IngredientType category : IngredientGeneral.IngredientType
-				.values()){
-			if(!category.equals(IngredientGeneral.IngredientType.TEPPANYAKI)){
-				ingredientTypes.add(category);
-			}
-		}
-		return ingredientTypes;
+		return Arrays.asList(IngredientGeneral.IngredientType.values());
 	}
 
 	@Override
@@ -96,5 +90,11 @@ public class IngredientGeneralServiceImpl implements IngredientGeneralService {
 			IngredientGeneral ingr = ingredient.getValue();
 			ingr.setIngredientLocalized(getIngredientLocalized(ingr.getId(), language));
 		}
+	}
+
+	@Override
+	@Transactional
+	public Map<Integer, IngredientGeneral> loadIngredientsGeneral(Map<Integer, IngredientGeneral> ingredients) {
+		return ingredientGeneralDao.loadIngredientsGeneral(ingredients);
 	}
 }

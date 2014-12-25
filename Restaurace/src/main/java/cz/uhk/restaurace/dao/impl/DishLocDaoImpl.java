@@ -25,7 +25,7 @@ public class DishLocDaoImpl implements DishLocDao {
 	@Override
 	public void addDishLoc(DishLoc dishLoc) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(dishLoc);
+		session.saveOrUpdate(dishLoc);
 
 	}
 

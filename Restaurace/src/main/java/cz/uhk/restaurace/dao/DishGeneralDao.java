@@ -12,4 +12,5 @@ public interface DishGeneralDao {
 	public List<DishGeneral> listDrinksGeneral();
 	public DishGeneral getDishGeneralById(int id);
 	public void removeDishGeneral(int id);
+	public Map<Integer, DishGeneral> loadOrderedDishes(Map<Integer, DishGeneral> dishes);
 }

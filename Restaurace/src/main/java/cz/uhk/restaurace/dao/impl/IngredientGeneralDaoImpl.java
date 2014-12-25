@@ -1,6 +1,8 @@
 package cz.uhk.restaurace.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -66,7 +68,15 @@ public class IngredientGeneralDaoImpl implements IngredientGeneralDao {
 		if (a != null) {
 			session.delete(a);
 		}
-
 	}
 
+	@Override
+	public Map<Integer, IngredientGeneral> loadIngredientsGeneral(Map<Integer, IngredientGeneral> ingredients) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Map<Integer, IngredientGeneral> ingrs = new HashMap<Integer, IngredientGeneral>();
+		for(Map.Entry<Integer, IngredientGeneral> entry : ingredients.entrySet()){
+			ingrs.put(entry.getKey(), (IngredientGeneral)session.load(IngredientGeneral.class, entry.getKey()));
+		}
+		return ingrs;
+	}
 }

@@ -58,4 +58,11 @@ public interface DishGeneralService {
 	 * @return
 	 */
 	public DishGeneral createDish();
+
+	/**
+	 * Load proxies of given dishes
+	 * @param dishes
+	 * @return
+	 */
+	public Map<Integer, DishGeneral> loadOrderedDishes(Map<Integer, DishGeneral> dishes);
 }

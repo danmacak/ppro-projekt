@@ -115,4 +115,10 @@ public class DishGeneralServiceImpl implements DishGeneralService {
 		}
 		return null;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Map<Integer, DishGeneral> loadOrderedDishes(Map<Integer, DishGeneral> dishes) {
+		return dishDishGeneralDao.loadOrderedDishes(dishes);
+	}
 }

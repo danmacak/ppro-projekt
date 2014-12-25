@@ -25,7 +25,7 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
 	@Override
 	public void addOrder(CustomerOrder customerOrder) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(customerOrder);
+		session.saveOrUpdate(customerOrder);
 
 	}
 

@@ -19,8 +19,8 @@
                th:class="${dish.value.dishCategory.name}" >
             <tbody>
             <tr>
-                <td class="first"><b th:text="${dish.value.dishLoc.name}"></b></td>
-                <td class="second"><b th:text="${dish.value.dishLoc.description}"></b></td>
+                <td class="first"><b th:text="${dish.value.dishLoc.name}" th:unless="${dish.value.dishLoc} == null"></b></td>
+                <td class="second"><b th:text="${dish.value.dishLoc.description}" th:unless="${dish.value.dishLoc} == null"></b></td>
                 <td class="third"><b th:text="#{ui.cart.price} + ' ' + ${dish.value.price} + ' Kč'"></b></td>
                 <td class="fourth" th:text="#{ui.cart.amount} + ' ' + ${dish.value.amount}"></td>
                 <td></td>

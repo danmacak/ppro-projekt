@@ -10,6 +10,8 @@ import java.io.Serializable;
 @Entity
 public class EmployeeLoc implements Serializable{
 
+    public static final long serialVersionUID = 1L;
+
     @Id
     private String username;
     @Id
